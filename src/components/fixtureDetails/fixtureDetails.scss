@@ -1,0 +1,56 @@
+@import '../../base.scss';
+
+.fixtureDetails {
+
+    width: 100%;
+    height: 100%;
+    padding: 1.5rem;
+    box-shadow: $neumorphic_shadow;
+    border-radius: 15px;
+    margin: 0 auto;
+
+    &__score {
+        margin: 0 1rem;
+    }
+
+    &__top {
+        font-size: 2rem;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+
+        img {
+            width: 120px;
+            height: 120px;
+            background: #343a40;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+    }
+
+    &__time {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        align-items: center;
+
+        img {
+            width: 40px;
+        }
+    }
+}
+
+.fixture {
+    &__navbar {
+        margin: 1rem 0;
+        display: flex;
+        justify-content: space-around;
+        color: #fff;
+
+
+    }
+
+    &__nav {
+        cursor: pointer;
+    }
+}

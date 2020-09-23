@@ -1,0 +1,25 @@
+.settings {
+    background-color: #282828;
+    display: flex;
+    padding: 1rem;
+    color: #fff;
+    flex-direction: column;
+    height: 100vh;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin-bottom: 2rem;
+    }
+
+    &__body {
+        padding: 3rem;
+        font-weight: 500;
+        font-size: 1.4rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        justify-content: space-evenly;
+    }
+}

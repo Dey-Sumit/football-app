@@ -1,0 +1,5 @@
+select time zone from user in intro page
+ADD speech recognition api in search
+
+// FIX this
+match Details and Fixture Details page(page) has same redundent styles

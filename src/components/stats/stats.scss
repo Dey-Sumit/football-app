@@ -1,0 +1,62 @@
+.statsBar {
+    color: #fff;
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+
+    &__data {
+        display: flex;
+    }
+
+    p {
+        color: #cecece;
+        margin-bottom: 0.2rem;
+    }
+}
+
+.statsBar__home-wrapper {
+    background-image: linear-gradient(135deg, #222629, #2c2a2a);
+    border-radius: 15px;
+    text-align: right;
+    flex: 0.5 1;
+    margin: 0 0.3rem;
+}
+
+.statsBar__away-wrapper {
+    background-image: linear-gradient(135deg, #222629, #2c2a2a);
+
+    border-radius: 15px;
+    text-align: left;
+    flex: 0.5 1;
+    margin: 0 0.3rem;
+}
+
+.statsBar__home {
+
+    text-align: right;
+    padding: 0 1rem;
+    margin-left: auto;
+    border-radius: 15px;
+}
+
+.statsBar__away {
+
+    text-align: left;
+    padding: 0 1rem;
+    margin-right: auto;
+    border-radius: 15px;
+}
+
+.linear_blue {
+    background-image: linear-gradient(135deg, #B589FE, #6457E3);
+}
+
+.linear_red {
+    background-image: linear-gradient(135deg, #13B6B2, #05D471);
+}
+
+.linear_gray {
+    background-image: linear-gradient(135deg, #607D8B, #6b6868);
+
+}

@@ -1,0 +1,108 @@
+@import '../../base.scss';
+
+.search__button {
+    padding: 1rem 2rem;
+    border-radius: 45px;
+    background-image: $neumorphic_bg;
+    box-shadow: $neumorphic_shadow-inset;
+}
+
+.search {
+    display: flex;
+    flex-direction: column;
+}
+
+.search__box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(30, 33, 32, 0.97);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+
+}
+
+.search__box.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.form__area {
+    width: 100%;
+    max-width: 50%;
+    display: flex;
+    border-bottom: 1px solid $green;
+}
+
+.form__area input {
+    flex: 1 1 auto;
+    background-color: transparent;
+    border: 0;
+    height: 40px;
+    width: 100%;
+    font-size: 1.5rem;
+    color: $green;
+
+}
+
+.form__area input:placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 3px;
+}
+
+.form__area input:focus {
+    outline: none;
+}
+
+.form__area button {
+    background: $green;
+    padding: 0 1rem;
+    border: none;
+    font-size: 1.5rem;
+    color: $white;
+    cursor: pointer;
+}
+
+.search__button {
+    font-size: 1.5rem;
+    display: flex;
+    background: transparent;
+    outline: none;
+    border: none;
+    color: $green;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: #1e2120;
+    padding: 1rem 2rem;
+    border-radius: 45px;
+    justify-content: center;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.search__icon {
+    margin-left: 1rem;
+}
+
+.search__close-icon {
+    position: fixed;
+    right: 2rem;
+    top: 2rem;
+    font-size: 3rem;
+    cursor: pointer;
+}
+
+.search__results {
+    display: flex;
+}

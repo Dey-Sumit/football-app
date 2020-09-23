@@ -1,0 +1,19 @@
+@import '../../base.scss';
+
+.nextPage {
+    color: #fff;
+    margin: 0 auto;
+    padding: 1rem;
+    width: 60%;
+    border-radius: 40px;
+    background-image: $linear_red;
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-align: center;
+    display: block;
+
+    &:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+}

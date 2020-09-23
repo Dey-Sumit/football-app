@@ -1,0 +1,99 @@
+@import "./base.scss";
+
+*,
+html {
+  margin: 0;
+}
+
+body {
+  background: $background;
+  color: $green;
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+}
+
+// .app {
+//   display: flex;
+//   padding: 2rem;
+// }
+
+.choose-teams {
+  padding: 1rem 3rem;
+}
+
+// teams-row
+.teams-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  &__title {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  &__teams {
+    display: flex;
+    justify-content: space-around;
+  }
+
+
+}
+
+.my-teams {
+  flex: 0.4;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+}
+
+.team {
+  // background: #1e2120;
+  background: linear-gradient(145deg, #202322, #1b1e1d);
+  padding: 1rem;
+  margin: 0.3rem 1rem;
+  cursor: pointer;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-shadow: $neumorphic_shadow;
+
+
+  &__logo {
+    width: 120px;
+    height: 120px;
+
+    &-small {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+  // icon to show the team is added to my teams
+  &-added {
+    color: $green;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    animation-name: added-icon-animation;
+    animation-duration: 0.2s;
+    font-size: 1.5rem;
+  }
+}
+
+@keyframes added-icon-animation {
+  from {
+    font-size: 1rem;
+  }
+
+  to {
+    font-size: 1.5rem;
+  }
+}

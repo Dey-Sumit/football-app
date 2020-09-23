@@ -1,0 +1,40 @@
+@import '../../base.scss';
+
+.matchDetails {
+
+    width: 100%;
+    height: 100%;
+    padding: 1.5rem;
+    box-shadow: $neumorphic_shadow;
+    border-radius: 15px;
+
+    &__score {
+        margin: 0 1rem;
+    }
+
+    &__top {
+        font-size: 2rem;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+
+        img {
+            width: 120px;
+            height: 120px;
+            background: #343a40;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+    }
+
+    &__time {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        align-items: center;
+
+        img {
+            width: 40px;
+        }
+    }
+}
