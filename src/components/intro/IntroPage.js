@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useGlobalState } from '../../context/StateProvider';
+import { db } from '../../firebase/firebase';
 import MyTeams from '../myTeams/MyTeams';
 import Search from '../search/Search';
 import TeamsRow from '../teams-row/TeamsRow';
 import './introPage.scss'
 
 const IntroPage = () => {
-
+    const [{ user, myTeam }] = useGlobalState()
     useEffect(() => {
-        // call_api()
+        // database call for the user and check if the user exist in database
     }, [])
-
+    const history = useHistory();
     const teamsOfSpain = [
         {
             team_id: '541',
@@ -30,7 +32,7 @@ const IntroPage = () => {
         },
         {
             team_id: '535',
-            name: 'Atletico Madrid',
+            name: 'Malaga FC',
             logo: 'https://media.api-sports.io/football/teams/535.png'
         },
     ]
@@ -73,27 +75,40 @@ const IntroPage = () => {
             logo: 'https://media.api-sports.io/football/teams/194.png'
         },
     ]
+    const handleClick = () => {
+        if (myTeam) {
+            // store the user and the team in database
+            db.collection('users').add({
+                user: user,
+                team: myTeam.team_id
+            })
+                .then(
+                    history.push('/home')
+                )
+                .catch(
+                    error => console.error(error)
+                )
 
+        }
+    }
+    console.log(user, myTeam);
     return (
-        <>
-            <Container fluid className="choose-teams">
-                <Row>
-                    <Col md={7} className="">
-                        <TeamsRow country="Laliga" teams={teamsOfSpain} />
-                        <TeamsRow country="Premier League" teams={teamsOfEngland} />
-                        <TeamsRow country="Others" teams={otherTeams} />
-                    </Col>
-                    <Col md={5} className="my-sm-5 my-md-0">
-                        <MyTeams />
-                        <Search />
-                    </Col>
-                </Row>
-                <Link to="/home" className="nextPage">Choose your team</Link>
-            </Container>
 
+        <Container fluid className="choose-teams">
+            <Row>
+                <Col md={7} className="">
+                    <TeamsRow country="Laliga" teams={teamsOfSpain} />
+                    <TeamsRow country="Premier League" teams={teamsOfEngland} />
+                    <TeamsRow country="Others" teams={otherTeams} />
+                </Col>
+                <Col md={5} className="my-sm-5 my-md-0">
+                    <MyTeams />
+                    <Search />
+                </Col>
+            </Row>
+            <button className="nextPage" onClick={handleClick}>{myTeam ? "Let's Go 🚀" : "Choose your team"}</button>
+        </Container>
 
-
-        </>
     );
 };
 

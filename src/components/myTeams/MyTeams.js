@@ -6,19 +6,17 @@ import './myTeams.scss'
 
 const MyTeams = () => {
 
-    const [{ myTeams },] = useGlobalState();
+    const [{ myTeam },] = useGlobalState();
 
     return (
         <Row className="teams-row">
-            <h4 className="my-teams__title">My Teams</h4>
+            <h4 className="my-teams__title">My Team</h4>
             {
-                myTeams.length === 0 && <h5 className="text-center">Select your favorite team</h5>
+                !myTeam ? <h5 className="text-center">Select your favorite team</h5>
+                    :
+                    <Team team={myTeam} noCheck large />
+
             }
-            <Row className="teams-row__teams">
-                {
-                    myTeams.map(team => <Team team={team} id={team.id} />)
-                }
-            </Row>
         </Row>
     );
 };

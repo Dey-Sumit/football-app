@@ -1,0 +1,39 @@
+.headToHeadContainer {
+    width: 60%;
+    margin: 1rem auto;
+    color: #fff;
+}
+
+.H2HMatch {
+    border: 2px solid #363b3e;
+    margin: 0.2rem 0;
+
+    &__heading {
+        padding: 0.5rem 2rem;
+        display: flex;
+        background: #363b3e;
+        justify-content: space-between;
+        font-weight: 500;
+
+    }
+
+    &__body {
+
+        display: flex;
+        justify-content: space-around;
+        padding: 1rem;
+        align-items: center;
+        font-size: 1.1rem;
+    }
+
+    &__team-away {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+
+    img {
+        width: 40px;
+        padding: 0 1%;
+    }
+}

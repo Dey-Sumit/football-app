@@ -51,49 +51,28 @@ body {
   }
 }
 
-.team {
-  // background: #1e2120;
-  background: linear-gradient(145deg, #202322, #1b1e1d);
-  padding: 1rem;
-  margin: 0.3rem 1rem;
-  cursor: pointer;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  box-shadow: $neumorphic_shadow;
-
-
-  &__logo {
-    width: 120px;
-    height: 120px;
-
-    &-small {
-      width: 50px;
-      height: 50px;
-    }
-  }
-
-  // icon to show the team is added to my teams
-  &-added {
-    color: $green;
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
-    animation-name: added-icon-animation;
-    animation-duration: 0.2s;
-    font-size: 1.5rem;
-  }
+.Toastify__toast-container {
+  width: 60%;
+  text-align: center;
 }
 
-@keyframes added-icon-animation {
-  from {
-    font-size: 1rem;
-  }
+.Toastify__toast--default {
+  background: #fff;
+  color: #aaa;
+}
 
-  to {
-    font-size: 1.5rem;
-  }
+.Toastify__toast--info {
+  background: #3498db;
+}
+
+.Toastify__toast--success {
+  background: #07bc0c;
+}
+
+.Toastify__toast--warning {
+  background: #f1c40f;
+}
+
+.Toastify__toast--error {
+  background: #eb6455;
 }

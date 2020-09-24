@@ -1,1 +1,63 @@
-.team__logo {}
+@import '../../base.scss';
+
+.team {
+    // background: #1e2120;
+    background: linear-gradient(145deg, #202322, #1b1e1d);
+    padding: 1rem;
+    margin: 0.3rem 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: $neumorphic_shadow;
+
+
+    &__logo {
+        width: 90px;
+        height: 90px;
+
+        &-small {
+            width: 50px;
+            height: 50px;
+        }
+
+        &-large {
+            width: 140px;
+            height: 140px;
+        }
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    // icon to show the team is added to my teams
+    &-added {
+        color: $green;
+        position: absolute;
+        right: 0.5rem;
+        top: 0.5rem;
+        animation-name: added-icon-animation;
+        animation-duration: 0.2s;
+        font-size: 1.5rem;
+    }
+}
+
+@keyframes added-icon-animation {
+    from {
+        font-size: 1rem;
+    }
+
+    to {
+        font-size: 1.5rem;
+    }
+}
+
+.myTeam {
+    width: 70%;
+    margin: 4rem auto;
+    border: 2px solid gold;
+}

@@ -3,3 +3,6 @@ ADD speech recognition api in search
 
 // FIX this
 match Details and Fixture Details page(page) has same redundent styles
+
+// Toastify styles 
+// use react context fot notification

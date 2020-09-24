@@ -1,22 +1,21 @@
 export const initialState = {
-    myTeams: [],
+    myTeam: null,
     user: null
 };
 
 export const types = {
     SET_USER: "SET_USER",
     REMOVE_USER: "REMOVE_USER",
-    ADD_TO_MY_TEAMS: "ADD_TO_MY_TEAMS",
-    REMOVE_FROM_MY_TEAMS: "REMOVE_FROM_MY_TEAMS",
+    ADD_TO_MY_TEAM: "ADD_TO_MY_TEAM"
 }
-
+const APP_NAME = 'football__app'
 const reducer = (state, action) => {
     console.log(action);
     const { type, payload } = action
     switch (type) {
 
         case types.SET_USER:
-            //TODO save in local storage
+            localStorage.setItem(`${APP_NAME}'-user'`, payload.email)
             return {
                 ...state,
                 user: payload
@@ -28,23 +27,11 @@ const reducer = (state, action) => {
                 user: null
             }
 
-        case types.ADD_TO_MY_TEAMS:
+        case types.ADD_TO_MY_TEAM:
             return {
                 ...state,
-                myTeams: [...state.myTeams, payload],
+                myTeam: payload,
             };
-
-        case types.REMOVE_FROM_MY_TEAMS:
-            const index = state.myTeams.findIndex(item => item.id === payload)
-            console.log(index);
-            let newTeams = [...state.myTeams]
-            newTeams.splice(index, 1)
-            console.log(newTeams);
-            return {
-                ...state,
-                myTeams: newTeams
-
-            }
         default:
             return state;
     }

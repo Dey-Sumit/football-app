@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './authPage.scss'
 import { Link, useHistory } from "react-router-dom";
-import { auth } from "../../firebase/firebase";
 import Login from './login/Login';
 import { useGlobalState } from '../../context/StateProvider';
 import Register from './register/Register';
@@ -13,6 +12,7 @@ function AuthPage() {
     if (user) {
         history.push('/intro')
     }
+
     const [isLogin, setIsLogin] = useState(true)
 
 
