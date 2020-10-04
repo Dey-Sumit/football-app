@@ -1,8 +1,36 @@
-select time zone from user in intro page
+
+
+
+// select time zone from user in intro page
 ADD speech recognition api in search
 
 // FIX this
 match Details and Fixture Details page(page) has same redundent styles
 
+
 // Toastify styles 
 // use react context fot notification
+
+
+
+// useLayoutEffect
+
+
+import axios from 'axios'
+
+const setAuthToken = token => {
+    if (token)
+        axios.defaults.headers.common['x-auth-token'] = token
+    else
+        delete axios.defaults.headers.common['x-auth-token'];
+}
+
+export default setAuthToken;
+
+// improve axios
+
+// fix height vertical scroll league table
+
+// skelton loading
+
+// handle exception

@@ -14,7 +14,6 @@ const LineUps = ({ homeTeam, homeTeamLineup, awayTeam, awayTeamLineup }) => {
             {
                 currentLineUp === 'home' ? <LineUp startXI={homeTeamLineup.startXI} />
                     : <LineUp startXI={awayTeamLineup.startXI} />
-
             }
         </div>
     );

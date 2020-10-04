@@ -10,6 +10,7 @@ const Team = ({ team: { name, logo, team_id }, small, large, noName, noCheck }) 
 
     const [{ myTeam }, dispatch] = useGlobalState();
     const updateMyTeam = () => {
+        console.log("update ", name);
         dispatch({
             type: types.ADD_TO_MY_TEAM,
             payload: {
@@ -19,12 +20,14 @@ const Team = ({ team: { name, logo, team_id }, small, large, noName, noCheck }) 
             }
         })
     }
+    console.log(myTeam.team_id, team_id);
+    console.log(myTeam.team_id === team_id);
     return (
-        <Col className={noCheck ? 'team  myTeam' : 'team'} key={name} onClick={() => updateMyTeam()}>
+        <Col className={noCheck ? 'team myTeam' : 'team'} key={name} onClick={() => updateMyTeam()}>
             <img src={logo} alt={name} className={classes} />
 
             {!noCheck && <p className="team__name mt-2">{name}</p>}
-            { !myTeam && myTeam && myTeam.team_id === team_id ?
+            {  myTeam.team_id === team_id ?
                 <span span className="team-added">
                     <FaCheckCircle />
                 </span> : null

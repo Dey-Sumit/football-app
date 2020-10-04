@@ -7,17 +7,17 @@ import './matchDetails.scss'
 
 
 
-const MatchDetails = () => {
+const MatchDetails = ({ fixture_id }) => {
     // fixture_id: 292865
     //lineup,events,stats
     const [details, setDetails] = useState('');
     useEffect(() => {
         const callback = data =>
             setDetails(data.fixtures[0])
-
-        api('fixtures/id/292865', callback)
-    }, [])
-    console.log(details?.statistics);
+        console.log("details");
+        api(`fixtures/id/${fixture_id}`, callback)
+    }, [fixture_id])
+    // console.log(details?.statistics);
 
     return (
         <div className="matchDetails">

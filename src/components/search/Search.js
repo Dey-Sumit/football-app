@@ -3,7 +3,7 @@ import { FaSearch, FaTimesCircle } from 'react-icons/fa';
 import { api } from '../../axios/axios';
 import Team from '../team/Team'
 import './search.scss'
-const Search = () => {
+const Search = ({ title }) => {
 
     const [searchTerm, setSearchTerm] = useState('')
     const [searchedResults, setSearchResults] = useState([])
@@ -34,7 +34,7 @@ const Search = () => {
     }
     return (
         <div className="search">
-            <button className="search__button" onClick={openSearch}>Search Teams <FaSearch className="search__icon" /> </button>
+            <button className="search__button" onClick={openSearch}>{title} <FaSearch className="search__icon" /> </button>
             <div className="search__box">
                 <form className="form__area">
                     <input type="text" placeholder="Start typing eg: Ajax" value={searchTerm} onChange={e => search(e)} />

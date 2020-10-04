@@ -1,19 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { types } from '../../context/reducer';
 import { useGlobalState } from '../../context/StateProvider';
-import { db } from '../../firebase/firebase';
+import { auth, db } from '../../firebase/firebase';
 import MyTeams from '../myTeams/MyTeams';
+import Notification from '../notification/Notification';
 import Search from '../search/Search';
 import TeamsRow from '../teams-row/TeamsRow';
 import './introPage.scss'
 
 const IntroPage = () => {
-    const [{ user, myTeam }] = useGlobalState()
-    useEffect(() => {
-        // database call for the user and check if the user exist in database
-    }, [])
-    const history = useHistory();
+    const [{ user_cred: { email, password }, myTeam }, dispatch] = useGlobalState()
+    const history = useHistory()
+    const [loading, setLoading] = useState(false)
+
+
+
     const teamsOfSpain = [
         {
             team_id: '541',
@@ -75,25 +79,62 @@ const IntroPage = () => {
             logo: 'https://media.api-sports.io/football/teams/194.png'
         },
     ]
+    console.log(email, password);
+
     const handleClick = () => {
         if (myTeam) {
-            // store the user and the team in database
-            db.collection('users').add({
-                user: user,
-                team: myTeam.team_id
-            })
-                .then(
-                    history.push('/home')
-                )
-                .catch(
-                    error => console.error(error)
-                )
+            setLoading(true);
+            // 1. create the user
+            // 2. use user as the id of the document and the team in database
+
+            auth
+                .createUserWithEmailAndPassword(email, password)
+                .then(auth => {
+                    // it successfully created a new user with email and password
+
+                    var userId = auth.user.uid;
+
+                    // put in global state
+                    dispatch({
+                        type: types.SET_USER,
+                        payload: auth.user.uid,
+                    });
+
+                    // store in db
+                    db
+                        .collection('teams')
+                        .doc(userId)
+                        .set(
+                            {
+                                team_id: myTeam.team_id,
+                                logo: myTeam.logo,
+                                name: myTeam.name
+                            }
+                        )
+                        .then(() => {
+                            dispatch({
+                                type: types.ADD_TO_MY_TEAM,
+                                payload: myTeam
+                            })
+                            history.push('/')
+                        })
+                        .catch(
+                            error => {
+                                console.error(error)
+                                toast.error(<Notification message={error.message} />,
+                                    { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 })
+                                setLoading(false);
+
+                            }
+                        )
+                })
+                .catch(error => console.log(error))
+
 
         }
     }
-    console.log(user, myTeam);
-    return (
 
+    return (
         <Container fluid className="choose-teams">
             <Row>
                 <Col md={7} className="">
@@ -103,7 +144,7 @@ const IntroPage = () => {
                 </Col>
                 <Col md={5} className="my-sm-5 my-md-0">
                     <MyTeams />
-                    <Search />
+
                 </Col>
             </Row>
             <button className="nextPage" onClick={handleClick}>{myTeam ? "Let's Go 🚀" : "Choose your team"}</button>

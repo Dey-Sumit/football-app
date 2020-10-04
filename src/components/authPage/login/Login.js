@@ -25,7 +25,7 @@ const Login = () => {
             .then(auth => {
                 dispatch({
                     type: types.SET_USER,
-                    payload: auth.user.email,
+                    payload: auth.user.uid,
                 });
                 history.push('/intro')
             })

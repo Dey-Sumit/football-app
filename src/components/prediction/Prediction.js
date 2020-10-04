@@ -4,7 +4,7 @@ import './prediction.scss'
 import { Radar } from 'react-chartjs-2'
 
 const Chart = ({ labels, home, away }) => {
-    console.log(home, away);
+
     const data = {
         labels: labels,
         datasets: [
@@ -44,12 +44,13 @@ const Chart = ({ labels, home, away }) => {
 }
 
 
-const Prediction = () => {
+const Prediction = ({ fixture_id }) => {
     const [prediction, setPrediction] = useState();
     useEffect(() => {
         const callback = (data) => setPrediction(data.predictions[0])
-        api('predictions/605088', callback)
-    }, [])
+        api(`predictions/${fixture_id}`, callback)
+    }, [fixture_id])
+
     // console.log(prediction);
     var labels = [], home = [], away = []
     if (prediction) {
@@ -66,9 +67,9 @@ const Prediction = () => {
     }
 
     return (
-        <div>
-            <Chart labels={labels} home={home} away={away} />
-        </div>
+
+        <Chart labels={labels} home={home} away={away} />
+
     );
 };
 

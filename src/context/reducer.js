@@ -1,33 +1,50 @@
+const APP = "FOOTBALL_APP"
+
 export const initialState = {
-    myTeam: null,
-    user: null
+    myTeam: localStorage.getItem(`${APP}-MYTEAM`),
+    // myTeam_name: localStorage.getItem(`${APP}-MYTEAM-NAME`),
+    user: localStorage.getItem(`${APP}-USER`),
+    user_cred: localStorage.getItem(`${APP}-USER-CRED`),
+    league_id: 2790
 };
 
 export const types = {
     SET_USER: "SET_USER",
-    REMOVE_USER: "REMOVE_USER",
-    ADD_TO_MY_TEAM: "ADD_TO_MY_TEAM"
+    LOG_OUT: "LOG_OUT",
+    ADD_TO_MY_TEAM: "ADD_TO_MY_TEAM",
+    ADD_USER_CRED: "ADD_USER_CRED"
 }
-const APP_NAME = 'football__app'
+
 const reducer = (state, action) => {
-    console.log(action);
+    // console.log(action);
     const { type, payload } = action
     switch (type) {
 
         case types.SET_USER:
-            localStorage.setItem(`${APP_NAME}'-user'`, payload.email)
+            localStorage.setItem(`${APP}-USER`, payload)
             return {
                 ...state,
                 user: payload
             }
-        case types.REMOVE_USER:
-            //TODO remove from local storage    
+        case types.ADD_USER_CRED:
+            // localStorage.setItem(`${APP}-USER-CRED`, JSON.stringify(payload))
+            localStorage.setItem(`${APP}-USER-CRED`, payload)
             return {
                 ...state,
-                user: null
+                user_cred: payload
+            }
+        case types.LOG_OUT:
+            localStorage.removeItem(`${APP}-USER`)
+            localStorage.removeItem(`${APP}-MYTEAM`)
+            return {
+                ...state,
+                user: null,
+                myTeam: null
             }
 
         case types.ADD_TO_MY_TEAM:
+            console.log(type, payload);
+            localStorage.setItem(`${APP}-MYTEAM`, JSON.stringify(payload))
             return {
                 ...state,
                 myTeam: payload,

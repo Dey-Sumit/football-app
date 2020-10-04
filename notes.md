@@ -101,3 +101,8 @@ get("https://api-football-v1.p.rapidapi.com/v2/fixtures/live/{league_id}-{league
 
 ### fixture id
 get("https://api-football-v1.p.rapidapi.com/v2/fixtures/id/{fixture_id}")
+
+https://media.api-sports.io/football/players/${player_id}.png
+
+### sportsmonk token
+UcvpS12KU6Vn4Iw3lkvUAtJf5Mm09F4imQMLe8jJOCp3k9imSwfURdIphXPt

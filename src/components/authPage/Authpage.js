@@ -1,17 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './authPage.scss'
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Login from './login/Login';
 import { useGlobalState } from '../../context/StateProvider';
 import Register from './register/Register';
 import soccer from '../../assets/soccer.svg'
+import { auth } from '../../firebase/firebase';
+import { types } from '../../context/reducer';
 
 function AuthPage() {
     const history = useHistory();
-    const [{ user }] = useGlobalState();
-    if (user) {
-        history.push('/intro')
-    }
+    // const [{ user }] = useGlobalState();
+
+    const [, dispatch] = useGlobalState()
+
+    useEffect(() => {
+        //listen for auth status changes
+        auth.onAuthStateChanged(user => {
+            //if user== null;user logs out
+            if (user) {
+                console.log("User logged in ", user);
+                dispatch(
+                    {
+                        type: types.SET_USER,
+                        payload: user.uid,
+                    }
+                )
+                history.push('/intro')
+            } else {
+                console.log("User logged out");
+            }
+        })
+    }, [dispatch, history])
 
     const [isLogin, setIsLogin] = useState(true)
 

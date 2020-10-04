@@ -5,28 +5,28 @@ import HeadToHead from '../headtoHead/Head2Head';
 
 import LineUps from '../lineUps/LineUps';
 import Prediction from '../prediction/Prediction';
-import Stats from '../stats/Stats'
+import Stats from '../stats/Stats';
 import './fixtureDetails.scss'
 const FixtureDetails = () => {
-    let params = useParams()
-    const fixture_id = params.fixture_id;
+
+    const { fixture_id } = useParams()
 
     const [fixtureDetails, setFixtureDetails] = useState('');
     const [component, setComponent] = useState('prediction')
-    var awayTeamLineup, homeTeamLineup;
+
     useEffect(() => {
         const callback = data => setFixtureDetails(data.fixtures[0])
         api(`fixtures/id/${fixture_id}`, callback)
     }, [fixture_id])
-    console.log(fixtureDetails);
-    // if (fixtureDetails) {
-    //     var teamName = fixtureDetails["homeTeam"].team_name
-    //     homeTeamLineup = fixtureDetails.lineups[teamName]
 
-    //     teamName = fixtureDetails["awayTeam"].team_name
-    //     awayTeamLineup = fixtureDetails.lineups[teamName]
+    if (fixtureDetails) {
+        var teamName = fixtureDetails["homeTeam"].team_name
+        var homeTeamLineup = fixtureDetails.lineups[teamName]
 
-    // }
+        teamName = fixtureDetails["awayTeam"].team_name
+        var awayTeamLineup = fixtureDetails.lineups[teamName]
+
+    }
     return (
         <div className="fixtureDetails col-md-8">
             Fixture Details {fixture_id}
@@ -36,13 +36,11 @@ const FixtureDetails = () => {
                 <p>{new Date(fixtureDetails.event_date).toDateString()}</p>
             </div>
             <div className="fixtureDetails__top">
-
                 <img src={fixtureDetails.homeTeam?.logo} alt="" className="team__logo-small" />
                 <div className="fixtureDetails__score">
                     {fixtureDetails.goalsHomeTeam} - {fixtureDetails.goalsAwayTeam}
                 </div>
                 <img src={fixtureDetails.awayTeam?.logo} alt="" className="team__logo-small" />
-
             </div>
             <div className="fixture__navbar">
                 <div className="fixture__nav" onClick={() => setComponent('h2h')}>h2h</div>
@@ -55,18 +53,17 @@ const FixtureDetails = () => {
             }
             {
                 component === 'prediction' &&
-                <Prediction />
+                <Prediction fixture_id={fixture_id} />
             }
-            {/* {
+            {
                 component === 'stats' &&
                 fixtureDetails.statistics &&
                 <Stats stats={fixtureDetails.statistics} />
-
             }
             {
                 component === 'lineup' &&
                 <LineUps homeTeam={fixtureDetails.homeTeam} awayTeam={fixtureDetails.awayTeam} homeTeamLineup={homeTeamLineup} awayTeamLineup={awayTeamLineup} />
-            } */}
+            }
 
         </div >
     );

@@ -1,20 +1,17 @@
 import React from 'react';
 import './stats.scss'
 const StatsBar = ({ data: { home, away }, heading }) => {
-    // console.log(data);
     home = parseInt(home)
     away = parseInt(away)
     var total = home + away
-    console.log("total ", total);
+
     const homeBarWidth = (100 / total) * home
     const awayBarWidth = Math.floor((100 / total) * away)
-    console.log(homeBarWidth, awayBarWidth);
 
     var homeBarClass, awayBarClass;
     if (homeBarWidth > awayBarWidth) {
         homeBarClass = 'statsBar__home linear_blue'
         awayBarClass = 'statsBar__away linear_gray'
-
     }
     else {
         awayBarClass = 'statsBar__away linear_red'
@@ -39,7 +36,6 @@ const StatsBar = ({ data: { home, away }, heading }) => {
 
 
 const Stats = ({ stats }) => {
-    console.log(stats);
     return (
         <div>
             <StatsBar data={stats['Ball Possession']} heading="Possession" />

@@ -6,14 +6,15 @@
     border-radius: 10px;
     align-items: center;
     color: #fff;
+    background-image: linear-gradient(135deg, #00F260, #0575E6);
 
     &-last {
         background-image: linear-gradient(135deg, #ec008c, #fc6767);
     }
 
-    &-next {
-        background-image: linear-gradient(135deg, #00F260, #0575E6);
-    }
+    // &-next {
+
+    // }
 
     &__teams {
         width: 140px;

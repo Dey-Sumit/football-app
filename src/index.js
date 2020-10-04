@@ -6,10 +6,13 @@ import './index.scss';
 import App from './App';
 import { StateProvider } from './context/StateProvider';
 import reducer, { initialState } from './context/reducer';
+import { BrowserRouter as Router } from 'react-router-dom'
 
 ReactDOM.render(
   <StateProvider reducer={reducer} initialState={initialState}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </StateProvider>
   ,
   document.getElementById('root')

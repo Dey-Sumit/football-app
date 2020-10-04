@@ -49,11 +49,16 @@
     }
 
     &__player {
-        padding: 2px 8px;
+
         text-align: center;
-        border-radius: 50%;
-        background: transparent;
-        border: 2px solid;
+
+
+        span {
+            padding: 0.7rem;
+
+            border-radius: 50%;
+            border: 1px solid;
+        }
 
     }
 }
