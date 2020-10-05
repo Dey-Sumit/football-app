@@ -2,35 +2,59 @@ import axios from 'axios'
 
 const URL = 'https://v2.api-football.com/'
 
-// const cancelToken = axios.CancelToken
-let cancelToken;
-// teams/team/541
-// export const api = (end, callback) => {
+//TODO fix it
+const API_KEY = process.env.API_KEY;
+console.log(API_KEY);
 
-//     //Check if there are any previous pending requests
-//     if (cancelToken !== undefined)
-//         cancelToken.cancel("Operation canceled due to new request.");
+export const api = async (endpoint, callback) => {
+    console.log("API called");
+    const request = axios.create({
+        method: 'get',
+        baseURL: URL,
+        headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' }
+    })
 
-//     //Save the cancel token for the current request
-//     cancelToken = axios.CancelToken.source();
-//     var config = {
-//         headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' },
-//         cancelToken: cancelToken.token //Pass the cancel token to the current request
-//     };
-//     axios.get(`${URL}${end}`, config)
-//         .then(res => callback(res.data.api))
-//         .catch(err => console.log(err))
-// }
+    try {
+        const res = await request(endpoint)
+        console.log(res.data.api);
+        callback(res.data.api);
+    } catch (error) {
+        console.log(error);
+    }
 
-export const api = (endpoint, callback) => {
-    var config = {
-        headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' },
-    };
-
-    axios.get(`${URL}${endpoint}`, config)
-        .then(res => callback(res.data.api))
-        .catch(err => console.log(err))
 }
+
+let cancelToken;
+export const api_with_cancel_token = async (endpoint, callback) => {
+
+    //Check if there are any previous pending requests
+    if (cancelToken !== undefined)
+        cancelToken.cancel("Operation canceled due to new request.");
+
+    //Save the cancel token for the current request
+    cancelToken = axios.CancelToken.source();
+
+    //create an axios instance  
+    const request = axios.create({
+        method: 'get',
+        baseURL: URL,
+        headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' },
+        cancelToken: cancelToken.token //Pass the cancel token to the current request
+    })
+
+    try {
+        const res = await request(endpoint);
+        console.log(res.data.api);
+        callback(res.data.api);
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+
+
 
 // export const api_multiple = (end1, end2, callback1, callback2) => {
 //     console.log(end1, end2);

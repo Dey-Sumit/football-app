@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaSearch, FaTimesCircle } from 'react-icons/fa';
-import { api } from '../../axios/axios';
+import { api_with_cancel_token } from '../../axios/axios';
 import Team from '../team/Team'
 import './search.scss'
 const Search = ({ title }) => {
@@ -16,8 +16,12 @@ const Search = ({ title }) => {
         }
         if (searchTerm.length >= 4) {
             setLoading(true)
-            const results = api(`teams/search/${searchTerm}`, callback)
-            setSearchResults(results)
+            // const results = api(`teams/search/${searchTerm}`, callback)
+            // setSearchResults(results)
+
+            api_with_cancel_token(`teams/search/${searchTerm}`, callback)
+
+
         }
     }, [searchTerm])
 

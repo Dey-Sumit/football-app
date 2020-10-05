@@ -4,7 +4,7 @@ export const initialState = {
     myTeam: localStorage.getItem(`${APP}-MYTEAM`),
     // myTeam_name: localStorage.getItem(`${APP}-MYTEAM-NAME`),
     user: localStorage.getItem(`${APP}-USER`),
-    user_cred: localStorage.getItem(`${APP}-USER-CRED`),
+    user_cred: JSON.parse(localStorage.getItem(`${APP}-USER-CRED`)),
     league_id: 2790
 };
 
@@ -27,8 +27,8 @@ const reducer = (state, action) => {
                 user: payload
             }
         case types.ADD_USER_CRED:
-            // localStorage.setItem(`${APP}-USER-CRED`, JSON.stringify(payload))
-            localStorage.setItem(`${APP}-USER-CRED`, payload)
+            localStorage.setItem(`${APP}-USER-CRED`, JSON.stringify(payload))
+            // localStorage.setItem(`${APP}-USER-CRED`, payload)
             return {
                 ...state,
                 user_cred: payload

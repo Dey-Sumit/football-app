@@ -13,15 +13,16 @@
         height: 80px;
     }
 
-    p {
-        border: none;
+    p,
+    h4 {
+        margin: none;
     }
 
     &__header {
         display: flex;
         align-items: center;
         justify-content: space-around;
-        margin-bottom: 2rem;
+        // margin-bottom: 2rem;
         flex: 0.3;
     }
 
@@ -43,16 +44,39 @@
                 color: red;
             }
         }
+
+        &-buttons {
+            button {
+
+                background: none;
+                border: none;
+                box-shadow: 7px 7px 14px #131514, -7px -7px 14px #292d2c;
+                padding: 0.5rem 1rem;
+                margin: 0.5rem 1rem;
+                border-radius: 2px;
+                color: var(--green);
+
+                &.logout {
+                    color: red;
+                }
+            }
+
+        }
     }
 
-    button {
 
-        background: none;
-        border: none;
-        box-shadow: 7px 7px 14px #131514, -7px -7px 14px #292d2c;
-        padding: 0.5rem;
-        margin: 0.5rem 1rem;
+}
 
-        color: var(--green);
+@media (max-width:779px) {
+    .settings {
+        width: 95%;
+    }
+
+    .search__button {
+        margin: 0;
+    }
+
+    .settings__body-buttons {
+        margin: 0 4px;
     }
 }

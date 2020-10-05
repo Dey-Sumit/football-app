@@ -11,7 +11,7 @@ import Search from '../search/Search';
 import TeamsRow from '../teams-row/TeamsRow';
 import './introPage.scss'
 
-const IntroPage = () => {
+const ChooseTeam = () => {
     const [{ user_cred: { email, password }, myTeam }, dispatch] = useGlobalState()
     const history = useHistory()
     const [loading, setLoading] = useState(false)
@@ -144,7 +144,7 @@ const IntroPage = () => {
                 </Col>
                 <Col md={5} className="my-sm-5 my-md-0">
                     <MyTeams />
-
+                    <Search title="Search Team" />
                 </Col>
             </Row>
             <button className="nextPage" onClick={handleClick}>{myTeam ? "Let's Go 🚀" : "Choose your team"}</button>
@@ -153,4 +153,4 @@ const IntroPage = () => {
     );
 };
 
-export default IntroPage;
+export default ChooseTeam;

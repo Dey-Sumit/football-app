@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-//import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { types } from '../../../context/reducer';
 import { useGlobalState } from '../../../context/StateProvider';
+import { auth } from '../../../firebase/firebase';
 //import { auth } from '../../../firebase/firebase';
-//import Notification from '../../notification/Notification';
+import Notification from '../../notification/Notification';
 
 const Register = () => {
     const history = useHistory();
@@ -13,25 +14,52 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [, dispatch] = useGlobalState();
 
-
-
-    const handleClick = () => {
+    const handleClick = (e) => {
         //TODO check validation of credentials
-        // store the cred in global state
-        dispatch({
-            type: types.ADD_USER_CRED,
-            payload: {
-                email,
-                password
+        e.preventDefault();
+
+        if (password.length < 6) {
+            return
+            // TODO show message
+        }
+        // check if the email is already exists
+        auth.fetchSignInMethodsForEmail(email).then(
+            data => {
+                if (data.length > 0) {
+                    toast.error(<Notification message="This email id is taken" />,
+                        { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 });
+                    return;
+                }
+                else {
+                    // store the cred in global state
+                    dispatch({
+                        type: types.ADD_USER_CRED,
+                        payload: {
+                            email,
+                            password
+                        }
+                    })
+                    history.push('/teams');
+                }
+
             }
-        })
-        history.push('/intro');
+        )
+            .catch(error => {
+
+                toast.error(<Notification message={error.message} />,
+                    { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 })
+                return
+
+            })
+
+
     }
     //TODO show a loader during register response from server
 
 
     return (
         <>
+
             <form>
                 <input type='text' required placeholder="Enter email " value={email} onChange={e => setEmail(e.target.value)} />
                 <input type='password' required placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />

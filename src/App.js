@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import IntroPage from './components/intro/IntroPage';
+import ChooseTeam from './components/intro/ChooseTeam';
 import { Route, Switch } from 'react-router-dom'
 import Home from './components/home/Home';
 import Settings from './components/settings/Settings';
@@ -46,10 +46,11 @@ function App({ history }) {
       <Switch>
         <Route path="/settings">
           <Settings />
-          <Navbar />
+          {/* <Navbar /> */}
         </Route>
         <Route exact path="/">
           <Home />
+          {/* <Navbar /> */}
         </Route>
         <Route exact path="/others">
           < Others />
@@ -59,8 +60,8 @@ function App({ history }) {
           <FixtureDetails />
           <Navbar />
         </Route>
-        <Route path="/intro">
-          <IntroPage />
+        <Route path="/teams">
+          <ChooseTeam />
         </Route>
         <Route exact path="/auth" component={AuthPage} />
       </Switch>

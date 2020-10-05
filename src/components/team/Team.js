@@ -20,15 +20,14 @@ const Team = ({ team: { name, logo, team_id }, small, large, noName, noCheck }) 
             }
         })
     }
-    console.log(myTeam.team_id, team_id);
-    console.log(myTeam.team_id === team_id);
+
     return (
         <Col className={noCheck ? 'team myTeam' : 'team'} key={name} onClick={() => updateMyTeam()}>
             <img src={logo} alt={name} className={classes} />
 
             {!noCheck && <p className="team__name mt-2">{name}</p>}
-            {  myTeam.team_id === team_id ?
-                <span span className="team-added">
+            {  myTeam && myTeam.team_id === team_id ?
+                <span className="team-added">
                     <FaCheckCircle />
                 </span> : null
             }

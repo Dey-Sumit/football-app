@@ -27,7 +27,10 @@ const Login = () => {
                     type: types.SET_USER,
                     payload: auth.user.uid,
                 });
-                history.push('/intro')
+
+                //TODO get the team details form db
+
+                history.push('/teams')
             })
             .catch(error => {
                 setLoading(false)

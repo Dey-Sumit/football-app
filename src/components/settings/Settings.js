@@ -7,6 +7,7 @@ import { useGlobalState } from '../../context/StateProvider';
 import { auth, db } from '../../firebase/firebase';
 import Notification from '../notification/Notification';
 import Search from '../search/Search';
+import firebase from 'firebase'
 import './settings.scss'
 // account
 // log out
@@ -19,6 +20,7 @@ import './settings.scss'
 const Settings = () => {
     const history = useHistory()
     const [{ user, myTeam }, dispatch] = useGlobalState()
+    const [email, setEmail] = useState(null);
     const handleLogOut = () => {
         auth.signOut()
         dispatch({
@@ -26,12 +28,33 @@ const Settings = () => {
         })
         history.push('/auth')
     }
-    const [apiActive, setApiActive] = useState("No");
+    const [apiRequests, setApiRequests] = useState(null);
 
     useEffect(() => {
-        const callback = (data) => setApiActive(data.status.active)
+
+        // var user = firebase.auth().currentUser;
+
+        // if (user) {
+        //     console.log(user);
+        // } else {
+        //     console.log("NO");
+        // }
+        const callback = (data) => {
+            setApiRequests(data.status.requests)
+        }
         api('/status', callback)
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                setEmail(user.email)
+            } else {
+                // No user is signed in.
+            }
+        });
+
+
+
     }, [])
+
     const saveChanges = () => {
         //TODO change this to a function
         db
@@ -65,22 +88,22 @@ const Settings = () => {
     return (
         <div className="settings">
             <div className="settings__header">
-                <h3>System & Settings </h3>
+                <h4>System & Settings </h4>
                 <p className="account">
-                    Sumax333@gmail.com
+                    {email}
                 </p>
             </div>
-            <img src={myTeam.logo} alt="" className="team__logo-small" />
+            {/* <img src={myTeam.logo} alt="" /> */}
             <div className="settings__body">
                 <Search title="Change Team" />
                 <div className="settings__body-option">
-                    API Status <span>{apiActive === 'Yes' ? 'Active' : 'Not Active'}</span>
+                    API Requests <span>{apiRequests ? apiRequests : 'Loading'}</span>
                 </div>
                 <div className="settings__body-buttons">
                     {/* TODO only active if there is any change */}
                     <button onClick={saveChanges}>Save Changes</button>
                     <button>Delete User</button>
-                    <button onClick={handleLogOut}>Log Out</button>
+                    <button onClick={handleLogOut} className="logout">Log Out</button>
                 </div>
 
             </div>

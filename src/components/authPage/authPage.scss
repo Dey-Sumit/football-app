@@ -78,9 +78,15 @@
     }
 }
 
-@media (max-width:779px) {
+@media (max-width:777px) {
     .auth {
         height: 100vh;
+    }
+
+    .auth__wrapper {
+        padding: 2rem;
+        height: 100vh;
+        border-radius: 0;
     }
 
     .auth__left {
