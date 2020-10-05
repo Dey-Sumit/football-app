@@ -2,42 +2,25 @@ import React, { useState } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { types } from '../../../context/reducer';
-import { useGlobalState } from '../../../context/StateProvider';
-import { auth } from '../../../firebase/firebase';
 import Notification from '../../notification/Notification';
+import { connect } from 'react-redux'
+import { login } from '../../../redux/actions/auth.action'
 
-const Login = () => {
+const Login = ({ login }) => {
 
     const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [, dispatch] = useGlobalState();
+
     //TODO show a loader during login response from server
-    const [loading, setLoading] = useState(false)
+    // const [loading, setLoading] = useState(false)
+
     const handleLogIn = e => {
         e.preventDefault();
-        setLoading(true)
-
-        auth
-            .signInWithEmailAndPassword(email, password)
-            .then(auth => {
-                dispatch({
-                    type: types.SET_USER,
-                    payload: auth.user.uid,
-                });
-
-                //TODO get the team details form db
-
-                history.push('/teams')
-            })
-            .catch(error => {
-                setLoading(false)
-                toast.error(<Notification message={error.message} />,
-                    { position: toast.POSITION.TOP_RIGHT, autoClose: false })
-            })
+        login(email, password);
     }
+
 
     return (
         <>
@@ -45,7 +28,8 @@ const Login = () => {
                 <input type='text' placeholder="Enter email" required value={email} onChange={e => setEmail(e.target.value)} />
                 <input type='password' placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} />
                 <button className="form__button" type='submit' onClick={handleLogIn}>
-                    {loading ? <Spinner animation="grow" /> : "Sign In"}
+                    {/* {loading ? <Spinner animation="grow" /> : "Sign In"} */}
+                    SignIn
                 </button>
             </form>
             <p><span>or continue with</span></p>
@@ -54,4 +38,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default connect(null, { login })(Login);

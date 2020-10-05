@@ -1,19 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+//REDUX
+import { Provider } from 'react-redux'
+import store from './redux/store'
+
+import { BrowserRouter as Router } from 'react-router-dom'
+
+//CSS files
 import 'react-toastify/dist/ReactToastify.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.scss';
+
 import App from './App';
-import { StateProvider } from './context/StateProvider';
-import reducer, { initialState } from './context/reducer';
-import { BrowserRouter as Router } from 'react-router-dom'
 
 ReactDOM.render(
-  <StateProvider reducer={reducer} initialState={initialState}>
+  <Provider store={store}>
     <Router>
       <App />
     </Router>
-  </StateProvider>
+  </Provider>
   ,
   document.getElementById('root')
 );

@@ -1,60 +1,40 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { types } from '../../../context/reducer';
-import { useGlobalState } from '../../../context/StateProvider';
-import { auth } from '../../../firebase/firebase';
-//import { auth } from '../../../firebase/firebase';
-import Notification from '../../notification/Notification';
+// import { toast } from 'react-toastify';
+// import Notification from '../../notification/Notification';
+import { check_if_user_exist } from '../../../redux/actions/auth.action'
+import { connect } from 'react-redux'
+import { useEffect } from 'react';
 
-const Register = () => {
+const Register = ({ check_if_user_exist, user_cred }) => {
     const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [, dispatch] = useGlobalState();
+
+
+    // Redirect if valid credentials
+    useEffect(() => {
+        if (user_cred?.valid) {
+            history.push('/choose_teams')
+        }
+    }, [user_cred, history])
+
 
     const handleClick = (e) => {
         //TODO check validation of credentials
         e.preventDefault();
-
+        console.log(email, password);
         if (password.length < 6) {
+            console.log("Password weak");
             return
             // TODO show message
         }
-        // check if the email is already exists
-        auth.fetchSignInMethodsForEmail(email).then(
-            data => {
-                if (data.length > 0) {
-                    toast.error(<Notification message="This email id is taken" />,
-                        { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 });
-                    return;
-                }
-                else {
-                    // store the cred in global state
-                    dispatch({
-                        type: types.ADD_USER_CRED,
-                        payload: {
-                            email,
-                            password
-                        }
-                    })
-                    history.push('/teams');
-                }
 
-            }
-        )
-            .catch(error => {
-
-                toast.error(<Notification message={error.message} />,
-                    { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 })
-                return
-
-            })
-
-
+        check_if_user_exist(email, password)
     }
     //TODO show a loader during register response from server
+
 
 
     return (
@@ -73,5 +53,8 @@ const Register = () => {
         </>
     );
 };
+const mapStateToProps = state => ({
+    user_cred: state.auth.user_cred
+})
 
-export default Register;
+export default connect(mapStateToProps, { check_if_user_exist })(Register);

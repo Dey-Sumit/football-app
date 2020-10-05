@@ -1,56 +1,65 @@
 import React, { useEffect } from 'react';
-import ChooseTeam from './components/intro/ChooseTeam';
 import { Route, Switch } from 'react-router-dom'
-import Home from './components/home/Home';
+// import Home from './components/home/Home';
+
+
 import Settings from './components/settings/Settings';
-import { useGlobalState } from './context/StateProvider';
 import AuthPage from './components/authPage/Authpage';
-import FixtureDetails from './components/fixtureDetails/FixtureDetails';
+// import FixtureDetails from './components/fixtureDetails/FixtureDetails';
 import { toast } from 'react-toastify';
-import { types } from './context/reducer';
 import { withRouter } from 'react-router-dom'
-import Others from './pages/others/Others';
+import ChooseTeam from './pages/chooseTeams/ChooseTeam';
+import Home from './pages/home/Home';
 import Navbar from './components/navbar/Navbar';
+import store from './redux/store';
+import { load_user } from './redux/actions/auth.action';
+// import Others from './pages/others/Others';
+// import Navbar from './components/navbar/Navbar';
 
 toast.configure()
 
-function App({ history }) {
 
-  const [, dispatch] = useGlobalState()
+function App() {
 
-  // set the global state
   useEffect(() => {
-    if (localStorage["FOOTBALL_APP-USER"]) {
-      dispatch(
-        {
-          type: types.SET_USER,
-          payload: localStorage["FOOTBALL_APP-USER"],
-        }
-      )
-    }
-    if (localStorage["FOOTBALL_APP-MYTEAM"]) {
-      dispatch(
-        {
-          type: types.ADD_TO_MY_TEAM,
-          payload: JSON.parse(localStorage["FOOTBALL_APP-MYTEAM"]),
-        }
-      )
-    }
-
-  }, [dispatch, history])
+    console.log("APP use effect");
+    //! you can also dispatch directly using store without connect
+    store.dispatch(load_user());
+  }, [])
 
 
 
   return (
-    <div className="app">
-      <Switch>
-        <Route path="/settings">
-          <Settings />
-          {/* <Navbar /> */}
-        </Route>
+
+    <Switch>
+      <Route exact path="/auth" component={AuthPage} />
+
+      <Route exact path="/settings">
+        <Settings />
+        <Navbar />
+      </Route>
+
+      <Route exact path="/choose_teams">
+        <ChooseTeam />
+      </Route>
+
+      <Route exact path="/">
+        <Home />
+        <Navbar />
+      </Route>
+
+    </Switch>
+
+
+
+
+  );
+}
+
+{/* 
         <Route exact path="/">
           <Home />
-          {/* <Navbar /> */}
+          
         </Route>
         <Route exact path="/others">
           < Others />
@@ -60,14 +69,5 @@ function App({ history }) {
           <FixtureDetails />
           <Navbar />
         </Route>
-        <Route path="/teams">
-          <ChooseTeam />
-        </Route>
-        <Route exact path="/auth" component={AuthPage} />
-      </Switch>
-
-    </div>
-  );
-}
-
-export default withRouter(App);
+         */}
+export default App;

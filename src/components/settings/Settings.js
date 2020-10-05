@@ -3,46 +3,37 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { api } from '../../axios/axios';
 import { types } from '../../context/reducer';
-import { useGlobalState } from '../../context/StateProvider';
 import { auth, db } from '../../firebase/firebase';
 import Notification from '../notification/Notification';
 import Search from '../search/Search';
 import firebase from 'firebase'
 import './settings.scss'
-// account
-// log out
-// api status
-// change team
-// change timezone
-// remove data
+import { connect } from 'react-redux'
+import { log_out } from '../../redux/actions/auth.action'
 
+const Settings = ({ log_out }) => {
 
-const Settings = () => {
     const history = useHistory()
-    const [{ user, myTeam }, dispatch] = useGlobalState()
     const [email, setEmail] = useState(null);
-    const handleLogOut = () => {
-        auth.signOut()
-        dispatch({
-            type: types.LOG_OUT
-        })
-        history.push('/auth')
-    }
     const [apiRequests, setApiRequests] = useState(null);
 
+    //TODO protect this route
+    const handleLogOut = () => {
+        log_out();
+        history.push('/auth')
+    }
+
     useEffect(() => {
-
-        // var user = firebase.auth().currentUser;
-
-        // if (user) {
-        //     console.log(user);
-        // } else {
-        //     console.log("NO");
-        // }
+        let isMounted = true;
         const callback = (data) => {
             setApiRequests(data.status.requests)
         }
         api('/status', callback)
+
+
+        return () => isMounted = false;
+    }, [])
+    useEffect(() => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 setEmail(user.email)
@@ -50,39 +41,35 @@ const Settings = () => {
                 // No user is signed in.
             }
         });
-
-
-
     }, [])
-
     const saveChanges = () => {
         //TODO change this to a function
-        db
-            .collection('teams')
-            .doc(user)
-            .set(
-                {
-                    team_id: myTeam.team_id,
-                    logo: myTeam.logo,
-                    name: myTeam.name
-                }
-            )
-            .then(() => {
-                dispatch({
-                    type: types.ADD_TO_MY_TEAM,
-                    payload: myTeam
-                })
-                history.push('/')
-            })
-            .catch(
-                error => {
-                    console.error(error)
-                    toast.error(<Notification message={error.message} />,
-                        { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 })
+        // db
+        //     .collection('teams')
+        //     .doc(user)
+        //     .set(
+        //         {
+        //             team_id: myTeam.team_id,
+        //             logo: myTeam.logo,
+        //             name: myTeam.name
+        //         }
+        //     )
+        //     .then(() => {
+        //         dispatch({
+        //             type: types.ADD_TO_MY_TEAM,
+        //             payload: myTeam
+        //         })
+        //         history.push('/')
+        //     })
+        //     .catch(
+        //         error => {
+        //             console.error(error)
+        //             toast.error(<Notification message={error.message} />,
+        //                 { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 })
 
 
-                }
-            )
+        //         }
+        //     )
     }
 
     return (
@@ -113,4 +100,4 @@ const Settings = () => {
     );
 };
 
-export default Settings;
+export default connect(null, { log_out })(Settings);

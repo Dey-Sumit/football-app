@@ -106,3 +106,32 @@ https://media.api-sports.io/football/players/${player_id}.png
 
 ### sportsmonk token
 UcvpS12KU6Vn4Iw3lkvUAtJf5Mm09F4imQMLe8jJOCp3k9imSwfURdIphXPt
+
+# REDUX setup
+
+1. create a store (apply middle ware in needed , set up for chrome dev tools) in store.js
+2. wrap the app with provider and pass the store (from react-redux)
+### now my chrome devtools should work
+3. create reducer file
+5. create an initial state file
+*** import this initial state file in store.js and set the initial state
+
+4. **create types file(store all action types)
+
+5.now to use redux store ,we need to connect the component with redux
+
+let's do for auth
+1. create two types : REGISTER SUCCESS and REGISTER FAIL
+2. create a reducer file(auth.reducer.js)
+ create initial state,switch,case.......
+
+3. go to corresponding action file : auth.action.js
+Here we will make the request using axios or make request to the firebase and based on the response fire a appropriate dispatch({}) 
+
+
+4. now go to Auth component and connect with the redux
+    import the action 
+    dispatch the action wherever it needed
+
+
+

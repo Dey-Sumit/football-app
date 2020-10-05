@@ -12,7 +12,7 @@ const TeamsRow = ({ country, teams }) => {
             <Row className="teams-row__teams">
                 {
                     teams.map(team =>
-                        <Team key={team.name} team={team} noName />
+                        <Team key={team.name} team_id={team.team_id} noName />
                     )
                 }
             </Row>
