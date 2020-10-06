@@ -16,7 +16,7 @@ const Navbar = ({ my_team_id }) => {
             </Link>
             {/* //TODO if the route is already home;do something to save api calls */}
             <Link to="/">
-                {/* <img src={my_team_id?.logo} className="navbar__image" alt="" /> */}
+                <img src={`https://media.api-sports.io/football/teams/${my_team_id}.png`} className="navbar__image" alt="" />
             </Link>
             <Link to="/settings">
                 <FaUserCog className="navbar__icon" />

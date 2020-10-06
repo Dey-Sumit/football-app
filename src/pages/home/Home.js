@@ -2,32 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import Skeleton from 'react-loading-skeleton';
 
-import { api } from '../../axios/axios';
 
 import Fixtures from '../../components/fixtures/Fixtures';
-// import LeagueTable from '../../components/leagueTable/LeagueTable';
-// import MatchDetails from '../../components/matchDetails/MatchDetails';
+import MatchDetails from '../../components/matchDetails/MatchDetails';
 // import Navbar from '../../components/navbar/Navbar';
 import { connect } from 'react-redux'
-
+import { get_last_and_next_fixtures } from '../../redux/actions/team.action'
 import './home.scss'
 import { useHistory } from 'react-router-dom';
 
 //TODO protect the route
 
-const Home = ({ my_team_id, user_id }) => {
+const Home = ({ my_team_id, user_id, get_last_and_next_fixtures }) => {
     const history = useHistory();
-    // console.log(isAuthenticated);
-
-
-    const [nextFixtures, setNextFixtures] = useState([])
-    const [lastFixtures, setLastFixtures] = useState([])
-    // const [leagueId, setLeagueId] = useState(null)
-    const [loading, setLoading] = useState(true)
-    // console.log("homeeee");
-
-
-
 
     //set league id
     // useEffect(() => {
@@ -55,48 +42,21 @@ const Home = ({ my_team_id, user_id }) => {
             history.push('/auth')
     }, [user_id, history])
 
-
     useEffect(() => {
-        let isMounted = true;
-        const callBack_1 = data => setLastFixtures(data.fixtures)
-        const callBack_2 = data => {
-            // console.log("Executed", data);
-            setNextFixtures(data.fixtures)
-            setLoading(false)
-        }
-        // // console.log("USE EFFECT ", team_id);
-        // if (isMounted && my_team_id) {
-        //     api(`fixtures/team/${my_team_id}/last/3`, callBack_1);
-        //     api(`fixtures/team/${my_team_id}/next/5`, callBack_2);
-        // }
-        return () => isMounted = false;
-    }, [my_team_id])
+        console.log(" use effect in home");
+        // get_last_and_next_fixtures(my_team_id)
+    }, [my_team_id, get_last_and_next_fixtures])
 
     return (
-        <Container fluid className="home">
+        <Container className="home">
             <Row>
-                <Col md={4} lg={3}>
-                    {!loading ?
-                        <Fixtures lastFixtures={lastFixtures} nextFixtures={nextFixtures} />
-                        : <Skeleton count={8} height={70} />
-                    }
-
+                <Col md={5}>
+                    <Fixtures />
                 </Col>
-                {/* <Col md={5} lg={5}>
-                    {lastFixtures[0] ?
-                        <MatchDetails fixture_id={lastFixtures[0].fixture_id} />
-                        : <Skeleton height={650} />
-                    }
+                <Col md={7}>
+                    <MatchDetails />
                 </Col>
-                <Col md={3} lg={4}>
-                    {leagueId ?
-                        <LeagueTable leagueId={leagueId} />
-                        : <Skeleton height={550} />
-                    }
-                </Col> */}
             </Row>
-            {/* navbar */}
-
         </Container>
     );
 };
@@ -106,4 +66,4 @@ const mapStateToProps = state => ({
     user_id: state.auth.user_id
 })
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, { get_last_and_next_fixtures })(Home);

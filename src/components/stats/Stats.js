@@ -36,6 +36,7 @@ const StatsBar = ({ data: { home, away }, heading }) => {
 
 
 const Stats = ({ stats }) => {
+    console.log(stats);
     return (
         <div>
             <StatsBar data={stats['Ball Possession']} heading="Possession" />

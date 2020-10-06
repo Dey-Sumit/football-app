@@ -7,6 +7,7 @@
     align-items: center;
     color: #fff;
     background-image: linear-gradient(135deg, #00F260, #0575E6);
+    transition: all 0.1s linear;
 
     &-last {
         background-image: linear-gradient(135deg, #ec008c, #fc6767);
@@ -26,5 +27,10 @@
     &__date {
         margin-bottom: 0;
         font-weight: 500;
+    }
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.02);
     }
 }

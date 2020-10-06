@@ -51,5 +51,10 @@ const Others = () => {
         </div>
     );
 };
-
+{/* <Col md={3} lg={4}>
+{leagueId ?
+    <LeagueTable leagueId={leagueId} />
+    : <Skeleton height={550} />
+}
+</Col> */}
 export default Others;
