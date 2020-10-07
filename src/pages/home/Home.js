@@ -44,7 +44,7 @@ const Home = ({ my_team_id, user_id, get_last_and_next_fixtures }) => {
 
     useEffect(() => {
         console.log(" use effect in home");
-        // get_last_and_next_fixtures(my_team_id)
+        get_last_and_next_fixtures(my_team_id)
     }, [my_team_id, get_last_and_next_fixtures])
 
     return (

@@ -7,12 +7,12 @@ import Settings from './components/settings/Settings';
 import AuthPage from './components/authPage/Authpage';
 import FixtureDetails from './pages/fixtureDetails/FixtureDetails';
 import { toast } from 'react-toastify';
-import { withRouter } from 'react-router-dom'
 import ChooseTeam from './pages/chooseTeams/ChooseTeam';
 import Home from './pages/home/Home';
 import Navbar from './components/navbar/Navbar';
 import store from './redux/store';
 import { load_user } from './redux/actions/auth.action';
+import Others from './pages/others/Others';
 // import Others from './pages/others/Others';
 // import Navbar from './components/navbar/Navbar';
 
@@ -53,6 +53,11 @@ function App() {
         <Navbar />
       </Route>
 
+      <Route exact path="/others">
+        < Others />
+        <Navbar />
+      </Route>
+
     </Switch>
 
 
@@ -66,10 +71,6 @@ function App() {
           <Home />
           
         </Route>
-        <Route exact path="/others">
-          < Others />
-          <Navbar />
-        </Route>
-        
+       
          */}
 export default App;

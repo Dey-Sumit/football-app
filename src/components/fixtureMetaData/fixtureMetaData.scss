@@ -1,0 +1,35 @@
+.metaData {
+    padding: 1rem;
+
+    &__time {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        align-items: center;
+
+        img {
+            width: 40px;
+        }
+    }
+
+    &__body {
+        font-size: 2rem;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+
+        img {
+            width: 120px;
+            height: 120px;
+            background: #343a40;
+            padding: 1rem;
+
+            border-radius: 10px;
+        }
+    }
+
+    &__score {
+        margin: 0 1rem;
+    }
+
+}

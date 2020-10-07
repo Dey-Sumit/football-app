@@ -1,0 +1,14 @@
+.lineups {
+    &__navbar {
+        display: flex;
+        justify-content: center;
+
+        img {
+            width: 40px;
+            background: #343a40;
+            padding: 4px;
+            margin: 0 0.5rem;
+            border-radius: 4px;
+        }
+    }
+}

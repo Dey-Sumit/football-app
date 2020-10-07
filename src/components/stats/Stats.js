@@ -1,5 +1,9 @@
 import React from 'react';
 import './stats.scss'
+import { connect } from 'react-redux'
+
+import Skeleton from 'react-loading-skeleton';
+
 const StatsBar = ({ data: { home, away }, heading }) => {
     home = parseInt(home)
     away = parseInt(away)
@@ -36,18 +40,23 @@ const StatsBar = ({ data: { home, away }, heading }) => {
 
 
 const Stats = ({ stats }) => {
-    console.log(stats);
-    return (
-        <div>
-            <StatsBar data={stats['Ball Possession']} heading="Possession" />
-            <StatsBar data={stats['Passes %']} heading="Passes %" />
-            <StatsBar data={stats['Total passes']} heading="Total Passes" />
-            <StatsBar data={stats['Total Shots']} heading="Total Shots" />
-            <StatsBar data={stats['Yellow Cards']} heading="Yellow Cards" />
-            <StatsBar data={stats['Corner Kicks']} heading="Corner Kicks" />
 
-        </div>
+    return (
+        stats ?
+            <div>
+                <StatsBar data={stats['Ball Possession']} heading="Possession" />
+                <StatsBar data={stats['Passes %']} heading="Passes %" />
+                <StatsBar data={stats['Total passes']} heading="Total Passes" />
+                <StatsBar data={stats['Total Shots']} heading="Total Shots" />
+                <StatsBar data={stats['Yellow Cards']} heading="Yellow Cards" />
+                <StatsBar data={stats['Corner Kicks']} heading="Corner Kicks" />
+
+            </div> : <Skeleton width={'100%'} height={30} count={6} />
     );
 };
-
-export default Stats;
+const mapStateToProps = state => (
+    {
+        stats: state.team.fixture_details?.statistics
+    }
+)
+export default connect(mapStateToProps)(Stats);

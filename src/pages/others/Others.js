@@ -1,11 +1,9 @@
 import React from 'react';
 import './others.scss'
-import { useGlobalState } from '../../context/StateProvider';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { api } from '../../axios/axios'
-
-
+import { Col } from 'react-bootstrap';
+import LeagueTable from '../../components/leagueTable/LeagueTable'
 
 const PlayerCard = ({ player: { player_id, player_name, position, team_name, games, goals, shots } }) => {
     return (
@@ -29,32 +27,34 @@ const PlayerCard = ({ player: { player_id, player_name, position, team_name, gam
     );
 };
 
+// champions league
 
 
 const Others = () => {
-    // league_id
-    const [{ league_id }] = useGlobalState();
-    const [topPlayers, setTopPlayers] = useState([])
-    useEffect(() => {
-        const callback = (data) => {
-            console.log(data);
-            setTopPlayers(data.topscorers.slice(0, 7));
-        }
-        api(`topscorers/${2790}`, callback)
-    }, [])
+
+    // const [topPlayers, setTopPlayers] = useState([])
+    // useEffect(() => {
+    //     const callback = (data) => {
+    //         console.log(data);
+    //         setTopPlayers(data.topscorers.slice(0, 7));
+    //     }
+    //     api(`topscorers/${2790}`, callback)
+    // }, [])
 
     return (
-        <div className="topPlayers">
-            {topPlayers.length > 0 &&
-                topPlayers.map(player => <PlayerCard player={player} key={player.player_id} />)
-            }
-        </div>
+        // <div className="topPlayers">
+        //     {topPlayers.length > 0 &&
+        //         topPlayers.map(player => <PlayerCard player={player} key={player.player_id} />)
+        //     }
+        // </div>
+
+        <Col md={3} lg={4}>
+
+            <LeagueTable />
+
+        </Col>
+
     );
 };
-{/* <Col md={3} lg={4}>
-{leagueId ?
-    <LeagueTable leagueId={leagueId} />
-    : <Skeleton height={550} />
-}
-</Col> */}
+{/*  */ }
 export default Others;

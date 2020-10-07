@@ -2,7 +2,7 @@ import React from 'react';
 import Fixture from '../fixture/Fixture';
 import './fixtures.scss'
 import { connect } from 'react-redux'
-import Skeleton from 'react-loading-skeleton';
+import SkeletonCard from '../skeletons/SkeletonCard';
 
 const Fixtures = ({ lastFixtures, nextFixtures }) => {
     console.log("FIXTURES");
@@ -12,7 +12,7 @@ const Fixtures = ({ lastFixtures, nextFixtures }) => {
             {
                 lastFixtures ? lastFixtures.reverse().map(fixture =>
                     <Fixture key={fixture.fixture_id} fixture={fixture} last />
-                ) : <Skeleton width={`100%`} height={80} count={8} />
+                ) : <SkeletonCard width={`100%`} height={80} count={8} />
             }
             {
                 nextFixtures && nextFixtures.map(fixture =>

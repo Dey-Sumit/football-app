@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { api } from '../../axios/axios';
-import { types } from '../../context/reducer';
-import { auth, db } from '../../firebase/firebase';
+import { db } from '../../firebase/firebase';
 import Notification from '../notification/Notification';
 import Search from '../search/Search';
 import firebase from 'firebase'
@@ -24,21 +23,21 @@ const Settings = ({ log_out }) => {
     }
 
     useEffect(() => {
-        let isMounted = true;
         const callback = (data) => {
             setApiRequests(data.status.requests)
         }
+        toast.error(<Notification message="Design Me" />,
+            { position: toast.POSITION.TOP_RIGHT, autoClose: false })
+
+
         api('/status', callback)
 
 
-        return () => isMounted = false;
     }, [])
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 setEmail(user.email)
-            } else {
-                // No user is signed in.
             }
         });
     }, [])

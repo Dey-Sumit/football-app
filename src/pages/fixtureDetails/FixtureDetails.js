@@ -9,11 +9,13 @@ import './fixtureDetails.scss'
 
 import { connect } from 'react-redux'
 import { get_fixture_details } from '../../redux/actions/team.action'
+import FixtureMetaData from '../../components/fixtureMetaData/FixtureMetaData';
+import Skeleton from 'react-loading-skeleton';
+// 605107
 
 const FixtureDetails = ({ get_fixture_details, fixture_details }) => {
-
     const { fixture_id } = useParams()
-    const [activeComponent, setActiveComponent] = useState('prediction')
+    const [activeComponent, setActiveComponent] = useState('')
 
     useEffect(() => {
         get_fixture_details(fixture_id);
@@ -22,29 +24,28 @@ const FixtureDetails = ({ get_fixture_details, fixture_details }) => {
     return (
         <div className="fixture_details col-md-8">
             {/* //TODO make it a component */}
-            <div className="fixture_details__time">
-                <img src={fixture_details?.league?.logo} alt="" />
-                <p>{fixture_details?.venue}</p>
-                <p>{new Date(fixture_details.event_date).toDateString()}</p>
-            </div>
-            <div className="fixture_details__top">
-                <img src={fixture_details.homeTeam?.logo} alt="" className="team__logo-small" />
-                <div className="fixture_details__score">
-                    {fixture_details.goalsHomeTeam} - {fixture_details.goalsAwayTeam}
-                </div>
-                <img src={fixture_details.awayTeam?.logo} alt="" className="team__logo-small" />
-            </div>
+            {fixture_details ?
+                <FixtureMetaData fixture_details={fixture_details} />
+                : <Skeleton width='100%' height={180} />}
 
             {/* nested navbar */}
             <div className="fixture__navbar">
                 <div className="fixture__nav" onClick={() => setActiveComponent('h2h')}>h2h</div>
-                <div className="fixture__nav" onClick={() => setActiveComponent('stats')}>Stats</div>
-                <div className="fixture__nav" onClick={() => setActiveComponent('prediction')}>Prediction</div>
-                <div className="fixture__nav" onClick={() => setActiveComponent('lineups')}>Lineups</div>
+                {
+                    (fixture_details?.statusShort === 'NS' || fixture_details?.statusShort === 'TBD') ?
+                        <div className="fixture__nav" onClick={() => setActiveComponent('prediction')}>Prediction</div> :
+
+                        <>  <div className="fixture__nav" onClick={() => setActiveComponent('stats')}>Stats</div>
+                            <div className="fixture__nav" onClick={() => setActiveComponent('lineups')}>Lineups</div>
+                        </>
+                }
+
             </div>
 
-            {activeComponent === 'h2h' && <HeadToHead />}
-            { activeComponent === 'prediction' && <Prediction />}
+            {activeComponent === 'h2h' && <HeadToHead
+                homeTeamId={fixture_details.homeTeam?.team_id}
+                awayTeamId={fixture_details.awayTeam?.team_id} />}
+            { activeComponent === 'prediction' && <Prediction fixture_id={fixture_id} />}
             {/* //TOOD modify Stats component drilling in match details */}
             {   activeComponent === 'stats' && <Stats />}
             {activeComponent === 'lineups' && <LineUps />}

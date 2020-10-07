@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { api } from '../../axios/axios';
+import React, { useEffect } from 'react';
+import { get_head_to_head } from '../../redux/actions/team.action'
+import { connect } from 'react-redux'
+
 import './headToHead.scss'
+import SkeletonCard from '../skeletons/SkeletonCard';
 
 
 const H2HMatch = ({ data, match: { event_date, homeTeam, awayTeam, league, score } }) => {
@@ -25,32 +28,36 @@ const H2HMatch = ({ data, match: { event_date, homeTeam, awayTeam, league, score
     )
 }
 
-const HeadToHead = ({ homeTeam, awayTeam }) => {
-
-    const [headToHeadData, setHeadToHeadData] = useState()
+const HeadToHead = ({ homeTeamId, awayTeamId, get_head_to_head, head_to_head }) => {
+    console.log("had to had");
+    console.log(homeTeamId, awayTeamId);
+    //TODO this component is rendering two times
     useEffect(() => {
-        const callback = data =>
-            setHeadToHeadData(data.fixtures)
-
-        api(`fixtures/h2h/${homeTeam.team_id}/${awayTeam.team_id}`, callback)
-    }, [homeTeam, awayTeam])
+        get_head_to_head(homeTeamId, awayTeamId)
+    }, [homeTeamId, awayTeamId, get_head_to_head])
 
     return (
-        <div className="headToHeadContainer">
-            {
-                headToHeadData &&
-                headToHeadData.slice(Math.max(headToHeadData.length - 5, 1)).map(
-                    match =>
-                        <H2HMatch
-                            key={match.fixture_id}
-                            match={match}
-                            data={match}
-                        />
-                )
-            }
+        head_to_head ?
+            <div className="headToHeadContainer">
+                {
 
-        </div>
+                    head_to_head.slice(Math.max(head_to_head.length - 5, 1)).map(
+                        match =>
+                            <H2HMatch
+                                key={match.fixture_id}
+                                match={match}
+                                data={match}
+                            />
+                    )
+
+                }
+            </div>
+            : <SkeletonCard width='100%' height={60} count={5} />
+
+
     );
 };
-
-export default HeadToHead;
+const mapStateToProps = state => ({
+    head_to_head: state.team.head_to_head
+})
+export default connect(mapStateToProps, { get_head_to_head })(HeadToHead);

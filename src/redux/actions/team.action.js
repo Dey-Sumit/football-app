@@ -41,15 +41,44 @@ export const get_last_and_next_fixtures = (team_id) => async dispatch => {
 }
 
 export const get_fixture_details = (fixture_id) => async dispatch => {
-    console.log("get fixture details");
+
     try {
-        // const res = await request(`fixtures/id/${fixture_id}`);
+        const res = await request(`fixtures/id/${fixture_id}`);
+
+        dispatch({
+            type: types.ADD_TO_FIXTURE_DETAILS,
+            payload: res.data.api.fixtures[0]
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const get_head_to_head = (team1, team2) => async dispatch => {
+
+    try {
+        // const res = await request(`fixtures/h2h/${team1}/${team2}`)
         // console.log(res);
         // dispatch({
-        //     type: types.ADD_TO_FIXTURE_DETAILS,
-        //     payload: res.data.api.fixtures[0]
+        //     type: types.ADD_TO_HEAD_TO_HEAD,
+        //     payload: res.data.api.fixtures
         // })
     } catch (error) {
         console.log(error);
     }
 }
+
+export const get_predictions = (fixture_id) => async dispatch => {
+
+    try {
+        // const res = await request(`predictions/${fixture_id}`,)
+        // console.log(res);
+        // dispatch({
+        //     type: types.ADD_PREDICTION,
+        //     payload: res.data.api.predictions[0]
+        // })
+    } catch (error) {
+        console.log(error);
+    }
+}
+

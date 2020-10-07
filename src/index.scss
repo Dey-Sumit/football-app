@@ -10,6 +10,7 @@ body {
   color: $green;
   font-family: 'Roboto', sans-serif;
   height: 100vh;
+  overflow: hidden;
 }
 
 // .app {
@@ -56,6 +57,11 @@ body {
   text-align: center;
 }
 
+.Toastify__toast {
+  border-radius: 5px;
+  font-size: 1.2rem;
+}
+
 .Toastify__toast--default {
   background: #fff;
   color: #aaa;
@@ -69,10 +75,9 @@ body {
   background: #07bc0c;
 }
 
-.Toastify__toast--warning {
-  background: #f1c40f;
+.Toastify__toast--error {
+  background: #f44941;
 }
 
-.Toastify__toast--error {
-  background: #eb6455;
-}
+// #343a40
+// linear-gradient( 45deg,#383d42,#40454b)

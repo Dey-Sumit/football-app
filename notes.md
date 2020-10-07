@@ -104,8 +104,20 @@ get("https://api-football-v1.p.rapidapi.com/v2/fixtures/id/{fixture_id}")
 
 https://media.api-sports.io/football/players/${player_id}.png
 
+
+```
+champions League 2020
+league_id: 2771
+name: "UEFA Champions League"
+
+ https://v2.api-football.com/fixtures/league/524
+
+ 
+```
 ### sportsmonk token
 UcvpS12KU6Vn4Iw3lkvUAtJf5Mm09F4imQMLe8jJOCp3k9imSwfURdIphXPt
+
+
 
 # REDUX setup
 
@@ -132,6 +144,8 @@ Here we will make the request using axios or make request to the firebase and ba
 4. now go to Auth component and connect with the redux
     import the action 
     dispatch the action wherever it needed
+
+
 
 
 

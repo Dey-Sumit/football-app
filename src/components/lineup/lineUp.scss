@@ -1,64 +1,71 @@
+// .lineup {
+//     width: 70%;
+
+//     // background-image: url('../../assets/field.svg');
+//     margin: 1rem auto;
+//     position: relative;
+
+//     img {
+//         width: 100%;
+//         height: 100%;
+//     }
+
+
+//     &__players {
+//         position: absolute;
+//         display: flex;
+//         justify-content: space-around;
+//         top: 50%;
+//         transform: translate(-50%, -50%);
+//         left: 50%;
+//         width: 100%;
+//         height: 100%;
+//     }
+
+//     &__goalkeeper {
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: space-around;
+//     }
+
+//     &__defence {
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: space-around;
+//     }
+
+
+
+//     &__midfield {
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: space-around;
+//     }
+
+//     &__forwards {
+//         display: flex;
+//         flex-direction: column;
+//         justify-content: space-around;
+//     }
+
+//     &__player {
+
+//         text-align: center;
+
+
+//         span {
+//             padding: 0.7rem;
+
+//             border-radius: 50%;
+//             border: 1px solid;
+//         }
+
+//     }
+// }
+
 .lineup {
-    width: 70%;
-
-    // background-image: url('../../assets/field.svg');
-    margin: 1rem auto;
-    position: relative;
-
-    img {
-        width: 100%;
-        height: 100%;
-    }
-
-
-    &__players {
-        position: absolute;
+    &__wrapper {
         display: flex;
-        justify-content: space-around;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        left: 50%;
-        width: 100%;
-        height: 100%;
-    }
-
-    &__goalkeeper {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-    }
-
-    &__defence {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-    }
-
-
-
-    &__midfield {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-    }
-
-    &__forwards {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-    }
-
-    &__player {
-
-        text-align: center;
-
-
-        span {
-            padding: 0.7rem;
-
-            border-radius: 50%;
-            border: 1px solid;
-        }
-
+        justify-content: space-between;
     }
 }

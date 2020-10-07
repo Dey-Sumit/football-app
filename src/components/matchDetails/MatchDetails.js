@@ -5,7 +5,8 @@ import Stats from '../stats/Stats';
 import './matchDetails.scss'
 import { connect } from 'react-redux'
 import { get_fixture_details } from '../../redux/actions/team.action'
-import Skeleton from 'react-loading-skeleton';
+import SkeletonCard from '../skeletons/SkeletonCard';
+import FixtureMetaData from '../fixtureMetaData/FixtureMetaData';
 
 
 const MatchDetails = ({ fixture_id, fixture_details, get_fixture_details }) => {
@@ -18,25 +19,12 @@ const MatchDetails = ({ fixture_id, fixture_details, get_fixture_details }) => {
     return (
         fixture_details ?
             <div className="matchDetails">
-                <div className="matchDetails__time">
-                    <img src={fixture_details?.league?.logo} alt="" />
-                    <p>{fixture_details?.venue}</p>
-                    <p>{new Date(fixture_details.event_date).toDateString()}</p>
-                </div>
-                <div className="matchDetails__top">
-
-                    <img src={fixture_details.homeTeam.logo} alt="" className="team__logo-small" />
-                    <div className="matchDetails__score">
-                        {fixture_details.goalsHomeTeam} - {fixture_details.goalsAwayTeam}
-                    </div>
-                    <img src={fixture_details.awayTeam.logo} alt="" className="team__logo-small" />
-
-                </div>
+                <FixtureMetaData fixture_details={fixture_details} />
                 {fixture_details?.statistics &&
                     <Stats stats={fixture_details.statistics} />
                 }
             </div>
-            : <Skeleton width={`100%`} height={600} />
+            : <SkeletonCard width={`100%`} height={600} />
     );
 };
 const mapStateToProps = state => ({

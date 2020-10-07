@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../../axios/axios';
 import './prediction.scss'
 import { Radar } from 'react-chartjs-2'
-
-const Chart = ({ labels, home, away }) => {
+import { connect } from 'react-redux'
+import { get_predictions } from '../../redux/actions/team.action'
+import Skeleton from 'react-loading-skeleton';
+import SkeletonCard from '../skeletons/SkeletonCard';
+const Chart = ({ labels, home_team_data, away_team_data, home_team_name, away_team_name }) => {
 
     const data = {
         labels: labels,
         datasets: [
             {
-                label: 'awayTeam',
-                data: away,
+                label: away_team_name,
+                data: away_team_data,
                 borderColor: 'rgba(181, 137, 254, 1)',
                 backgroundColor: 'rgba(181, 137, 254, 0.4)',
             },
             {
-                label: 'homeTeam',
-                data: home,
+                label: home_team_name,
+                data: home_team_data,
                 borderColor: 'rgba(5, 212, 113, 1)',
-                backgroundColor: 'rgba(5, 212, 113, 0.4)'
+                backgroundColor: 'rgba(5, 212, 113, 0.8)'
             }]
     }
     const options = {
@@ -44,33 +46,36 @@ const Chart = ({ labels, home, away }) => {
 }
 
 
-const Prediction = ({ fixture_id }) => {
-    const [prediction, setPrediction] = useState();
+const Prediction = ({ fixture_id, get_predictions, predictions }) => {
     useEffect(() => {
-        const callback = (data) => setPrediction(data.predictions[0])
-        api(`predictions/${fixture_id}`, callback)
-    }, [fixture_id])
+        // get_predictions(fixture_id)
+    }, [fixture_id, get_predictions])
 
-    // console.log(prediction);
-    var labels = [], home = [], away = []
-    if (prediction) {
-        for (let o in prediction.comparison) {
+    var labels = [], home_team_data = [], away_team_data = [], home_team_name, away_team_name;
+    if (predictions) {
+        home_team_name = predictions.teams.home.team_name;
+        away_team_name = predictions.teams.away.team_name;
+
+        for (let o in predictions.comparison) {
             labels.push(o)
             // console.log(prediction.comparison[o])
-            home.push(parseInt(prediction.comparison[o].home))
-            away.push(parseInt(prediction.comparison[o].away))
+            home_team_data.push(parseInt(predictions.comparison[o].home))
+            away_team_data.push(parseInt(predictions.comparison[o].away))
         }
         labels.push('win')
-        home.push(parseInt(prediction.winning_percent.home))
-        away.push(parseInt(prediction.winning_percent.away))
+        home_team_data.push(parseInt(predictions.winning_percent.home))
+        away_team_data.push(parseInt(predictions.winning_percent.away))
 
     }
 
     return (
-
-        <Chart labels={labels} home={home} away={away} />
-
+        predictions ?
+            <Chart labels={labels} home_team_data={home_team_data} away_team_data={away_team_data}
+                home_team_name={home_team_name} away_team_name={away_team_name} />
+            : <SkeletonCard height={400} width={400} />
     );
 };
-
-export default Prediction;
+const mapStateToProps = state => ({
+    predictions: state.team.predictions
+})
+export default connect(mapStateToProps, { get_predictions })(Prediction);

@@ -7,8 +7,9 @@ const initialState = {
     last_and_next_fixtures: [],
     current_or_next_fixture_id: null,
     loading: true,
-    fixture_details: null
-
+    fixture_details: null,
+    head_to_head: null,
+    predictions: null,
 }
 
 export default function (state = initialState, action) {
@@ -23,7 +24,6 @@ export default function (state = initialState, action) {
             }
 
         case types.ADD_TO_CURRENT_OR_LAST_FIXTURE_ID:
-            console.log(payload);
             return {
                 ...state,
                 current_or_next_fixture_id: payload,
@@ -31,7 +31,6 @@ export default function (state = initialState, action) {
             }
 
         case types.ADD_TO_LAST_AND_NEXT_FIXTURES:
-
             return {
                 ...state,
                 last_and_next_fixtures: payload,
@@ -45,7 +44,18 @@ export default function (state = initialState, action) {
                 loading: false
             }
 
+        case types.ADD_TO_HEAD_TO_HEAD:
+            return {
+                ...state,
+                head_to_head: payload,
+                loading: false
+            }
 
+        case types.ADD_PREDICTION:
+            return {
+                ...state,
+                predictions: payload
+            }
 
         default:
             return state
