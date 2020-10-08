@@ -15,7 +15,7 @@ import Skeleton from 'react-loading-skeleton';
 
 const FixtureDetails = ({ get_fixture_details, fixture_details }) => {
     const { fixture_id } = useParams()
-    const [activeComponent, setActiveComponent] = useState('')
+    const [activeComponent, setActiveComponent] = useState('stats')
 
     useEffect(() => {
         get_fixture_details(fixture_id);

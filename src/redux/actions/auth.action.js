@@ -114,6 +114,7 @@ export const check_if_user_exist = (email, password) => async dispatch => {
                     type: types.IS_USER_EXIST,
                     payload: { valid: false }
                 })
+                console.log("user exists");
 
             }
             else {
@@ -122,6 +123,7 @@ export const check_if_user_exist = (email, password) => async dispatch => {
                     type: types.IS_USER_EXIST,
                     payload: { email, password, valid: true }
                 })
+
             }
 
         }

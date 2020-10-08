@@ -13,11 +13,25 @@ import Navbar from './components/navbar/Navbar';
 import store from './redux/store';
 import { load_user } from './redux/actions/auth.action';
 import Others from './pages/others/Others';
+import { Container } from 'react-bootstrap';
 // import Others from './pages/others/Others';
 // import Navbar from './components/navbar/Navbar';
 
 toast.configure()
 
+const withContainer = () => {
+  return (
+    <Container fluid>
+      <div className="container__main">
+        <Route exact path="/settings" component={Settings} />
+        <Route exact path="/" component={Home} />
+        <Route path="/fixtures/:fixture_id" component={FixtureDetails} />
+        <Route exact path="/others" component={Others} />
+      </div>
+      <Navbar />
+    </Container>
+  )
+}
 
 function App() {
 
@@ -33,44 +47,12 @@ function App() {
 
     <Switch>
       <Route exact path="/auth" component={AuthPage} />
+      <Route exact path="/choose_teams" component={ChooseTeam} />
+      <Route component={withContainer} />
 
-      <Route exact path="/settings">
-        <Settings />
-        <Navbar />
-      </Route>
 
-      <Route exact path="/choose_teams">
-        <ChooseTeam />
-      </Route>
-
-      <Route exact path="/">
-        <Home />
-        <Navbar />
-      </Route>
-
-      <Route path="/fixtures/:fixture_id">
-        <FixtureDetails />
-        <Navbar />
-      </Route>
-
-      <Route exact path="/others">
-        < Others />
-        <Navbar />
-      </Route>
 
     </Switch>
-
-
-
-
   );
 }
-
-{/* 
-        <Route exact path="/">
-          <Home />
-          
-        </Route>
-       
-         */}
 export default App;

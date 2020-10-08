@@ -5,7 +5,7 @@ const SkeletonCard = ({ width, height, count }) => {
     console.log(width, height, count);
     return (
         <SkeletonTheme color="#343a40" highlightColor="#3c4147" >
-            <Skeleton width={width} height={height} count={count} />
+            <Skeleton width={width} height={height} count={count} style={{ 'margin': '0.1rem' }} />
         </SkeletonTheme>
     );
 };

@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './prediction.scss'
 import { Radar } from 'react-chartjs-2'
 import { connect } from 'react-redux'
 import { get_predictions } from '../../redux/actions/team.action'
-import Skeleton from 'react-loading-skeleton';
 import SkeletonCard from '../skeletons/SkeletonCard';
 const Chart = ({ labels, home_team_data, away_team_data, home_team_name, away_team_name }) => {
 

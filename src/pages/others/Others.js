@@ -1,60 +1,51 @@
 import React from 'react';
 import './others.scss'
 import { useEffect } from 'react';
-import { useState } from 'react';
-import { Col } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import LeagueTable from '../../components/leagueTable/LeagueTable'
-
-const PlayerCard = ({ player: { player_id, player_name, position, team_name, games, goals, shots } }) => {
-    return (
-        <div className="playerCard">
-            <div className="playerCard__image">
-                <img src={`https://media.api-sports.io/football/players/${player_id}.png`} alt="" />
-            </div>
-            <div className="playerCard__data">
-                <div className="playerCard__data-top">
-                    <span>{player_name} -{' '} ({team_name})</span>
-
-
-                </div>
-                <div className="playerCard__data-bottom">
-                    <span>Goals : {goals.total}</span>
-                    <span>Assists : {shots.assists}</span>
-
-                </div>
-            </div>
-        </div>
-    );
-};
+import { connect } from 'react-redux'
+import { get_domestic_league_id } from '../../redux/actions/team.action'
+import TopPlayers from '../../components/topPlayers/TopPlayers';
 
 // champions league
 
 
-const Others = () => {
+const Others = ({ get_domestic_league_id, domestic_league_id, team_id }) => {
 
+    useEffect(() => {
+        get_domestic_league_id(team_id)
+    }, [team_id, get_domestic_league_id])
     // const [topPlayers, setTopPlayers] = useState([])
     // useEffect(() => {
     //     const callback = (data) => {
     //         console.log(data);
     //         setTopPlayers(data.topscorers.slice(0, 7));
     //     }
-    //     api(`topscorers/${2790}`, callback)
+    //     api(`, callback)
     // }, [])
 
     return (
         // <div className="topPlayers">
         //     {topPlayers.length > 0 &&
-        //         topPlayers.map(player => <PlayerCard player={player} key={player.player_id} />)
+        //        )
         //     }
         // </div>
+        <Container >
+            <Row>
+                <Col md={6} lg={5}>
+                    <LeagueTable league_id={domestic_league_id} />
+                </Col>
+                <Col md={6} lg={7}>
+                    <TopPlayers league_id={domestic_league_id} />
+                </Col>
+            </Row>
 
-        <Col md={3} lg={4}>
-
-            <LeagueTable />
-
-        </Col>
+        </Container>
 
     );
 };
-{/*  */ }
-export default Others;
+const mapStateToProps = state => ({
+    domestic_league_id: state.team.domestic_league_id,
+    team_id: state.team.my_team_id
+})
+export default connect(mapStateToProps, { get_domestic_league_id })(Others);

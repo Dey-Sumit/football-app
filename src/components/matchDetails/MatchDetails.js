@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import Stats from '../stats/Stats';
-// import Team from '../team/Team'
 import './matchDetails.scss'
 import { connect } from 'react-redux'
 import { get_fixture_details } from '../../redux/actions/team.action'

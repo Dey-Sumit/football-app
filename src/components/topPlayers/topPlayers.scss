@@ -1,0 +1,16 @@
+.topPlayers {
+    text-align: center;
+    padding: 0.6rem 0.4rem;
+
+}
+
+@media(max-width:777px) {
+    .topPlayers__container {
+
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        overflow-y: auto;
+
+    }
+}

@@ -1,0 +1,44 @@
+@import '../../base.scss';
+
+.playerCard {
+    font-size: 0.9rem;
+    text-align: center;
+    width: 160px;
+    display: inline-block;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #1e2120;
+    background-blend-mode: multiply;
+
+    box-shadow: $neumorphic_shadow;
+    border-radius: 10px;
+    margin: 0.6rem;
+    padding: 0.6rem;
+    color: #fff;
+
+    img {
+        width: 60%;
+    }
+
+    &__data-top {
+        margin: 10px;
+        font-weight: 600;
+
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    &__data-bottom {
+        display: flex;
+        justify-content: space-around;
+    }
+
+}
+
+@media(max-width:799px) {
+    .playerCard {
+        min-width: 160px;
+
+    }
+}

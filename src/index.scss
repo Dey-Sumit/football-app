@@ -9,8 +9,12 @@ body {
   background: $background;
   color: $green;
   font-family: 'Roboto', sans-serif;
-  height: 100vh;
-  overflow: hidden;
+  // overflow: hidden;
+}
+
+//TODO
+.container {
+  margin-bottom: 15vh;
 }
 
 // .app {

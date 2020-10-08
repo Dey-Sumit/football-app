@@ -10,6 +10,9 @@ const initialState = {
     fixture_details: null,
     head_to_head: null,
     predictions: null,
+    domestic_league_id: null,
+    top_players: null,
+    domestic_league_table: null
 }
 
 export default function (state = initialState, action) {
@@ -57,6 +60,24 @@ export default function (state = initialState, action) {
                 predictions: payload
             }
 
+
+        case types.SET_DOMESTIC_LEAGUE_ID:
+            return {
+                ...state,
+                domestic_league_id: payload
+            }
+
+
+        case types.SET_DOMESTIC_LEAGUE_TABLE:
+            return {
+                ...state,
+                domestic_league_table: payload
+            }
+        case types.SET_TOP_PLAYERS:
+            return {
+                ...state,
+                top_players: payload
+            }
         default:
             return state
     }

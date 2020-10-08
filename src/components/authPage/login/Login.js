@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Spinner } from 'react-bootstrap';
+// import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Notification from '../../notification/Notification';
+// import { toast } from 'react-toastify';
+// import Notification from '../../notification/Notification';
 import { connect } from 'react-redux'
 import { login } from '../../../redux/actions/auth.action'
 
 const Login = ({ login }) => {
 
-    const history = useHistory();
+    // const history = useHistory();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

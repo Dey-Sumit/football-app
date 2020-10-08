@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Table } from 'react-bootstrap';
-import { api } from '../../axios/axios';
 import './leagueTable.scss'
-const LeagueTable = ({ leagueId }) => {
-    // const [leagueTable, setLeagueTable] = useState([])
-    // useEffect(() => {
-    //     const callback = (data) => {
-    //         console.log(data);
-    //         setLeagueTable(data?.standings[0])
-    //         // console.table(data?.standings[0]);
-    //     }
-    //     api(`/leagueTable/${leagueId}`, callback)
-    // }, [leagueId])
-    var arr = Array.from(Array(10).keys())
-    console.log(arr);
+import { connect } from 'react-redux'
+import { get_domestic_league_table } from '../../redux/actions/team.action'
+import SkeletonCard from '../skeletons/SkeletonCard';
+const LeagueTable = ({ league_id, get_domestic_league_table, domestic_league_table }) => {
+    useEffect(() => {
+        // if (league_id)
+        //     get_domestic_league_table(league_id)
+    }, [league_id, get_domestic_league_table])
+
+    console.log(league_id, domestic_league_table);
+
     return (
-        <div>
-            {
+        <div className="league_table">
+            <h4>League Table </h4>
+            { domestic_league_table ?
                 <Table striped bordered variant="dark" size="sm" className="table">
                     <thead>
                         <tr>
@@ -30,23 +29,8 @@ const LeagueTable = ({ leagueId }) => {
                     </thead>
                     <tbody>
                         {
-                            arr.map(team =>
-                                <tr key={team}>
-                                    <td>{team}</td>
-                                    <td>{team} </td>
-                                    <td>{team}</td>
-                                    <td>{team}</td>
-                                    <td>{team} </td>
-                                    <td>{team}</td>
-                                </tr>)
-                        }
 
-                    </tbody>
-
-                    {/* <tbody>
-                        {
-                            leagueTable &&
-                            leagueTable.splice(0, 10).map(team =>
+                            domestic_league_table.map(team =>
                                 <tr key={team.team_id}>
                                     <td>{team.rank}</td>
                                     <td>{team.teamName}<img src={team.logo} alt="team" className="ml-2" />  </td>
@@ -58,11 +42,14 @@ const LeagueTable = ({ leagueId }) => {
                             )
                         }
 
-                    </tbody> */}
+                    </tbody>
                 </Table>
+                : <SkeletonCard width='100%' height={30} count={18} />
             }
         </div>
     );
 };
-
-export default LeagueTable;
+const mapStateToProps = state => ({
+    domestic_league_table: state.team.domestic_league_table
+})
+export default connect(mapStateToProps, { get_domestic_league_table })(LeagueTable);
