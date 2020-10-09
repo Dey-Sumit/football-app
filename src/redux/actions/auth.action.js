@@ -19,7 +19,7 @@ const register_user = async (email, password) => {
 }
 
 const create_or_update_user_in_db = (userId, team_id) => {
-    console.log("create_or_update_user_in_db");
+
     db
         .collection('teams')
         .doc(userId)
@@ -44,7 +44,9 @@ const create_or_update_user_in_db = (userId, team_id) => {
 }
 
 export const register = (email, password, team_id) => async (dispatch) => {
-    console.log(email, password);
+    // set loading true
+    dispatch({ type: types.FETCH_INFO })
+
     try {
         const userId = await register_user(email, password)
         await dispatch({
@@ -66,6 +68,8 @@ export const register = (email, password, team_id) => async (dispatch) => {
 }
 
 export const login = (email, password) => async dispatch => {
+    // set loading true
+    dispatch({ type: types.FETCH_INFO })
     auth
         .signInWithEmailAndPassword(email, password)
         .then(auth => {
@@ -78,12 +82,10 @@ export const login = (email, password) => async dispatch => {
         })
         .catch(error => {
             dispatch({
-                type: types.LOGIN_FAIL
+                type: types.LOGIN_FAIL,
+                payload: error.message
             });
-            console.log(error.message);
-            // setLoading(false)
-            // toast.error(<Notification message={error.message} />,
-            //     { position: toast.POSITION.TOP_RIGHT, autoClose: false })
+
         })
 }
 
@@ -101,20 +103,20 @@ export const log_out = () => async dispatch => {
 
 export const check_if_user_exist = (email, password) => async dispatch => {
 
-    console.log(email, password);
+    // set loading true
+    dispatch({ type: types.FETCH_INFO })
+
     // check if the email is already exists
     auth.fetchSignInMethodsForEmail(email).then(
         data => {
             if (data.length > 0) {
                 //! EMAIL IS TAKEN
-                // toast.error(<Notification message="This email id is taken" />,
-                //     { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 });
 
                 dispatch({
                     type: types.IS_USER_EXIST,
                     payload: { valid: false }
                 })
-                console.log("user exists");
+
 
             }
             else {
@@ -130,8 +132,10 @@ export const check_if_user_exist = (email, password) => async dispatch => {
     )
         .catch(error => {
             console.log(error.message);
-            // toast.error(<Notification message={error.message} />,
-            //     { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 })
+            dispatch({
+                types: types.REGISTER_FAIL,
+                payload: error.message
+            })
 
         })
 }

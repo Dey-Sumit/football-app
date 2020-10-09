@@ -5,14 +5,15 @@ const initialState = {
     //TODO parse the object
     my_team_id: localStorage.getItem(`${APP}-MYTEAM-ID`),
     last_and_next_fixtures: [],
-    current_or_next_fixture_id: null,
+    current_or_last_fixture_id: null,
     loading: true,
     fixture_details: null,
     head_to_head: null,
     predictions: null,
     domestic_league_id: null,
     top_players: null,
-    domestic_league_table: null
+    domestic_league_table: null,
+    api_calls: null
 }
 
 export default function (state = initialState, action) {
@@ -27,9 +28,10 @@ export default function (state = initialState, action) {
             }
 
         case types.ADD_TO_CURRENT_OR_LAST_FIXTURE_ID:
+            console.log(payload);
             return {
                 ...state,
-                current_or_next_fixture_id: payload,
+                current_or_last_fixture_id: payload,
                 loading: false
             }
 
@@ -77,6 +79,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 top_players: payload
+            }
+
+        case types.SET_API_STATUS:
+            return {
+                ...state,
+                api_calls: payload
             }
         default:
             return state

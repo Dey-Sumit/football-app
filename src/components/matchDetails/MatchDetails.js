@@ -10,10 +10,11 @@ import FixtureMetaData from '../fixtureMetaData/FixtureMetaData';
 
 const MatchDetails = ({ fixture_id, fixture_details, get_fixture_details }) => {
     useEffect(() => {
-        console.log("use effect match details");
-        get_fixture_details(fixture_id)
+        console.log(fixture_id);
+        if (fixture_id)
+            get_fixture_details(fixture_id)
     }, [fixture_id, get_fixture_details])
-    console.log(fixture_details?.statistics);
+
 
     return (
         fixture_details ?
@@ -27,7 +28,7 @@ const MatchDetails = ({ fixture_id, fixture_details, get_fixture_details }) => {
     );
 };
 const mapStateToProps = state => ({
-    fixture_id: state.team.current_or_next_fixture_id,
+    fixture_id: state.team.current_or_last_fixture_id,
     fixture_details: state.team.fixture_details
 })
 export default connect(mapStateToProps, { get_fixture_details })(MatchDetails);

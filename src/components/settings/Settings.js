@@ -1,39 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { api } from '../../axios/axios';
-import { db } from '../../firebase/firebase';
-import Notification from '../notification/Notification';
+
+// import { db } from '../../firebase/firebase';
+
 import Search from '../search/Search';
 import firebase from 'firebase'
 import './settings.scss'
 import { connect } from 'react-redux'
 import { log_out } from '../../redux/actions/auth.action'
+import { get_api_status } from '../../redux/actions/team.action'
 
-const Settings = ({ log_out }) => {
-
+const Settings = ({ log_out, my_team_id, get_api_status, api_calls }) => {
     const history = useHistory()
     const [email, setEmail] = useState(null);
-    const [apiRequests, setApiRequests] = useState(null);
-
-    //TODO protect this route
-    const handleLogOut = () => {
-        log_out();
-        history.push('/auth')
-    }
 
     useEffect(() => {
-        const callback = (data) => {
-            setApiRequests(data.status.requests)
-        }
-        toast.error(<Notification message="Design Me" />,
-            { position: toast.POSITION.TOP_RIGHT, autoClose: false })
+        get_api_status()
+    }, [get_api_status])
 
-
-        api('/status', callback)
-
-
-    }, [])
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
@@ -41,6 +25,13 @@ const Settings = ({ log_out }) => {
             }
         });
     }, [])
+
+    const handleLogOut = async () => {
+        await log_out();
+        history.push('/auth')
+    }
+
+
     const saveChanges = () => {
         //TODO change this to a function
         // db
@@ -79,11 +70,11 @@ const Settings = ({ log_out }) => {
                     {email}
                 </p>
             </div>
-            {/* <img src={myTeam.logo} alt="" /> */}
+            <img src={`https://media.api-sports.io/football/teams/${my_team_id}.png`} alt="" />
             <div className="settings__body">
                 <Search title="Change Team" />
                 <div className="settings__body-option">
-                    API Requests <span>{apiRequests ? apiRequests : 'Loading'}</span>
+                    API Requests <span>{api_calls ? api_calls : 'Loading'}</span>
                 </div>
                 <div className="settings__body-buttons">
                     {/* TODO only active if there is any change */}
@@ -98,5 +89,8 @@ const Settings = ({ log_out }) => {
         </div>
     );
 };
-
-export default connect(null, { log_out })(Settings);
+const mapStateToProps = state => ({
+    my_team_id: state.team.my_team_id,
+    api_calls: state.team.api_calls
+})
+export default connect(mapStateToProps, { log_out, get_api_status })(Settings);

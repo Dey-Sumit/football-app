@@ -1,35 +1,35 @@
 import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom'
-// import Home from './components/home/Home';
-
+import { toast } from 'react-toastify';
 
 import Settings from './components/settings/Settings';
 import AuthPage from './components/authPage/Authpage';
 import FixtureDetails from './pages/fixtureDetails/FixtureDetails';
-import { toast } from 'react-toastify';
 import ChooseTeam from './pages/chooseTeams/ChooseTeam';
 import Home from './pages/home/Home';
+import Others from './pages/others/Others';
 import Navbar from './components/navbar/Navbar';
+
 import store from './redux/store';
 import { load_user } from './redux/actions/auth.action';
-import Others from './pages/others/Others';
-import { Container } from 'react-bootstrap';
-// import Others from './pages/others/Others';
-// import Navbar from './components/navbar/Navbar';
+import ProtectedRoute from './components/ProtectedRoute';
+
 
 toast.configure()
 
 const withContainer = () => {
   return (
-    <Container fluid>
+    <div>
       <div className="container__main">
-        <Route exact path="/settings" component={Settings} />
-        <Route exact path="/" component={Home} />
-        <Route path="/fixtures/:fixture_id" component={FixtureDetails} />
-        <Route exact path="/others" component={Others} />
+        <ProtectedRoute exact path="/settings" component={Settings} />
+        <ProtectedRoute exact path="/" component={Home} />
+        <ProtectedRoute exact path="/fixtures/:fixture_id" component={FixtureDetails} />
+        <ProtectedRoute exact path="/others" component={Others} />
+        {/* <Route render={() => <h1>404 not found</h1>} /> */}
       </div>
       <Navbar />
-    </Container>
+
+    </div>
   )
 }
 
@@ -41,16 +41,11 @@ function App() {
     store.dispatch(load_user());
   }, [])
 
-
-
   return (
-
     <Switch>
       <Route exact path="/auth" component={AuthPage} />
       <Route exact path="/choose_teams" component={ChooseTeam} />
       <Route component={withContainer} />
-
-
 
     </Switch>
   );

@@ -6,7 +6,7 @@ import './headToHead.scss'
 import SkeletonCard from '../skeletons/SkeletonCard';
 
 
-const H2HMatch = ({ data, match: { event_date, homeTeam, awayTeam, league, score } }) => {
+const H2HMatch = ({ match: { event_date, homeTeam, awayTeam, league, score } }) => {
     return (
         <div className="H2HMatch">
             <div className="H2HMatch__heading">
@@ -18,7 +18,7 @@ const H2HMatch = ({ data, match: { event_date, homeTeam, awayTeam, league, score
                     <img src={homeTeam.logo} alt={homeTeam.team_name} />
                     <span>{homeTeam.team_name}</span>
                 </div>
-                {score.fulltime ? score.fulltime : 'upcoming'}
+                <span className="H2HMatch__score">{score.fulltime ? score.fulltime : 'upcoming'}</span>
                 <div className="H2HMatch__team H2HMatch__team-away">
                     <img src={awayTeam.logo} alt={awayTeam.team_name} />
                     <span>{awayTeam.team_name}</span>
@@ -29,8 +29,7 @@ const H2HMatch = ({ data, match: { event_date, homeTeam, awayTeam, league, score
 }
 
 const HeadToHead = ({ homeTeamId, awayTeamId, get_head_to_head, head_to_head }) => {
-    console.log("had to had");
-    console.log(homeTeamId, awayTeamId);
+
     //TODO this component is rendering two times
     useEffect(() => {
         get_head_to_head(homeTeamId, awayTeamId)

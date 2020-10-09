@@ -6,7 +6,7 @@ const SEASON = '2020'
 const request = axios.create({
     method: 'get',
     baseURL: URL,
-    // headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' }
+    headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' }
 })
 
 //TODO dispatch error for errors
@@ -33,15 +33,13 @@ export const get_last_and_next_fixtures = (team_id) => async dispatch => {
             payload: last_fixtures[0].fixture_id
         })
 
-
     } catch (error) {
-
         console.log(error);
     }
 }
 
 export const get_fixture_details = (fixture_id) => async dispatch => {
-
+    console.log("details called");
     try {
         const res = await request(`fixtures/id/${fixture_id}`);
 
@@ -121,13 +119,28 @@ export const get_domestic_league_table = (league_id) => async dispatch => {
     }
 }
 export const get_top_players = (league_id) => async dispatch => {
-    console.log("called");
+
     try {
         const res = await request(`topscorers/${league_id}`);
         dispatch(
             {
                 type: types.SET_TOP_PLAYERS,
                 payload: res.data.api.topscorers.slice(0, 9)
+            }
+        )
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const get_api_status = () => async dispatch => {
+    try {
+        const res = await request('/status');
+
+        dispatch(
+            {
+                type: types.SET_API_STATUS,
+                payload: res.data.api.status.requests
             }
         )
     } catch (error) {

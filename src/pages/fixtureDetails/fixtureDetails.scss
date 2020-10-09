@@ -25,5 +25,17 @@
 
     &__nav {
         cursor: pointer;
+
+        &.active {
+            color: $green;
+        }
+    }
+
+}
+
+@media(max-width:777px) {
+    .fixture_details {
+        padding: 1rem;
+        box-shadow: none;
     }
 }

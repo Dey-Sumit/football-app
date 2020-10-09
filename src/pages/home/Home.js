@@ -3,23 +3,19 @@ import { Col, Container, Row } from 'react-bootstrap';
 import Fixtures from '../../components/fixtures/Fixtures';
 import MatchDetails from '../../components/matchDetails/MatchDetails';
 import { connect } from 'react-redux'
+
 import { get_last_and_next_fixtures } from '../../redux/actions/team.action'
 import './home.scss'
-import { useHistory } from 'react-router-dom';
 
-//TODO protect the route
 
-const Home = ({ my_team_id, user_id, get_last_and_next_fixtures }) => {
-    const history = useHistory();
+const Home = ({ my_team_id, get_last_and_next_fixtures }) => {
+
 
     useEffect(() => {
-        if (!user_id)
-            history.push('/auth')
-    }, [user_id, history])
 
-    useEffect(() => {
-        console.log(" use effect in home");
-        get_last_and_next_fixtures(my_team_id)
+        //it may take some time to load the team id from redux
+        if (my_team_id)
+            get_last_and_next_fixtures(my_team_id)
     }, [my_team_id, get_last_and_next_fixtures])
 
     return (

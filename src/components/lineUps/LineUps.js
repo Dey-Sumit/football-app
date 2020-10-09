@@ -3,14 +3,16 @@ import LineUp from '../lineup/LineUp';
 import { connect } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
 import './lineUps.scss'
+import SkeletonCard from '../skeletons/SkeletonCard';
 
 const LineUps = ({ lineups, homeTeam, awayTeam }) => {
 
     const [currentLineUp, setCurrentLineUp] = useState('home')
-    // const homeTeam = lineups[0]?.
+
     console.log(lineups);
-    const home_lineup = lineups[homeTeam?.team_name]
-    const away_lineup = lineups[awayTeam?.team_name]
+    // optional chaining pro :)
+    const home_lineup = lineups?.[homeTeam?.team_name]
+    const away_lineup = lineups?.[awayTeam?.team_name]
     console.log(home_lineup, away_lineup);
     return (
         lineups ?
@@ -34,7 +36,7 @@ const LineUps = ({ lineups, homeTeam, awayTeam }) => {
                 }
 
             </div>
-            : <Skeleton />
+            : <SkeletonCard width='100%' count={11} />
     );
 };
 const mapStateToProps = state => ({

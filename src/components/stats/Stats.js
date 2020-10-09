@@ -2,7 +2,7 @@ import React from 'react';
 import './stats.scss'
 import { connect } from 'react-redux'
 
-import Skeleton from 'react-loading-skeleton';
+import SkeletonCard from '../skeletons/SkeletonCard';
 
 const StatsBar = ({ data: { home, away }, heading }) => {
     home = parseInt(home)
@@ -51,7 +51,7 @@ const Stats = ({ stats }) => {
                 <StatsBar data={stats['Yellow Cards']} heading="Yellow Cards" />
                 <StatsBar data={stats['Corner Kicks']} heading="Corner Kicks" />
 
-            </div> : <Skeleton width={'100%'} height={30} count={6} />
+            </div> : <SkeletonCard width='100%' height={30} count={6} />
     );
 };
 const mapStateToProps = state => (

@@ -5,12 +5,11 @@ import { connect } from 'react-redux'
 import SkeletonCard from '../skeletons/SkeletonCard';
 
 const Fixtures = ({ lastFixtures, nextFixtures }) => {
-    console.log("FIXTURES");
-    console.log(lastFixtures, nextFixtures);
+
     return (
         <div>
             {
-                lastFixtures ? lastFixtures.reverse().map(fixture =>
+                lastFixtures ? [...lastFixtures].reverse().map(fixture =>
                     <Fixture key={fixture.fixture_id} fixture={fixture} last />
                 ) : <SkeletonCard width={`100%`} height={80} count={8} />
             }

@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 
 import TeamsRow from '../../components/teams-row/TeamsRow'
 import MyTeams from '../../components/myTeams/MyTeams'
-
-
 import Search from '../../components/search/Search';
+
 import './chooseTeams.scss'
 import { register } from '../../redux/actions/auth.action'
 import { connect } from 'react-redux'
 
-const ChooseTeam = ({ userCred, my_team_id, register, user_id }) => {
+const ChooseTeam = ({ userCred, my_team_id, register, user_id, loading }) => {
     const history = useHistory()
     const teamsOfSpain = [
         {
@@ -77,17 +76,19 @@ const ChooseTeam = ({ userCred, my_team_id, register, user_id }) => {
 
 
     const handleClick = () => {
+        if (!my_team_id) return;
         register(userCred.email, userCred.password, my_team_id)
     }
     useEffect(() => {
         console.log("eff");
+        //?FIX THIS 
         if (!userCred?.valid) {
             history.push('/auth')
         }
         if (user_id) {
             history.push('/')
         }
-    }, [user_id, history])
+    }, [user_id, history, userCred])
 
 
     return (
@@ -104,7 +105,12 @@ const ChooseTeam = ({ userCred, my_team_id, register, user_id }) => {
                     <Search title="Search Team" />
                 </Col>
             </Row>
-            <button className="nextPage" onClick={handleClick}>{my_team_id ? "Let's Go 🚀" : "Choose your team"}</button>
+            <button className="nextPage" onClick={handleClick}>
+                {/* //TODO check  */}
+                {loading ? <Spinner animation="grow" /> :
+                    my_team_id ? "Let's Go 🚀" : "Choose your team"}
+
+            </button>
         </Container>
 
     );
@@ -113,6 +119,7 @@ const ChooseTeam = ({ userCred, my_team_id, register, user_id }) => {
 const mapStateToProps = (state) => ({
     my_team_id: state.team.my_team_id,
     userCred: state.auth.user_cred,
-    user_id: state.auth.user_id
+    user_id: state.auth.user_id,
+    loading: state.auth.loading
 })
 export default connect(mapStateToProps, { register })(ChooseTeam);

@@ -33,3 +33,12 @@
     }
 
 }
+
+@media(max-width:777px) {
+    .metaData__body {
+        img {
+            width: 100px;
+            height: 100px;
+        }
+    }
+}

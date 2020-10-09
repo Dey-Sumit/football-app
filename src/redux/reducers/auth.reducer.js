@@ -8,12 +8,17 @@ const initialState = {
     loading: false,
     user_cred: null,
     //TODO FIX messages and show alerts
-    messages: []
+    messages: null
 }
 
 export default function (state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
+        case types.FETCH_INFO:
+            return {
+                ...state,
+                loading: true
+            }
         case types.IS_USER_EXIST:
             //TODO set in local storage
             return {
@@ -26,22 +31,21 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 user_id: payload,
-
                 loading: false
             }
 
         case types.REGISTER_FAIL:
         case types.LOGIN_FAIL:
         case types.LOGOUT:
+            console.log(payload);
             localStorage.removeItem(`${APP}-USER-ID`)
             localStorage.removeItem(`${APP}-MYTEAM-ID`)
             return {
                 ...state,
                 user_id: null,
-
                 loading: false,
-                //? FIX THIS
-                // messages: [...payload.messages]
+                // only one msg at a time
+                messages: payload
             }
 
         default:

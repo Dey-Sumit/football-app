@@ -106,3 +106,9 @@
 .search__results {
     display: flex;
 }
+
+@media(max-width:777px) {
+    .form__area {
+        max-width: 95%;
+    }
+}

@@ -30,14 +30,21 @@ const Chart = ({ labels, home_team_data, away_team_data, home_team_name, away_te
             gridLines: {
                 color: 'rgba(255,255,255,0.8)'
             },
+            pointLabels: {
+                fontSize: 16,
+                fontColor: '#fff',
+            }
         },
+
         legend: {
             labels: {
                 // This more specific font property overrides the global property
                 fontColor: '#fff',
                 fontSize: 14
             }
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false
     }
     return (
         <Radar data={data} options={options} />
@@ -47,7 +54,7 @@ const Chart = ({ labels, home_team_data, away_team_data, home_team_name, away_te
 
 const Prediction = ({ fixture_id, get_predictions, predictions }) => {
     useEffect(() => {
-        // get_predictions(fixture_id)
+        get_predictions(fixture_id)
     }, [fixture_id, get_predictions])
 
     var labels = [], home_team_data = [], away_team_data = [], home_team_name, away_team_name;
@@ -69,9 +76,11 @@ const Prediction = ({ fixture_id, get_predictions, predictions }) => {
 
     return (
         predictions ?
-            <Chart labels={labels} home_team_data={home_team_data} away_team_data={away_team_data}
-                home_team_name={home_team_name} away_team_name={away_team_name} />
-            : <SkeletonCard height={400} width={400} />
+            <div style={{ 'height': '45vh' }}>
+                <Chart labels={labels} home_team_data={home_team_data} away_team_data={away_team_data}
+                    home_team_name={home_team_name} away_team_name={away_team_name} />
+            </div>
+            : <SkeletonCard height={400} width={'100%'} />
     );
 };
 const mapStateToProps = state => ({
