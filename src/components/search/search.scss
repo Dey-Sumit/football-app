@@ -107,7 +107,7 @@
     display: flex;
 }
 
-@media(max-width:777px) {
+@media(max-width:$breakpoint-tablet) {
     .form__area {
         max-width: 95%;
     }

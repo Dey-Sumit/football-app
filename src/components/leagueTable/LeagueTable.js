@@ -6,11 +6,11 @@ import { get_domestic_league_table } from '../../redux/actions/team.action'
 import SkeletonCard from '../skeletons/SkeletonCard';
 const LeagueTable = ({ league_id, get_domestic_league_table, domestic_league_table }) => {
     useEffect(() => {
-        // if (league_id)
-        //     get_domestic_league_table(league_id)
+        if (league_id)
+            get_domestic_league_table(league_id)
     }, [league_id, get_domestic_league_table])
 
-    console.log(league_id, domestic_league_table);
+
 
     return (
         <div className="league_table">

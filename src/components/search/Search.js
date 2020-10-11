@@ -1,29 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { FaSearch, FaTimesCircle } from 'react-icons/fa';
-import { api_with_cancel_token } from '../../axios/axios';
 import Team from '../team/Team'
 import './search.scss'
-const Search = ({ title }) => {
+import { connect } from 'react-redux'
+import { get_search_results } from '../../redux/actions/team.action'
+import SkeletonCard from '../skeletons/SkeletonCard'
+
+const Search = ({ title, loading, searched_results, get_search_results }) => {
 
     const [searchTerm, setSearchTerm] = useState('')
-    const [searchedResults, setSearchResults] = useState([])
-    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        const callback = (results) => {
-            setSearchResults(results.teams)
-            setLoading(false)
-        }
         if (searchTerm.length >= 4) {
-            setLoading(true)
-            // const results = api(`teams/search/${searchTerm}`, callback)
-            // setSearchResults(results)
-
-            api_with_cancel_token(`teams/search/${searchTerm}`, callback)
-
-
+            get_search_results(searchTerm)
         }
-    }, [searchTerm])
+    }, [searchTerm, get_search_results])
 
     const search = (e) => {
         setSearchTerm(e.target.value)
@@ -48,12 +39,13 @@ const Search = ({ title }) => {
                 {/* show the results here */}
                 <div className="search__results mt-4">
                     {
-                        searchTerm.length >= 4 && loading &&
-                        <h4>Loading....</h4>
+                        loading ?
+                            <SkeletonCard count={5} width={120} height={120} />
+                            : searched_results?.slice(0, 5).map(team => <Team key={team.team_id} closeSearch={closeSearch} team_id={team.team_id} name={team.name} small />)
                     }
                     {
-                        searchedResults && searchedResults.length > 0 && !loading &&
-                        searchedResults.slice(0, 5).map(team => <Team key={team.team_id} team={team} small />)
+                        !loading && searched_results?.length === 0 ?
+                            <h5>No Team Found; check the team name :)</h5> : null
                     }
                 </div>
             </div>
@@ -61,4 +53,8 @@ const Search = ({ title }) => {
     );
 };
 
-export default Search;
+const mapStateToProps = state => ({
+    loading: state.team.loading,
+    searched_results: state.team.searched_results
+})
+export default connect(mapStateToProps, { get_search_results })(Search);

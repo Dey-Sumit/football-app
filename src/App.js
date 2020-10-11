@@ -36,7 +36,7 @@ const withContainer = () => {
 function App() {
 
   useEffect(() => {
-    console.log("APP use effect");
+
     //! you can also dispatch directly using store without connect
     store.dispatch(load_user());
   }, [])

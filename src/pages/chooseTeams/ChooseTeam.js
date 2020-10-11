@@ -73,18 +73,23 @@ const ChooseTeam = ({ userCred, my_team_id, register, user_id, loading }) => {
             logo: 'https://media.api-sports.io/football/teams/194.png'
         },
     ]
+    userCred = JSON.parse(userCred)
+    console.log(userCred);
 
 
     const handleClick = () => {
         if (!my_team_id) return;
-        register(userCred.email, userCred.password, my_team_id)
+        // console.log(userCred);
+        register(userCred.email, userCred.password, userCred.name, my_team_id,)
     }
     useEffect(() => {
-        console.log("eff");
         //?FIX THIS 
-        if (!userCred?.valid) {
+        if (!userCred) {
             history.push('/auth')
         }
+        // console.log(userCred);
+        // userCred = JSON.parse(userCred)
+        // console.log(userCred);
         if (user_id) {
             history.push('/')
         }
@@ -106,7 +111,6 @@ const ChooseTeam = ({ userCred, my_team_id, register, user_id, loading }) => {
                 </Col>
             </Row>
             <button className="nextPage" onClick={handleClick}>
-                {/* //TODO check  */}
                 {loading ? <Spinner animation="grow" /> :
                     my_team_id ? "Let's Go 🚀" : "Choose your team"}
 

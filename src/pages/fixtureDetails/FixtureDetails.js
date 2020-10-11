@@ -14,30 +14,29 @@ import SkeletonCard from '../../components/skeletons/SkeletonCard';
 // 605107
 
 const FixtureDetails = ({ get_fixture_details, fixture_details }) => {
+    console.log("fixture details");
     const { fixture_id } = useParams()
     const [activeComponent, setActiveComponent] = useState('lineups')
 
     useEffect(() => {
         get_fixture_details(fixture_id);
-        console.log("fixture details");
     }, [fixture_id, get_fixture_details])
 
     return (
-        <div className="fixture_details col-md-8">
-            {/* //TODO make it a component */}
+        <div className="fixtureDetails col-md-8">
             {fixture_details ?
                 <FixtureMetaData fixture_details={fixture_details} />
                 : <SkeletonCard width='100%' height={180} />}
 
             {/* nested navbar */}
-            <div className="fixture__navbar">
-                <div className={activeComponent === 'h2h' ? 'fixture__nav active' : 'fixture__nav'} onClick={() => setActiveComponent('h2h')}>h2h</div>
+            <div className="fixtureDetails__navbar">
+                <div className={activeComponent === 'h2h' ? 'fixtureDetails__nav active' : 'fixtureDetails__nav'} onClick={() => setActiveComponent('h2h')}>h2h</div>
                 {
                     (fixture_details?.statusShort === 'NS' || fixture_details?.statusShort === 'TBD') ?
-                        <div className={activeComponent === 'prediction' ? 'fixture__nav active' : 'fixture__nav'} onClick={() => setActiveComponent('prediction')}>Prediction</div> :
+                        <div className={activeComponent === 'prediction' ? 'fixtureDetails__nav active' : 'fixtureDetails__nav'} onClick={() => setActiveComponent('prediction')}>Prediction</div> :
 
-                        <>  <div className={activeComponent === 'stats' ? 'fixture__nav active' : 'fixture__nav'} onClick={() => setActiveComponent('stats')}>Stats</div>
-                            <div className={activeComponent === 'lineups' ? 'fixture__nav active' : 'fixture__nav'} onClick={() => setActiveComponent('lineups')}>Lineups</div>
+                        <>  <div className={activeComponent === 'stats' ? 'fixtureDetails__nav active' : 'fixtureDetails__nav'} onClick={() => setActiveComponent('stats')}>Stats</div>
+                            <div className={activeComponent === 'lineups' ? 'fixtureDetails__nav active' : 'fixtureDetails__nav'} onClick={() => setActiveComponent('lineups')}>Lineups</div>
                         </>
                 }
 

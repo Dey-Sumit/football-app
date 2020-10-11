@@ -36,7 +36,7 @@
 
 }
 
-@media(max-width:799px) {
+@media(max-width:$breakpoint-tablet) {
     .playerCard {
         min-width: 160px;
 

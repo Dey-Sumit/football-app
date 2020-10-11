@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import LineUp from '../lineup/LineUp';
 import { connect } from 'react-redux';
-import Skeleton from 'react-loading-skeleton';
 import './lineUps.scss'
 import SkeletonCard from '../skeletons/SkeletonCard';
 
@@ -9,11 +8,9 @@ const LineUps = ({ lineups, homeTeam, awayTeam }) => {
 
     const [currentLineUp, setCurrentLineUp] = useState('home')
 
-    console.log(lineups);
     // optional chaining pro :)
     const home_lineup = lineups?.[homeTeam?.team_name]
     const away_lineup = lineups?.[awayTeam?.team_name]
-    console.log(home_lineup, away_lineup);
     return (
         lineups ?
             <div className="lineups">
@@ -31,8 +28,8 @@ const LineUps = ({ lineups, homeTeam, awayTeam }) => {
 
                 {
                     currentLineUp === 'home' ?
-                        <LineUp lineup={home_lineup} />
-                        : <LineUp lineup={away_lineup} />
+                        <LineUp lineup={home_lineup} team_name={homeTeam?.team_name} />
+                        : <LineUp lineup={away_lineup} team_name={awayTeam?.team_name} />
                 }
 
             </div>

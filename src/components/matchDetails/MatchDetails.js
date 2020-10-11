@@ -10,7 +10,7 @@ import FixtureMetaData from '../fixtureMetaData/FixtureMetaData';
 
 const MatchDetails = ({ fixture_id, fixture_details, get_fixture_details }) => {
     useEffect(() => {
-        console.log(fixture_id);
+
         if (fixture_id)
             get_fixture_details(fixture_id)
     }, [fixture_id, get_fixture_details])

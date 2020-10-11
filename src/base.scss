@@ -14,5 +14,7 @@ inset -7px -7px 14px #292d2c;
 
 $neumorphic_bg:linear-gradient(145deg, #202322, #1b1e1d);
 $linear_blue: linear-gradient(135deg, #B589FE, #6457E3);
+$linear_red: linear-gradient(135deg, #13B6B2, #05D471);
 
-$linear_red: linear-gradient(135deg, #13B6B2, #05D471)
+/* Using SCSS variables to store breakpoints */
+$breakpoint-tablet: 777px;

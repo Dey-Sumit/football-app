@@ -5,8 +5,6 @@ import './navbar.scss'
 import { connect } from 'react-redux'
 
 const Navbar = ({ my_team_id }) => {
-    //? FIX THIS : do this in reducers
-    // myTeam = JSON.parse(myTeam);
 
     return (
         <div className="navbar">
@@ -14,7 +12,6 @@ const Navbar = ({ my_team_id }) => {
             <Link to="/others">
                 <FaChartPie className="navbar__icon" />
             </Link>
-            {/* //TODO if the route is already home;do something to save api calls */}
             <Link to="/">
                 <img src={`https://media.api-sports.io/football/teams/${my_team_id}.png`} className="navbar__image" alt="" />
             </Link>

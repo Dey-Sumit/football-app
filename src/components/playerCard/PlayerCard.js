@@ -1,7 +1,6 @@
 import React from 'react';
 import './playerCard.scss'
 const PlayerCard = ({ player: { player_id, player_name, team_id, goals } }) => {
-    console.log({ 'backgroundImage': `https://media.api-sports.io/football/teams/${team_id}.png` });
     return (
         <div className="playerCard" style={{ 'backgroundImage': `url('https://media.api-sports.io/football/teams/${team_id}.png')` }}>
             <div className="playerCard__image">

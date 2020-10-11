@@ -1,11 +1,12 @@
 import React from 'react';
 import './lineUp.scss'
-const LineUp = ({ lineup: { coach, formation, startXI, substitutes } }) => {
+const LineUp = ({ lineup: { coach, formation, startXI, substitutes }, team_name }) => {
 
     return (
         <div className="lineup">
 
-            <span className="lineup__header">Manger : {coach} {' '}{' '}{' '} Formation : {formation}</span>
+            <div className="lineup__header">
+                <span>{team_name}</span>{" "}  <span>Manager : {coach}</span>{" "} <span> Formation : {formation}</span></div>
             <div className="lineup__wrapper">
                 <div className="starts">
                     {

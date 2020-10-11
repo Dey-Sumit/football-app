@@ -20,6 +20,7 @@
 
         p {
             font-size: 1.1rem;
+            padding: 0.5rem;
 
             span {
                 color: #fff;
@@ -39,6 +40,7 @@
         p {
             border-bottom: 2px solid #4a534a;
             line-height: 0.1em;
+            margin: 1rem 0;
 
             span {
                 background: #1e2120;
@@ -84,32 +86,41 @@
     }
 }
 
-//TODO @media (max-width:777px) scss varaibles
-@media (max-width:777px) {
+@media(max-width:1096px) {
+    .auth {
+        padding: 0 6rem;
+    }
+
+    &__container {
+        padding: 5rem 0;
+    }
+}
+
+@media (max-width:$breakpoint-tablet) {
     .auth {
         padding: 0;
-    }
 
-    .auth__container {
-        padding: 2rem;
-        height: 100vh;
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .auth__left {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-
-        img {
-            display: none;
+        &__container {
+            padding: 2rem;
+            height: 100vh;
+            border-radius: 0;
+            box-shadow: none;
         }
-    }
 
-    .auth__right {
-        justify-content: space-between;
-        width: 100%;
-        padding: 0;
+        &__left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            img {
+                display: none;
+            }
+        }
+
+        &__right {
+            justify-content: space-between;
+            width: 100%;
+            padding: 0;
+        }
     }
 }

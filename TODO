@@ -1,36 +1,11 @@
 
 
 
-// select time zone from user in intro page korbo na
-ADD speech recognition api in search
+// select time zone from user in intro page korbo na ---rejected
+ADD speech recognition api in search ---rejected
+// uninstall unused packages (toastify)
+react bootstrap or bootstrap css use only one
+button loading spinner i important
 
-// FIX this
-match Details and Fixture Details page(page) has same redundent styles
+Appt. component and page name **
 
-
-// Toastify styles 
-// use react context fot notification
-
-Appt. component and page name
-
-// useLayoutEffect
-
-
-import axios from 'axios'
-
-const setAuthToken = token => {
-    if (token)
-        axios.defaults.headers.common['x-auth-token'] = token
-    else
-        delete axios.defaults.headers.common['x-auth-token'];
-}
-
-export default setAuthToken;
-
-// improve axios
-
-// fix height vertical scroll league table
-
-// skelton loading
-
-// handle exception

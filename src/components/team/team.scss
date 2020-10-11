@@ -13,7 +13,12 @@
     align-items: center;
     position: relative;
     box-shadow: $neumorphic_shadow;
+    text-align: center;
 
+    &__name {
+        font-size: 1rem;
+        margin-top: 0.6rem;
+    }
 
     &__logo {
         width: 90px;

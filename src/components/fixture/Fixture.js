@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './Fixture.scss'
 
-const Fixture = ({ fixture: { fixture_id, league, homeTeam, awayTeam, event_date }, last }) => {
+const Fixture = ({ fixture: { fixture_id, league, homeTeam, awayTeam, event_date, score }, last }) => {
 
     var fixture_class = "fixture";
     if (last)
@@ -18,8 +18,10 @@ const Fixture = ({ fixture: { fixture_id, league, homeTeam, awayTeam, event_date
                             vs
                 <img src={awayTeam.logo} alt="away" className="team__logo-small" />
             </div>
-
-            <p>{new Date(event_date).toDateString()}</p>
+            <div>
+                <p>{new Date(event_date).toDateString()}</p>
+                <p>{score && score?.fulltime ? `score : ${score.fulltime}` : 'upcoming'}</p>
+            </div>
         </div >
     );
 };

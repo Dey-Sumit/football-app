@@ -9,6 +9,37 @@ const request = axios.create({
     headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' }
 })
 
+// with cancel token
+let cancelToken;
+
+export const get_search_results = (term) => async dispatch => {
+    dispatch({
+        type: types.FETCH_INFO_TEAM
+    })
+
+    try {
+        if (cancelToken !== undefined)
+            cancelToken.cancel("Operation canceled due to new request.");
+
+        //Save the cancel token for the current request
+        cancelToken = axios.CancelToken.source();
+
+        //create an axios instance  
+        const request_with_cancel_token = axios.create({
+            method: 'get',
+            baseURL: URL,
+            headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' },
+            cancelToken: cancelToken.token //Pass the cancel token to the current request
+        })
+        const res = await request_with_cancel_token(`teams/search/${term}`)
+        dispatch({
+            type: types.SET_SEARCHED_RESULTS,
+            payload: res.data.api.teams
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
 //TODO dispatch error for errors
 
 export const get_last_and_next_fixtures = (team_id) => async dispatch => {
@@ -23,13 +54,13 @@ export const get_last_and_next_fixtures = (team_id) => async dispatch => {
 
         // ADD_TO_LAST_AND_NEXT_FIXTURES
         dispatch({
-            type: types.ADD_TO_LAST_AND_NEXT_FIXTURES,
+            type: types.SET_LAST_AND_NEXT_FIXTURES,
             payload: { last_fixtures, next_fixtures }
         })
 
         // ADD_TO_CURRENT_OR_LAST_FIXTURE
         dispatch({
-            type: types.ADD_TO_CURRENT_OR_LAST_FIXTURE_ID,
+            type: types.SET_CURRENT_OR_LAST_FIXTURE_ID,
             payload: last_fixtures[0].fixture_id
         })
 
@@ -39,12 +70,12 @@ export const get_last_and_next_fixtures = (team_id) => async dispatch => {
 }
 
 export const get_fixture_details = (fixture_id) => async dispatch => {
-    console.log("details called");
+
     try {
         const res = await request(`fixtures/id/${fixture_id}`);
 
         dispatch({
-            type: types.ADD_TO_FIXTURE_DETAILS,
+            type: types.SET_FIXTURE_DETAILS,
             payload: res.data.api.fixtures[0]
         })
     } catch (error) {
@@ -56,9 +87,9 @@ export const get_head_to_head = (team1, team2) => async dispatch => {
 
     try {
         const res = await request(`fixtures/h2h/${team1}/${team2}`)
-        console.log(res);
+
         dispatch({
-            type: types.ADD_TO_HEAD_TO_HEAD,
+            type: types.SET_HEAD_TO_HEAD,
             payload: res.data.api.fixtures
         })
     } catch (error) {
@@ -70,9 +101,9 @@ export const get_predictions = (fixture_id) => async dispatch => {
 
     try {
         const res = await request(`predictions/${fixture_id}`,)
-        console.log(res);
+
         dispatch({
-            type: types.ADD_PREDICTION,
+            type: types.SET_PREDICTION,
             payload: res.data.api.predictions[0]
         })
     } catch (error) {
@@ -106,7 +137,7 @@ export const get_domestic_league_id = (team_id) => async dispatch => {
 export const get_domestic_league_table = (league_id) => async dispatch => {
     try {
         const res = await request(`/leagueTable/${league_id}`);
-        console.log(res);
+
         dispatch(
             {
                 type: types.SET_DOMESTIC_LEAGUE_TABLE,

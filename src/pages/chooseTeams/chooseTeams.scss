@@ -24,7 +24,7 @@
     }
 }
 
-@media(max-width:777px) {
+@media(max-width:$breakpoint-tablet) {
     .nextPage {
         width: 95%;
     }

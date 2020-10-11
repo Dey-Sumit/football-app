@@ -9,7 +9,7 @@ import soccer from '../../assets/soccer.svg'
 
 function AuthPage({ user_id, messages }) {
     const history = useHistory();
-    console.log("auth page");
+
     useEffect(() => {
         if (user_id) {
             history.push('/')

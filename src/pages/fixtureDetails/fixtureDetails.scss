@@ -1,16 +1,14 @@
 @import '../../base.scss';
 
 
-.fixture_details {
+.fixtureDetails {
     width: 100%;
     height: 100%;
     padding: 1.5rem;
     box-shadow: $neumorphic_shadow;
     border-radius: 15px;
     margin: 0 auto;
-}
 
-.fixture {
     &__navbar {
         margin: 1rem 0;
         display: flex;
@@ -19,8 +17,6 @@
         background: #343a40;
         padding: 0.5rem;
         border-radius: 5px;
-
-
     }
 
     &__nav {
@@ -33,8 +29,8 @@
 
 }
 
-@media(max-width:777px) {
-    .fixture_details {
+@media(max-width:$breakpoint-tablet) {
+    .fixtureDetails {
         padding: 1rem;
         box-shadow: none;
     }

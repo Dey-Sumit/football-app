@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-// import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
-// import { toast } from 'react-toastify';
-// import Notification from '../../notification/Notification';
+
 import { connect } from 'react-redux'
 import { login } from '../../../redux/actions/auth.action'
-import { auth } from '../../../firebase/firebase';
 import { Spinner } from 'react-bootstrap';
 
 const Login = ({ login, loading, user_id }) => {
@@ -27,8 +24,8 @@ const Login = ({ login, loading, user_id }) => {
     return (
         <>
             <form>
-                <input type='email' placeholder="Enter email" required value={email} onChange={e => setEmail(e.target.value)} />
-                <input type='password' placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} />
+                <input type='email' placeholder="Enter email" required value={email} onChange={e => setEmail(e.target.value)} autoComplete="on" />
+                <input type='password' placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} autoComplete="on" />
                 <button className="form__button" type='submit' onClick={handleLogIn}>
                     {loading ? <Spinner animation="grow" /> : "Sign In"}
                 </button>

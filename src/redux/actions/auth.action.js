@@ -1,15 +1,13 @@
 import { types } from '../types'
-
+import store from '../store';
 // REGISTER USER
 
 const { auth, db } = require("../../firebase/firebase");
 
 const register_user = async (email, password) => {
-    console.log("register_user");
     try {
         const res = await auth.createUserWithEmailAndPassword(email, password)
-        console.log("RETURNED AUTH ", res);
-        console.log("ID ", res.user.uid);
+
         return res.user.uid;
     } catch (error) {
         console.log(error)
@@ -18,34 +16,26 @@ const register_user = async (email, password) => {
 
 }
 
-const create_or_update_user_in_db = (userId, team_id) => {
+const create_or_update_user_in_db = async (userId, team_id, name) => {
+    try {
+        db
+            .collection('teams')
+            .doc(userId)
+            .set(
+                {
+                    team_id: team_id,
+                    user_name: name
+                }
+            )
+    } catch (error) {
+        console.error(error)
 
-    db
-        .collection('teams')
-        .doc(userId)
-        .set(
-            {
-                team_id: team_id,
-            }
-        )
-        .then(() => {
-            //returns nothing :(
-
-        })
-        .catch(
-            error => {
-                console.error(error)
-                // toast.error(<Notification message={error.message} />,
-                //     { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 })
-                // setLoading(false);
-
-            }
-        )
+    }
 }
 
-export const register = (email, password, team_id) => async (dispatch) => {
+export const register = (email, password, name, team_id) => async (dispatch) => {
     // set loading true
-    dispatch({ type: types.FETCH_INFO })
+    dispatch({ type: types.FETCH_INFO_USER })
 
     try {
         const userId = await register_user(email, password)
@@ -53,11 +43,8 @@ export const register = (email, password, team_id) => async (dispatch) => {
             type: types.REGISTER_SUCCESS,
             payload: userId
         })
-        console.log("Reg done ", userId);
 
-        await create_or_update_user_in_db(userId, team_id)
-        //? 'await' has no effect on the type of this expression
-        console.log("FINALLY DONE");
+        await create_or_update_user_in_db(userId, team_id, name)
     } catch (error) {
         console.log(error.message);
         dispatch({
@@ -69,7 +56,7 @@ export const register = (email, password, team_id) => async (dispatch) => {
 
 export const login = (email, password) => async dispatch => {
     // set loading true
-    dispatch({ type: types.FETCH_INFO })
+    dispatch({ type: types.FETCH_INFO_USER })
     auth
         .signInWithEmailAndPassword(email, password)
         .then(auth => {
@@ -77,8 +64,10 @@ export const login = (email, password) => async dispatch => {
                 type: types.LOGIN_SUCCESS,
                 payload: auth.user.uid,
             });
-            //TODO get the team details form db
+            // this will also get the team details form db
+
             dispatch(load_user())
+
         })
         .catch(error => {
             dispatch({
@@ -93,84 +82,110 @@ export const log_out = () => async dispatch => {
     try {
         await auth.signOut();
         dispatch({
+            type: types.RESET_TEAM_STATE
+        })
+
+        dispatch({
             type: types.LOGOUT
         })
+
     } catch (error) {
         console.log(error);
     }
 
 }
 
-export const check_if_user_exist = (email, password) => async dispatch => {
+export const check_if_user_exist = (data) => async dispatch => {
+    const { name, email, password } = data;
+    dispatch({
+        type: types.FETCH_INFO_USER
+    })
 
-    // set loading true
-    dispatch({ type: types.FETCH_INFO })
+
+    dispatch({ type: types.FETCH_INFO_USER })
 
     // check if the email is already exists
-    auth.fetchSignInMethodsForEmail(email).then(
-        data => {
-            if (data.length > 0) {
-                //! EMAIL IS TAKEN
-
-                dispatch({
-                    type: types.IS_USER_EXIST,
-                    payload: { valid: false }
-                })
-
-
-            }
-            else {
-                //! EMAIL IS NOT TAKEN
-                dispatch({
-                    type: types.IS_USER_EXIST,
-                    payload: { email, password, valid: true }
-                })
-
-            }
-
-        }
-    )
-        .catch(error => {
-            console.log(error.message);
+    try {
+        const data = await auth.fetchSignInMethodsForEmail(email)
+        if (data.length > 0) {
+            //! EMAIL IS TAKEN
             dispatch({
-                types: types.REGISTER_FAIL,
-                payload: error.message
+                type: types.REGISTER_FAIL,
+                payload: "Email is taken :( Try another one"
             })
-
-        })
-}
-
-export const load_user = () => (dispatch) => {
-    // using local storage
-
-    console.log("load user");
-
-    //using firebase
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            // get the team from db
-            db.collection('teams')
-                .doc(user.uid)
-                .get()
-                .then(
-                    doc => {
-
-                        dispatch({
-                            type: types.ADD_TO_MY_TEAM,
-                            payload: doc.data().team_id
-                        })
-
-                        dispatch({
-                            type: types.LOGIN_SUCCESS,
-                            payload: user.uid,
-                        })
-                        // console.log("User logged in ", user.email);
-                    }
-                )
-                .catch(error => console.log(error.message))
         }
         else {
-            console.log("not logged in");
+            console.log("email not taken");
+            //! EMAIL IS NOT TAKEN
+            dispatch({
+                type: types.SET_USER_CRED,
+                payload: { name, email, password }
+            })
         }
-    })
+    }
+    catch (error) {
+
+        console.log(error.message);
+        dispatch({
+            types: types.REGISTER_FAIL,
+            payload: error.message
+        })
+    }
+}
+
+export const load_user = () => async (dispatch) => {
+    // using local storage
+
+    console.log("load user---------");
+
+    //using firebase
+    try {
+        auth.onAuthStateChanged(async user => {
+            if (user) {
+                // get the team from db
+                const doc = await db.collection('teams').doc(user.uid).get()
+                dispatch({
+                    type: types.SET_MY_TEAM,
+                    payload: doc.data().team_id
+                })
+
+                dispatch({
+                    type: types.LOGIN_SUCCESS,
+                    payload: user.uid,
+                })
+
+            } else {
+                //NOT LOGGED IN
+                // console.log("not logged in");
+            }
+        }
+        )
+    }
+    catch (error) {
+        console.log(error.message)
+    }
+
+}
+
+
+
+
+export const save_changes = () => async dispatch => {
+    const { user_id } = store.getState().auth
+    const { my_team_id } = store.getState().team
+    try {
+        await db
+            .collection('teams')
+            .doc(user_id)
+            .set(
+                {
+                    team_id: my_team_id,
+                }
+            )
+        return true
+
+    } catch (error) {
+        console.error(error)
+    }
+
 }
