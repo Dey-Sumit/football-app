@@ -1,22 +1,12 @@
 import { types } from '../types'
 import store from '../store';
+import firebase from 'firebase'
 // REGISTER USER
 
 const { auth, db } = require("../../firebase/firebase");
 
-const register_user = async (email, password) => {
-    try {
-        const res = await auth.createUserWithEmailAndPassword(email, password)
 
-        return res.user.uid;
-    } catch (error) {
-        console.log(error)
-    }
-
-
-}
-
-const create_or_update_user_in_db = async (userId, team_id, name) => {
+export const create_or_update_user_in_db = (userId, team_id) => async dispatch => {
     try {
         db
             .collection('teams')
@@ -24,27 +14,29 @@ const create_or_update_user_in_db = async (userId, team_id, name) => {
             .set(
                 {
                     team_id: team_id,
-                    user_name: name
                 }
             )
+        dispatch({
+            type: types.HAS_PROFILE,
+            payload: true
+        })
     } catch (error) {
         console.error(error)
-
     }
 }
 
-export const register = (email, password, name, team_id) => async (dispatch) => {
+export const register_user = ({ email, password }) => async (dispatch) => {
     // set loading true
+    console.log("reg user");
     dispatch({ type: types.FETCH_INFO_USER })
 
     try {
-        const userId = await register_user(email, password)
-        await dispatch({
+        const res = await auth.createUserWithEmailAndPassword(email, password)
+        console.log(res);
+        dispatch({
             type: types.REGISTER_SUCCESS,
-            payload: userId
+            payload: res.user.uid
         })
-
-        await create_or_update_user_in_db(userId, team_id, name)
     } catch (error) {
         console.log(error.message);
         dispatch({
@@ -55,6 +47,7 @@ export const register = (email, password, name, team_id) => async (dispatch) => 
 }
 
 export const login = (email, password) => async dispatch => {
+    console.log("login creator");
     // set loading true
     dispatch({ type: types.FETCH_INFO_USER })
     auth
@@ -95,59 +88,66 @@ export const log_out = () => async dispatch => {
 
 }
 
-export const check_if_user_exist = (data) => async dispatch => {
-    const { name, email, password } = data;
+// export const check_if_user_exist = (data) => async dispatch => {
+//     const { name, email, password } = data;
+//     dispatch({
+//         type: types.FETCH_INFO_USER
+//     })
+
+
+//     dispatch({ type: types.FETCH_INFO_USER })
+
+//     // check if the email is already exists
+//     try {
+//         const data = await auth.fetchSignInMethodsForEmail(email)
+//         if (data.length > 0) {
+//             //! EMAIL IS TAKEN
+//             dispatch({
+//                 type: types.REGISTER_FAIL,
+//                 payload: "Email is taken :( Try another one"
+//             })
+//         }
+//         else {
+//             console.log("email not taken");
+//             //! EMAIL IS NOT TAKEN
+//             dispatch({
+//                 type: types.SET_USER_CRED,
+//                 payload: { name, email, password }
+//             })
+//         }
+//     }
+//     catch (error) {
+
+//         console.log(error.message);
+//         dispatch({
+//             types: types.REGISTER_FAIL,
+//             payload: error.message
+//         })
+//     }
+// }
+
+export const load_user = () => (dispatch) => {
+    // using local storage
     dispatch({
         type: types.FETCH_INFO_USER
     })
-
-
-    dispatch({ type: types.FETCH_INFO_USER })
-
-    // check if the email is already exists
-    try {
-        const data = await auth.fetchSignInMethodsForEmail(email)
-        if (data.length > 0) {
-            //! EMAIL IS TAKEN
-            dispatch({
-                type: types.REGISTER_FAIL,
-                payload: "Email is taken :( Try another one"
-            })
-        }
-        else {
-            console.log("email not taken");
-            //! EMAIL IS NOT TAKEN
-            dispatch({
-                type: types.SET_USER_CRED,
-                payload: { name, email, password }
-            })
-        }
-    }
-    catch (error) {
-
-        console.log(error.message);
-        dispatch({
-            types: types.REGISTER_FAIL,
-            payload: error.message
-        })
-    }
-}
-
-export const load_user = () => async (dispatch) => {
-    // using local storage
-
     console.log("load user---------");
 
     //using firebase
     try {
         auth.onAuthStateChanged(async user => {
             if (user) {
-                // get the team from db
                 const doc = await db.collection('teams').doc(user.uid).get()
-                dispatch({
-                    type: types.SET_MY_TEAM,
-                    payload: doc.data().team_id
-                })
+                if (doc.exists) {
+                    dispatch({
+                        type: types.SET_MY_TEAM,
+                        payload: doc.data().team_id
+                    })
+                    dispatch({
+                        type: types.HAS_PROFILE,
+                        payload: true
+                    })
+                }
 
                 dispatch({
                     type: types.LOGIN_SUCCESS,
@@ -155,8 +155,9 @@ export const load_user = () => async (dispatch) => {
                 })
 
             } else {
-                //NOT LOGGED IN
-                // console.log("not logged in");
+                dispatch({
+                    type: types.LOGIN_FAIL,
+                })
             }
         }
         )
@@ -167,8 +168,22 @@ export const load_user = () => async (dispatch) => {
 
 }
 
+export const sign_in_with_google = () => async dispatch => {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).then(function (result) {
 
+        var user = result.user;
+        console.log(user.uid);
 
+        // onAuthStateChanged will automatically detects login
+    }).catch(function (error) {
+
+        var errorMessage = error.message;
+
+        console.log(errorMessage);
+        // ...
+    });
+}
 
 export const save_changes = () => async dispatch => {
     const { user_id } = store.getState().auth

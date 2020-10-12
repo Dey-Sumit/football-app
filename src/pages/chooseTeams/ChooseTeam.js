@@ -7,10 +7,11 @@ import MyTeams from '../../components/myTeams/MyTeams'
 import Search from '../../components/search/Search';
 
 import './chooseTeams.scss'
-import { register } from '../../redux/actions/auth.action'
+import { create_or_update_user_in_db } from '../../redux/actions/auth.action'
 import { connect } from 'react-redux'
 
-const ChooseTeam = ({ userCred, my_team_id, register, user_id, loading }) => {
+const ChooseTeam = ({ has_profile, my_team_id, create_or_update_user_in_db, user_id, loading }) => {
+    console.log("choose team");
     const history = useHistory()
     const teamsOfSpain = [
         {
@@ -73,27 +74,18 @@ const ChooseTeam = ({ userCred, my_team_id, register, user_id, loading }) => {
             logo: 'https://media.api-sports.io/football/teams/194.png'
         },
     ]
-    userCred = JSON.parse(userCred)
-    console.log(userCred);
-
 
     const handleClick = () => {
         if (!my_team_id) return;
-        // console.log(userCred);
-        register(userCred.email, userCred.password, userCred.name, my_team_id,)
+        create_or_update_user_in_db(user_id, my_team_id)
     }
     useEffect(() => {
-        //?FIX THIS 
-        if (!userCred) {
-            history.push('/auth')
-        }
-        // console.log(userCred);
-        // userCred = JSON.parse(userCred)
-        // console.log(userCred);
-        if (user_id) {
+        if (has_profile) {
+            console.log("has profile");
             history.push('/')
         }
-    }, [user_id, history, userCred])
+
+    }, [has_profile, history])
 
 
     return (
@@ -113,7 +105,6 @@ const ChooseTeam = ({ userCred, my_team_id, register, user_id, loading }) => {
             <button className="nextPage" onClick={handleClick}>
                 {loading ? <Spinner animation="grow" /> :
                     my_team_id ? "Let's Go 🚀" : "Choose your team"}
-
             </button>
         </Container>
 
@@ -122,8 +113,8 @@ const ChooseTeam = ({ userCred, my_team_id, register, user_id, loading }) => {
 
 const mapStateToProps = (state) => ({
     my_team_id: state.team.my_team_id,
-    userCred: state.auth.user_cred,
+    has_profile: state.auth.has_profile,
     user_id: state.auth.user_id,
     loading: state.auth.loading
 })
-export default connect(mapStateToProps, { register })(ChooseTeam);
+export default connect(mapStateToProps, { create_or_update_user_in_db })(ChooseTeam);

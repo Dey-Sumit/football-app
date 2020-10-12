@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Notification from '../notification/Notification'
 
@@ -11,7 +10,7 @@ import { log_out, save_changes } from '../../redux/actions/auth.action'
 import { get_api_status } from '../../redux/actions/team.action'
 
 const Settings = ({ log_out, my_team_id, get_api_status, api_calls, save_changes }) => {
-    const history = useHistory()
+
     const [email, setEmail] = useState(null);
 
     useEffect(() => {
@@ -28,7 +27,6 @@ const Settings = ({ log_out, my_team_id, get_api_status, api_calls, save_changes
 
     const handleLogOut = () => {
         log_out();
-        history.push('/auth')
     }
     const handleSaveChanges = async () => {
         const res = await save_changes();

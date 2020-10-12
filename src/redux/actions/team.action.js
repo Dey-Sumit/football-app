@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { types } from '../types'
-
+console.log(process.env.REACT_APP_FOOTBALL_API_KEY);
 const URL = 'https://v2.api-football.com/'
 const SEASON = '2020'
 const request = axios.create({
     method: 'get',
     baseURL: URL,
-    headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' }
+    headers: { 'X-RapidAPI-Key': process.env.REACT_APP_FOOTBALL_API_KEY }
 })
 
 // with cancel token
@@ -28,7 +28,7 @@ export const get_search_results = (term) => async dispatch => {
         const request_with_cancel_token = axios.create({
             method: 'get',
             baseURL: URL,
-            headers: { 'X-RapidAPI-Key': '980182d5a3626fcf8e91ef098d79aa35' },
+            headers: { 'X-RapidAPI-Key': process.env.REACT_APP_FOOTBALL_API_KEY },
             cancelToken: cancelToken.token //Pass the cancel token to the current request
         })
         const res = await request_with_cancel_token(`teams/search/${term}`)

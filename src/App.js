@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom'
 import { toast } from 'react-toastify';
 
@@ -16,7 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 
 toast.configure()
-
+store.dispatch(load_user());
 const withContainer = () => {
   return (
     <div>
@@ -35,11 +35,10 @@ const withContainer = () => {
 
 function App() {
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   //! you can also dispatch directly using store without connect
 
-    //! you can also dispatch directly using store without connect
-    store.dispatch(load_user());
-  }, [])
+  // }, [])
 
   return (
     <Switch>

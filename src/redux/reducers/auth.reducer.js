@@ -5,7 +5,7 @@ const APP = "FOOTBALL_APP"
 const initialState = {
     user_id: localStorage.getItem(`${APP}-USER-ID`),
     loading: false,
-    user_cred: localStorage.getItem(`${APP}-USER-CRED`),
+    has_profile: false,
     messages: null
 }
 
@@ -17,25 +17,21 @@ export default function (state = initialState, action) {
                 ...state,
                 loading: true
             }
-        case types.SET_USER_CRED:
-            localStorage.setItem(`${APP}-USER-CRED`, JSON.stringify(payload))
+        case types.HAS_PROFILE:
             return {
                 ...state,
-                user_cred: JSON.stringify(payload),
+                has_profile: payload,
                 loading: false
             }
         case types.REGISTER_SUCCESS:
         case types.LOGIN_SUCCESS:
+
             localStorage.setItem(`${APP}-USER-ID`, payload)
-            // remove user cred from redux and local storage
-            localStorage.removeItem(`${APP}-USER-CRED`)
 
             return {
                 ...state,
                 user_id: payload,
-                user_cred: null,
                 loading: false,
-
             }
 
         case types.REGISTER_FAIL:
@@ -48,7 +44,7 @@ export default function (state = initialState, action) {
                 ...state,
                 user_id: null,
                 loading: false,
-                user_cred: null,
+                has_profile: false,
                 // only one msg at a time
                 messages: payload
             }

@@ -11,9 +11,10 @@ function AuthPage({ user_id, messages }) {
     const history = useHistory();
 
     useEffect(() => {
-        if (user_id) {
-            history.push('/')
-        }
+        // if (user_id) {
+        //     console.log("user_id auth page");
+        //     history.push('/')
+        // }
     }, [user_id, history])
 
     const [isLogin, setIsLogin] = useState(true)
