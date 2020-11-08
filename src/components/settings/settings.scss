@@ -1,75 +1,42 @@
 @import '../../base.scss';
 
 .settings {
-    display: flex;
-    padding: 1rem;
     color: #fff;
-    flex-direction: column;
     height: 90vh;
     width: 60%;
-    margin: 0 auto;
 
     img {
-        margin: 0 auto;
         width: 80px;
         height: 80px;
     }
 
-    p,
-    h4 {
-        margin: none;
-    }
-
     &__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        // margin-bottom: 2rem;
         flex: 0.3;
     }
 
     &__body {
-        // padding: 3rem;
-        font-weight: 500;
-        font-size: 1.2rem;
-        display: flex;
-        flex-direction: column;
+        font-size: 1.4rem;
         flex: 0.7;
-        justify-content: space-evenly;
 
-        &-option {
-            font-size: 1.5rem;
-            display: flex;
+        button {
+            // in base.css
+            // background: none;
+            // border: none;
+            // outline: none;
+            // box-shadow: $shadow;
+            // border-radius: 2px;
+            // color: var(--green);
+            // padding: 0.5rem 1rem;
+            // margin: 0.5rem 1rem;
 
-            span {
-                margin-left: 1rem;
+            &.logout {
                 color: red;
             }
         }
 
-        &-buttons {
-            button {
-
-                background: none;
-                border: none;
-                outline: none;
-                box-shadow: 7px 7px 14px #131514, -7px -7px 14px #292d2c;
-                padding: 0.5rem 1rem;
-                margin: 0.5rem 1rem;
-                border-radius: 2px;
-                color: var(--green);
-
-
-                &.logout {
-                    color: red;
-                }
-            }
-
-        }
     }
-
-
 }
+
 
 @media (max-width:$breakpoint-tablet) {
     .settings {

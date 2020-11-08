@@ -13,7 +13,7 @@ import FixtureMetaData from '../../components/fixtureMetaData/FixtureMetaData';
 import SkeletonCard from '../../components/skeletons/SkeletonCard';
 // 605107
 
-const FixtureDetails = ({ get_fixture_details, fixture_details }) => {
+const FixtureDetails = ({ get_fixture_details, fixtureDetails }) => {
     console.log("fixture details");
     const { fixture_id } = useParams()
     const [activeComponent, setActiveComponent] = useState('lineups')
@@ -24,15 +24,15 @@ const FixtureDetails = ({ get_fixture_details, fixture_details }) => {
 
     return (
         <div className="fixtureDetails col-md-8">
-            {fixture_details ?
-                <FixtureMetaData fixture_details={fixture_details} />
+            {fixtureDetails ?
+                <FixtureMetaData fixtureDetails={fixtureDetails} />
                 : <SkeletonCard width='100%' height={180} />}
 
             {/* nested navbar */}
             <div className="fixtureDetails__navbar">
                 <div className={activeComponent === 'h2h' ? 'fixtureDetails__nav active' : 'fixtureDetails__nav'} onClick={() => setActiveComponent('h2h')}>h2h</div>
                 {
-                    (fixture_details?.statusShort === 'NS' || fixture_details?.statusShort === 'TBD') ?
+                    (fixtureDetails?.statusShort === 'NS' || fixtureDetails?.statusShort === 'TBD') ?
                         <div className={activeComponent === 'prediction' ? 'fixtureDetails__nav active' : 'fixtureDetails__nav'} onClick={() => setActiveComponent('prediction')}>Prediction</div> :
 
                         <>  <div className={activeComponent === 'stats' ? 'fixtureDetails__nav active' : 'fixtureDetails__nav'} onClick={() => setActiveComponent('stats')}>Stats</div>
@@ -43,8 +43,8 @@ const FixtureDetails = ({ get_fixture_details, fixture_details }) => {
             </div>
 
             {activeComponent === 'h2h' && <HeadToHead
-                homeTeamId={fixture_details?.homeTeam?.team_id}
-                awayTeamId={fixture_details?.awayTeam?.team_id} />}
+                homeTeamId={fixtureDetails?.homeTeam?.teamId}
+                awayTeamId={fixtureDetails?.awayTeam?.teamId} />}
             { activeComponent === 'prediction' && <Prediction fixture_id={fixture_id} />}
 
             {   activeComponent === 'stats' && <Stats />}
@@ -54,7 +54,7 @@ const FixtureDetails = ({ get_fixture_details, fixture_details }) => {
     );
 };
 const mapStateToProps = state => ({
-    fixture_details: state.team.fixture_details
+    fixtureDetails: state.team.fixtureDetails
 })
 
 export default connect(mapStateToProps, { get_fixture_details })(FixtureDetails);

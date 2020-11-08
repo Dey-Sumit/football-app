@@ -1,0 +1,31 @@
+.message {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    display: flex;
+    background: #343a40;
+    border-radius: 7px;
+    width: fit-content;
+
+    &.messageByUser {
+        margin-left: auto;
+    }
+
+    img {
+        width: 40px;
+        height: 40px;
+        margin-right: 1rem;
+    }
+
+    &__info {
+        width: 100%;
+    }
+
+    &__header {
+        color: darkgray;
+        font-weight: 500;
+    }
+
+    &__body {
+        color: #fff;
+    }
+}

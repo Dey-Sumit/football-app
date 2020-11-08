@@ -1,34 +1,36 @@
 import React, { useEffect } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux'
 
 import Stats from '../stats/Stats';
-import './matchDetails.scss'
-import { connect } from 'react-redux'
 import { get_fixture_details } from '../../redux/actions/team.action'
 import SkeletonCard from '../skeletons/SkeletonCard';
 import FixtureMetaData from '../fixtureMetaData/FixtureMetaData';
 
+import './matchDetails.scss'
 
-const MatchDetails = ({ fixture_id, fixture_details, get_fixture_details }) => {
+const MatchDetails = () => {
+
+    const fixture_id = useSelector(state => state.apiData.currentOrLastFixtureId)
+    const fixtureDetails = useSelector(state => state.apiData.fixtureDetails)
+
+    const dispatch = useDispatch()
+
     useEffect(() => {
-
         if (fixture_id)
-            get_fixture_details(fixture_id)
-    }, [fixture_id, get_fixture_details])
+            dispatch(get_fixture_details(fixture_id))
+    }, [fixture_id, dispatch])
 
 
     return (
-        fixture_details ?
+        fixtureDetails ?
             <div className="matchDetails">
-                <FixtureMetaData fixture_details={fixture_details} />
-                {fixture_details?.statistics &&
-                    <Stats stats={fixture_details.statistics} />
+                <FixtureMetaData fixtureDetails={fixtureDetails} />
+                {fixtureDetails?.statistics &&
+                    <Stats stats={fixtureDetails.statistics} />
                 }
             </div>
             : <SkeletonCard width={`100%`} height={600} />
     );
 };
-const mapStateToProps = state => ({
-    fixture_id: state.team.current_or_last_fixture_id,
-    fixture_details: state.team.fixture_details
-})
-export default connect(mapStateToProps, { get_fixture_details })(MatchDetails);
+
+export default MatchDetails;

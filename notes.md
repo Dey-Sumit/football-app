@@ -34,17 +34,17 @@ https://v2.api-football.com/teams/league/{league_id}
 
 #### Team ids SPAIN
 ```
-team_id: 532 teamName: "Valencia"
-team_id: 541 teamName: "Real Madrid"
-team_id: 529 teamName: "Barcelona"
-team_id: 530 teamName: "Atletico Madrid"
+teamId: 532 teamName: "Valencia"
+teamId: 541 teamName: "Real Madrid"
+teamId: 529 teamName: "Barcelona"
+teamId: 530 teamName: "Atletico Madrid"
 ```
 #### Team ids ENGLAND
 ```
-team_id: 49 teamName: "Chelsea"
-team_id: 40 teamName: "Liverpool"
-team_id: 50 teamName: "Manchester City"
-team_id: 33 teamName: "Manchester United"
+teamId: 49 teamName: "Chelsea"
+teamId: 40 teamName: "Liverpool"
+teamId: 50 teamName: "Manchester City"
+teamId: 33 teamName: "Manchester United"
 ```
 
 
@@ -80,15 +80,15 @@ get("https://api-football-v1.p.rapidapi.com/v2/timezone");
 
 
 ### squad
-get("https://api-football-v1.p.rapidapi.com/v2/players/squad/{team_id}/{season}");
+get("https://api-football-v1.p.rapidapi.com/v2/players/squad/{teamId}/{season}");
 
 ### predictions
 get("https://api-football-v1.p.rapidapi.com/v2/predictions/{fixture_id}");
 
 
 ### next and previous fixtures
-https://api-football-v1.p.rapidapi.com/v2/fixtures/team/{team_id}/next/{number}
-https://api-football-v1.p.rapidapi.com/v2/fixtures/team/{team_id}/last/{number}
+https://api-football-v1.p.rapidapi.com/v2/fixtures/team/{teamId}/next/{number}
+https://api-football-v1.p.rapidapi.com/v2/fixtures/team/{teamId}/last/{number}
 
 ### statistics of a fixture
 get("https://api-football-v1.p.rapidapi.com/v2/statistics/fixture/{fixture_id}");

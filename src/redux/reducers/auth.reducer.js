@@ -3,9 +3,10 @@ import { types } from "../types";
 const APP = "FOOTBALL_APP"
 
 const initialState = {
-    user_id: localStorage.getItem(`${APP}-USER-ID`),
+    userId: localStorage.getItem(`${APP}-USER-ID`),
     loading: false,
-    has_profile: false,
+    // set in localStorage
+    profile: null,
     messages: null
 }
 
@@ -17,10 +18,10 @@ export default function (state = initialState, action) {
                 ...state,
                 loading: true
             }
-        case types.HAS_PROFILE:
+        case types.SET_PROFILE:
             return {
                 ...state,
-                has_profile: payload,
+                profile: payload,
                 loading: false
             }
         case types.REGISTER_SUCCESS:
@@ -30,7 +31,7 @@ export default function (state = initialState, action) {
 
             return {
                 ...state,
-                user_id: payload,
+                userId: payload,
                 loading: false,
             }
 
@@ -42,9 +43,9 @@ export default function (state = initialState, action) {
             localStorage.removeItem(`${APP}-MYTEAM-ID`)
             return {
                 ...state,
-                user_id: null,
+                userId: null,
                 loading: false,
-                has_profile: false,
+                profile: null,
                 // only one msg at a time
                 messages: payload
             }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { types } from '../types'
-console.log(process.env.REACT_APP_FOOTBALL_API_KEY);
+// console.log(process.env.REACT_APP_FOOTBALL_API_KEY);
 const URL = 'https://v2.api-football.com/'
 const SEASON = '2020'
 const request = axios.create({
@@ -42,26 +42,28 @@ export const get_search_results = (term) => async dispatch => {
 }
 //TODO dispatch error for errors
 
-export const get_last_and_next_fixtures = (team_id) => async dispatch => {
+export const get_last_and_next_fixtures = (teamId) => async dispatch => {
+    console.log(teamId);
     var res;
     try {
-        res = await request(`/fixtures/team/${team_id}/last/3`)
-        const last_fixtures = res.data.api.fixtures
+        res = await request(`/fixtures/team/${teamId}/last/3`)
+
+        const lastFixtures = res.data.api.fixtures
 
 
-        res = await request.get(`/fixtures/team/${team_id}/next/5`)
-        const next_fixtures = res.data.api.fixtures
+        res = await request.get(`/fixtures/team/${teamId}/next/5`)
+        const nextFixtures = res.data.api.fixtures
 
         // ADD_TO_LAST_AND_NEXT_FIXTURES
         dispatch({
             type: types.SET_LAST_AND_NEXT_FIXTURES,
-            payload: { last_fixtures, next_fixtures }
+            payload: { lastFixtures, nextFixtures }
         })
 
         // ADD_TO_CURRENT_OR_LAST_FIXTURE
         dispatch({
             type: types.SET_CURRENT_OR_LAST_FIXTURE_ID,
-            payload: last_fixtures[0].fixture_id
+            payload: lastFixtures[0].fixture_id
         })
 
     } catch (error) {
@@ -111,21 +113,21 @@ export const get_predictions = (fixture_id) => async dispatch => {
     }
 }
 
-export const get_domestic_league_id = (team_id) => async dispatch => {
+export const get_domestic_league_id = (teamId) => async dispatch => {
     try {
-        const res = await request(`leagues/team/${team_id}/${SEASON}`)
+        const res = await request(`leagues/team/${teamId}/${SEASON}`)
         const leagues = res.data.api.leagues;
 
-        let domestic_league_id;
+        let domesticLeagueId;
         for (let x = 0; x < leagues.length; x++) {
             if (leagues[x].type === "League")
-                domestic_league_id = leagues[x].league_id;
+                domesticLeagueId = leagues[x].league_id;
         }
 
         dispatch(
             {
                 type: types.SET_DOMESTIC_LEAGUE_ID,
-                payload: domestic_league_id
+                payload: domesticLeagueId
             }
         )
 

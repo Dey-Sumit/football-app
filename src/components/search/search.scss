@@ -3,8 +3,7 @@
 .search__button {
     padding: 1rem 2rem;
     border-radius: 45px;
-    background-image: $neumorphic_bg;
-    box-shadow: $neumorphic_shadow-inset;
+    box-shadow: $shadow-inset;
 }
 
 .search {
@@ -27,29 +26,23 @@
     opacity: 0;
     transition: 0.5s;
 
+    &.open {
+        opacity: 1;
+        visibility: visible;
+    }
 }
 
-.search__box.open {
-    opacity: 1;
-    visibility: visible;
-}
 
 .form__area {
-    width: 100%;
     max-width: 50%;
     display: flex;
     border-bottom: 1px solid $green;
 }
 
 .form__area input {
-    flex: 1 1 auto;
     background-color: transparent;
-    border: 0;
-    height: 40px;
     width: 100%;
-    font-size: 1.5rem;
-    color: $green;
-
+    box-shadow: none;
 }
 
 .form__area input:placeholder {
@@ -57,38 +50,13 @@
     letter-spacing: 3px;
 }
 
-.form__area input:focus {
-    outline: none;
-}
+// .form__area input:focus {
+//     outline: none;
+// }
 
-.form__area button {
-    background: $green;
-    padding: 0 1rem;
-    border: none;
-    font-size: 1.5rem;
-    color: $white;
-    cursor: pointer;
-}
 
 .search__button {
-    font-size: 1.5rem;
-    display: flex;
-    background: transparent;
-    outline: none;
-    border: none;
-    color: $green;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    background: #1e2120;
-    padding: 1rem 2rem;
-    border-radius: 45px;
-    justify-content: center;
-
-    &:focus {
-        outline: none;
-    }
+    // done in base.scss
 }
 
 .search__icon {

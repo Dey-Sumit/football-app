@@ -2,10 +2,11 @@ import React from 'react';
 import { FaChartPie, FaUserCog } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './navbar.scss'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-const Navbar = ({ my_team_id }) => {
+const Navbar = () => {
 
+    const myTeam = useSelector(state => state.apiData.myTeam)
     return (
         <div className="navbar">
 
@@ -13,7 +14,7 @@ const Navbar = ({ my_team_id }) => {
                 <FaChartPie className="navbar__icon" />
             </Link>
             <Link to="/">
-                <img src={`https://media.api-sports.io/football/teams/${my_team_id}.png`} className="navbar__image" alt="" />
+                <img src={myTeam.logo} className="navbar__image" alt={myTeam.name} />
             </Link>
             <Link to="/settings">
                 <FaUserCog className="navbar__icon" />
@@ -22,8 +23,9 @@ const Navbar = ({ my_team_id }) => {
     );
 };
 
-const mapStateToProps = state => ({
-    my_team_id: state.team.my_team_id
-})
+// const mapStateToProps = state => ({
+//     myTeamId: state.team.myTeamId
+// })
 
-export default connect(mapStateToProps)(Navbar);
+// export default connect(mapStateToProps)(Navbar);
+export default Navbar;

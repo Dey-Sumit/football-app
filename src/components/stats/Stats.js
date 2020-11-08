@@ -1,10 +1,12 @@
 import React from 'react';
-import './stats.scss'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import SkeletonCard from '../skeletons/SkeletonCard';
+import './stats.scss'
 
-const StatsBar = ({ data: { home, away }, heading }) => {
+
+const StatsBar = ({ data: { home, away }, text }) => {
+
     home = parseInt(home)
     away = parseInt(away)
     var total = home + away
@@ -13,6 +15,8 @@ const StatsBar = ({ data: { home, away }, heading }) => {
     const awayBarWidth = Math.floor((100 / total) * away)
 
     var homeBarClass, awayBarClass;
+
+    //TODO refractor the colors
     if (homeBarWidth > awayBarWidth) {
         homeBarClass = 'statsBar__home linear_blue'
         awayBarClass = 'statsBar__away linear_gray'
@@ -24,7 +28,7 @@ const StatsBar = ({ data: { home, away }, heading }) => {
 
     return (
         <div className="statsBar">
-            <p className="text-center">{heading}</p>
+            <p className="text-center">{text}</p>
             <div className="statsBar__data">
                 <div className="statsBar__home-wrapper">
                     <div className={homeBarClass} style={{ 'width': `${homeBarWidth}%` }} >{home}</div>
@@ -39,24 +43,21 @@ const StatsBar = ({ data: { home, away }, heading }) => {
 };
 
 
-const Stats = ({ stats }) => {
+const Stats = () => {
 
+    const { statistics: stats } = useSelector(state => state.apiData.fixtureDetails)
     return (
         stats ?
             <div>
-                <StatsBar data={stats['Ball Possession']} heading="Possession" />
-                <StatsBar data={stats['Passes %']} heading="Passes %" />
-                <StatsBar data={stats['Total passes']} heading="Total Passes" />
-                <StatsBar data={stats['Total Shots']} heading="Total Shots" />
-                <StatsBar data={stats['Yellow Cards']} heading="Yellow Cards" />
-                <StatsBar data={stats['Corner Kicks']} heading="Corner Kicks" />
+                <StatsBar data={stats['Ball Possession']} text="Possession" />
+                <StatsBar data={stats['Passes %']} text="Passes %" />
+                <StatsBar data={stats['Total passes']} text="Total Passes" />
+                <StatsBar data={stats['Total Shots']} text="Total Shots" />
+                <StatsBar data={stats['Yellow Cards']} text="Yellow Cards" />
+                <StatsBar data={stats['Corner Kicks']} text="Corner Kicks" />
 
             </div> : <SkeletonCard width='100%' height={30} count={6} />
     );
 };
-const mapStateToProps = state => (
-    {
-        stats: state.team.fixture_details?.statistics
-    }
-)
-export default connect(mapStateToProps)(Stats);
+
+export default Stats;

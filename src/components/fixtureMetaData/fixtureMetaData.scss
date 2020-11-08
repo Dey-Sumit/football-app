@@ -1,17 +1,18 @@
 @import '../../base.scss';
 
 .metaData {
-    padding: 1rem;
+    // padding: 1rem;
 
-    &__time {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-        align-items: center;
+    &__header {
 
+        // display: flex;
+        // justify-content: space-between;
+        // margin-bottom: 1rem;
+        // align-items: center;
         img {
             width: 40px;
-            background: #fff;
+            height: 40px;
+            // background: #fff;
             padding: 0.2rem;
             border-radius: 5px;
         }
@@ -19,23 +20,23 @@
 
     &__body {
         font-size: 2rem;
-        align-items: center;
-        display: flex;
-        justify-content: space-between;
+        // align-items: center;
+        // display: flex;
+        // justify-content: space-between;
 
         img {
             width: 120px;
             height: 120px;
+            //! color
             background: #343a40;
             padding: 1rem;
-
             border-radius: 10px;
         }
     }
 
-    &__score {
-        margin: 0 1rem;
-    }
+    // &__score {
+    //     margin: 0 1rem;
+    // }
 
 }
 

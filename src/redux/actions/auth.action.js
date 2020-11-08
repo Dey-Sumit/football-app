@@ -6,37 +6,77 @@ import firebase from 'firebase'
 const { auth, db } = require("../../firebase/firebase");
 
 
-export const create_or_update_user_in_db = (userId, team_id) => async dispatch => {
+
+export const create_profile = (userId, email, name) => async (dispatch, getState) => {
+    console.log("create profile");
     try {
-        db
-            .collection('teams')
+        await db
+            .collection('profiles')
             .doc(userId)
             .set(
                 {
-                    team_id: team_id,
+                    email,
+
+                    name,
+                    team: null
+                    // email:getState().user.email,
+                    // name:getState().user
                 }
             )
         dispatch({
-            type: types.HAS_PROFILE,
+            type: types.SET_PROFILE,
+            //TODO fix this
             payload: true
+        })
+    }
+    catch (error) {
+        console.error(error)
+    }
+}
+
+
+
+export const update_profile = () => async (dispatch, getState) => {
+    const userId = getState().auth.userId
+    const team = getState().apiData.myTeam
+    console.log(userId);
+    try {
+        await db
+            .collection('profiles')
+            .doc(userId)
+            .update(
+                {
+                    team: team
+                }
+
+            )
+        const doc = await db.collection('profiles').doc(userId).get()
+        console.log(doc.data());
+        dispatch({
+            type: types.SET_PROFILE,
+            payload: doc.data()
         })
     } catch (error) {
         console.error(error)
     }
 }
 
-export const register_user = ({ email, password }) => async (dispatch) => {
+export const register_user = (data) => async (dispatch) => {
+
+    const { email, password, name } = data
     // set loading true
     console.log("reg user");
     dispatch({ type: types.FETCH_INFO_USER })
 
     try {
         const res = await auth.createUserWithEmailAndPassword(email, password)
-        console.log(res);
+        console.log("reg success");
         dispatch({
             type: types.REGISTER_SUCCESS,
             payload: res.user.uid
         })
+        dispatch(create_profile(res.user.uid, email, name))
+
     } catch (error) {
         console.log(error.message);
         dispatch({
@@ -137,15 +177,15 @@ export const load_user = () => (dispatch) => {
     try {
         auth.onAuthStateChanged(async user => {
             if (user) {
-                const doc = await db.collection('teams').doc(user.uid).get()
+                const doc = await db.collection('profiles').doc(user.uid).get()
                 if (doc.exists) {
                     dispatch({
                         type: types.SET_MY_TEAM,
-                        payload: doc.data().team_id
+                        payload: doc.data().team
                     })
                     dispatch({
-                        type: types.HAS_PROFILE,
-                        payload: true
+                        type: types.SET_PROFILE,
+                        payload: doc.data()
                     })
                 }
 
@@ -170,32 +210,58 @@ export const load_user = () => (dispatch) => {
 
 export const sign_in_with_google = () => async dispatch => {
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function (result) {
+    try {
+        const result = await firebase.auth().signInWithPopup(provider)
+        console.log(result.user);
+        var { displayName, email, uid } = result.user;
+        console.log(displayName, email, uid);
+        // dispatch(create_profile)
+        const doc = await db.collection('profiles').doc(uid).get()
+        // check if the user exists
+        if (doc.exists) {
+            dispatch({
+                type: types.SET_MY_TEAM,
+                payload: doc.data().team
+                // TODO FIX; team is not only id in <Team/> component 
+                // team might be null,in that case he would be redirected to choose team page
+            })
+            dispatch({
+                type: types.SET_PROFILE,
+                payload: doc.data()
+            })
+        }
+        else {
+            dispatch(create_profile(uid, email, displayName))
+        }
 
-        var user = result.user;
-        console.log(user.uid);
 
+        // dispatch({
+        //     type: types.LOGIN_SUCCESS,
+        //     payload: uid,
+        // })
         // onAuthStateChanged will automatically detects login
-    }).catch(function (error) {
 
-        var errorMessage = error.message;
+    } catch (error) {
 
-        console.log(errorMessage);
-        // ...
-    });
+    }
+    // }).catch(function (error) {
+
+    //     var errorMessage = error.message;
+
+    //     console.log(errorMessage);
+    //     // ...
+    // });
 }
 
-export const save_changes = () => async dispatch => {
-    const { user_id } = store.getState().auth
-    const { my_team_id } = store.getState().team
+export const save_changes = () => async (dispatch, getState) => {
+    const { userId } = getState().auth
+    const { my_team } = getState().team
     try {
         await db
             .collection('teams')
-            .doc(user_id)
+            .doc(userId)
             .set(
-                {
-                    team_id: my_team_id,
-                }
+                my_team
             )
         return true
 

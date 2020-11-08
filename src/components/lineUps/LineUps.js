@@ -17,11 +17,11 @@ const LineUps = ({ lineups, homeTeam, awayTeam }) => {
                 <div className="lineups__navbar" >
 
                     <img
-                        src={`https://media.api-sports.io/football/teams/${homeTeam?.team_id}.png`}
+                        src={`https://media.api-sports.io/football/teams/${homeTeam?.teamId}.png`}
                         onClick={() => setCurrentLineUp('home')}
                         alt={awayTeam?.team_name} />
                     <img
-                        src={`https://media.api-sports.io/football/teams/${awayTeam?.team_id}.png`}
+                        src={`https://media.api-sports.io/football/teams/${awayTeam?.teamId}.png`}
                         onClick={() => setCurrentLineUp('away')}
                         alt={awayTeam?.team_name} />
                 </div>
@@ -37,9 +37,9 @@ const LineUps = ({ lineups, homeTeam, awayTeam }) => {
     );
 };
 const mapStateToProps = state => ({
-    lineups: state.team.fixture_details?.lineups,
-    homeTeam: state.team.fixture_details?.homeTeam,
-    awayTeam: state.team.fixture_details?.awayTeam,
+    lineups: state.team.fixtureDetails?.lineups,
+    homeTeam: state.team.fixtureDetails?.homeTeam,
+    awayTeam: state.team.fixtureDetails?.awayTeam,
 })
 
 export default connect(mapStateToProps)(LineUps);

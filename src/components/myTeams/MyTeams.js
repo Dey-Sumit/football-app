@@ -1,26 +1,29 @@
 import React from 'react';
 import { Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import Team from '../team/Team';
 import './myTeams.scss'
-import { connect } from 'react-redux'
-const MyTeams = ({ my_team_id }) => {
 
+const MyTeams = () => {
+
+    const myTeam = useSelector(state => state.apiData.myTeam)
 
     return (
-        <Row className="teams-row">
-            <h4 className="my-teams__title">My Team</h4>
+        <Row className="d-flex flex-column my-3 text-center">
+            <h4 className="mb-4">My Team</h4>
             {
-                !my_team_id ?
-                    <h5 className="text-center">Select your favorite team</h5>
+                !myTeam ?
+                    <h5>Select your favorite team</h5>
                     :
-                    <Team team_id={my_team_id} noCheck large />
+                    <Team team={myTeam} large showName />
 
             }
         </Row>
     );
 };
-const mapStateToProps = state => ({
-    my_team_id: state.team.my_team_id
-})
+// const mapStateToProps = state => ({
+//     myTeam: state.team.myTeam
+// })
 
-export default connect(mapStateToProps)(MyTeams);;
+// export default connect(mapStateToProps)(MyTeams);;
+export default MyTeams;

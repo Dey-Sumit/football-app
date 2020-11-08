@@ -4,7 +4,7 @@ import { get_top_players } from '../../redux/actions/team.action'
 import PlayerCard from '../playerCard/PlayerCard'
 import SkeletonCard from '../skeletons/SkeletonCard'
 import './topPlayers.scss'
-const TopPlayers = ({ league_id, get_top_players, top_players }) => {
+const TopPlayers = ({ league_id, get_top_players, topPlayers }) => {
     league_id = 2790
     useEffect(() => {
         if (league_id)
@@ -16,8 +16,8 @@ const TopPlayers = ({ league_id, get_top_players, top_players }) => {
             <h4>Top Players of League</h4>
             <div className="topPlayers__container">
                 {
-                    top_players ?
-                        top_players.map(player =>
+                    topPlayers ?
+                        topPlayers.map(player =>
                             <PlayerCard player={player} key={player.player_id} />)
                         : <SkeletonCard count={9} width={160} height={200} />
                 }
@@ -27,7 +27,7 @@ const TopPlayers = ({ league_id, get_top_players, top_players }) => {
 }
 
 const mapStateToProps = (state) => ({
-    top_players: state.team.top_players
+    topPlayers: state.team.topPlayers
 
 })
 

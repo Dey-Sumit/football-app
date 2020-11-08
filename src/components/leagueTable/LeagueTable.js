@@ -4,7 +4,7 @@ import './leagueTable.scss'
 import { connect } from 'react-redux'
 import { get_domestic_league_table } from '../../redux/actions/team.action'
 import SkeletonCard from '../skeletons/SkeletonCard';
-const LeagueTable = ({ league_id, get_domestic_league_table, domestic_league_table }) => {
+const LeagueTable = ({ league_id, get_domestic_league_table, domesticLeagueTable }) => {
     useEffect(() => {
         if (league_id)
             get_domestic_league_table(league_id)
@@ -15,7 +15,7 @@ const LeagueTable = ({ league_id, get_domestic_league_table, domestic_league_tab
     return (
         <div className="league_table">
             <h4>League Table </h4>
-            { domestic_league_table ?
+            { domesticLeagueTable ?
                 <Table striped bordered variant="dark" size="sm" className="table">
                     <thead>
                         <tr>
@@ -30,8 +30,8 @@ const LeagueTable = ({ league_id, get_domestic_league_table, domestic_league_tab
                     <tbody>
                         {
 
-                            domestic_league_table.map(team =>
-                                <tr key={team.team_id}>
+                            domesticLeagueTable.map(team =>
+                                <tr key={team.teamId}>
                                     <td>{team.rank}</td>
                                     <td>{team.teamName}<img src={team.logo} alt="team" className="ml-2" />  </td>
                                     <td>{team.all.matchsPlayed}</td>
@@ -50,6 +50,6 @@ const LeagueTable = ({ league_id, get_domestic_league_table, domestic_league_tab
     );
 };
 const mapStateToProps = state => ({
-    domestic_league_table: state.team.domestic_league_table
+    domesticLeagueTable: state.team.domesticLeagueTable
 })
 export default connect(mapStateToProps, { get_domestic_league_table })(LeagueTable);

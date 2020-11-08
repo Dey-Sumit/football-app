@@ -1,17 +1,15 @@
 @import '../../base.scss';
 
-.nextPage {
+.nextPageLink {
     color: #fff;
-    margin: 0.5rem auto;
+    margin: 1rem auto;
     padding: 1rem;
     width: 60%;
     border-radius: 2.5rem;
-    background-image: $linear_red;
-    font-size: 1.3rem;
+    background-image: $linear_green;
     font-weight: 800;
-    text-align: center;
     display: block;
-    border: none;
+    letter-spacing: 1px;
 
     &:focus {
         border: none;

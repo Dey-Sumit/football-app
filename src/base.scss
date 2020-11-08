@@ -1,20 +1,55 @@
 // colors
-
 $background:#1e2120;
 $green:#05D66E;
 $violet:#BD9AFF;
 $white:#FFFFFF;
 $gray:#545D60;
+$light-gray:#343a40;
 
-$neumorphic_shadow: 7px 7px 14px #131514,
+$shadow: 7px 7px 14px #131514,
 -7px -7px 14px #292d2c;
 
-$neumorphic_shadow-inset: inset 7px 7px 14px #131514,
+$shadow-inset: inset 7px 7px 14px #131514,
 inset -7px -7px 14px #292d2c;
 
-$neumorphic_bg:linear-gradient(145deg, #202322, #1b1e1d);
-$linear_blue: linear-gradient(135deg, #B589FE, #6457E3);
-$linear_red: linear-gradient(135deg, #13B6B2, #05D471);
+$linear_background:linear-gradient(135deg, #202322, #1b1e1d);
+$linear_green:linear-gradient(135deg, #13B6B2, #05D471);
+$linear_blue:linear-gradient(135deg, #B589FE, #6457E3);
+$linear_red:linear-gradient(135deg, #13B6B2, #05D471);
+$linear_gray:linear-gradient(135deg, #607D8B, #6b6868);
+
+
+// $linear_red-2: linear-gradient(135deg, #ec008c, #fc6767);
+
 
 /* Using SCSS variables to store breakpoints */
-$breakpoint-tablet: 777px;
+$breakpoint-tablet: 767px;
+
+// for all buttons ; neumorphic look :)
+button,
+input {
+    border: none;
+    outline: none;
+    background: $background;
+    box-shadow: $shadow;
+    border-radius: 2px;
+    color: var(--green);
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: none;
+}

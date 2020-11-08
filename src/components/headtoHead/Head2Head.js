@@ -28,7 +28,7 @@ const H2HMatch = ({ match: { event_date, homeTeam, awayTeam, league, score } }) 
     )
 }
 
-const HeadToHead = ({ homeTeamId, awayTeamId, get_head_to_head, head_to_head }) => {
+const HeadToHead = ({ homeTeamId, awayTeamId, get_head_to_head, headToHead }) => {
 
     //TODO this component is rendering two times
     useEffect(() => {
@@ -36,11 +36,11 @@ const HeadToHead = ({ homeTeamId, awayTeamId, get_head_to_head, head_to_head }) 
     }, [homeTeamId, awayTeamId, get_head_to_head])
 
     return (
-        head_to_head ?
+        headToHead ?
             <div className="headToHeadContainer">
                 {
 
-                    head_to_head.slice(Math.max(head_to_head.length - 5, 1)).map(
+                    headToHead.slice(Math.max(headToHead.length - 5, 1)).map(
                         match =>
                             <H2HMatch
                                 key={match.fixture_id}
@@ -57,6 +57,6 @@ const HeadToHead = ({ homeTeamId, awayTeamId, get_head_to_head, head_to_head }) 
     );
 };
 const mapStateToProps = state => ({
-    head_to_head: state.team.head_to_head
+    headToHead: state.team.headToHead
 })
 export default connect(mapStateToProps, { get_head_to_head })(HeadToHead);

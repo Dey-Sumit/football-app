@@ -10,11 +10,11 @@ import TopPlayers from '../../components/topPlayers/TopPlayers';
 // champions league
 
 
-const Others = ({ get_domestic_league_id, domestic_league_id, team_id }) => {
+const Others = ({ get_domestic_league_id, domesticLeagueId, teamId }) => {
 
     useEffect(() => {
-        get_domestic_league_id(team_id)
-    }, [team_id, get_domestic_league_id])
+        get_domestic_league_id(teamId)
+    }, [teamId, get_domestic_league_id])
     // const [topPlayers, setTopPlayers] = useState([])
     // useEffect(() => {
     //     const callback = (data) => {
@@ -33,10 +33,10 @@ const Others = ({ get_domestic_league_id, domestic_league_id, team_id }) => {
         <Container >
             <Row>
                 <Col md={6} lg={5}>
-                    <LeagueTable league_id={domestic_league_id} />
+                    <LeagueTable league_id={domesticLeagueId} />
                 </Col>
                 <Col md={6} lg={7}>
-                    <TopPlayers league_id={domestic_league_id} />
+                    <TopPlayers league_id={domesticLeagueId} />
                 </Col>
             </Row>
 
@@ -45,7 +45,7 @@ const Others = ({ get_domestic_league_id, domestic_league_id, team_id }) => {
     );
 };
 const mapStateToProps = state => ({
-    domestic_league_id: state.team.domestic_league_id,
-    team_id: state.team.my_team_id
+    domesticLeagueId: state.team.domesticLeagueId,
+    teamId: state.team.my_teamId
 })
 export default connect(mapStateToProps, { get_domestic_league_id })(Others);

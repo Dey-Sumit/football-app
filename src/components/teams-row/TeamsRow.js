@@ -5,14 +5,14 @@ import Team from '../team/Team';
 
 const TeamsRow = ({ country, teams }) => {
     return (
-        <div className="teams-row">
-            <h4 className="teams-row__title">
+        <div className="">
+            <h4 className="my-3 text-center">
                 {country}
             </h4>
-            <Row className="teams-row__teams">
+            <Row className="justify-content-around">
                 {
                     teams.map(team =>
-                        <Team key={team.name} team_id={team.team_id} noName />
+                        <Team key={team.team_id} team={team} />
                     )
                 }
             </Row>

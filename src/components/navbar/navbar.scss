@@ -11,8 +11,8 @@
     z-index: 10;
     bottom: 0;
     left: 0;
-    background-image: $neumorphic_bg;
-    box-shadow: $neumorphic_shadow;
+    background-image: $linear_background;
+    box-shadow: $shadow;
 
     &__image {
         width: 50px;

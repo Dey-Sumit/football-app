@@ -1,8 +1,8 @@
 import React from 'react';
 import './playerCard.scss'
-const PlayerCard = ({ player: { player_id, player_name, team_id, goals } }) => {
+const PlayerCard = ({ player: { player_id, player_name, teamId, goals } }) => {
     return (
-        <div className="playerCard" style={{ 'backgroundImage': `url('https://media.api-sports.io/football/teams/${team_id}.png')` }}>
+        <div className="playerCard" style={{ 'backgroundImage': `url('https://media.api-sports.io/football/teams/${teamId}.png')` }}>
             <div className="playerCard__image">
                 <img src={`https://media.api-sports.io/football/players/${player_id}.png`} alt="" />
             </div>

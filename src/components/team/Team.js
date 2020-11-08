@@ -1,38 +1,35 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
-import { FaCheckCircle } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
 import { types } from '../../redux/types';
-import { connect } from 'react-redux'
 import './team.scss'
 
-const Team = ({ closeSearch, team_id, name, small, large, noCheck, dispatch, myTeamId }) => {
+const Team = ({ closeSearch, team, small, large, showName }) => {
     var classes = small ? 'team__logo-small' : large ? 'team__logo-large' : 'team__logo'
 
+    const dispatch = useDispatch()
+
+    const { team_id, name, logo } = team
     const updateMyTeam = () => {
         if (closeSearch)
             closeSearch();
+
         dispatch({
             type: types.SET_MY_TEAM,
-            payload: team_id
+            payload: { team_id, name, logo }
         })
     }
 
     return (
-        <Col className={noCheck ? 'team myTeam' : 'team'} onClick={() => updateMyTeam()}>
-            <img src={`https://media.api-sports.io/football/teams/${team_id}.png`} alt="team logo" className={classes} />
-            {name && <span className="team_name">{name}</span>}
+        <Col className='team' onClick={updateMyTeam}>
+            <img src={logo} alt={name} className={classes} />
+            {showName && <span className="team__name mt-2">{name}</span>}
 
-            { !noCheck && myTeamId === team_id ?
-                <span className="team-added">
-                    <FaCheckCircle />
-                </span> : null
-            }
+
 
         </Col >
     );
 }
-const mapStateToProps = state => ({
-    myTeamId: state.team.myTeamId
-})
 
-export default connect(mapStateToProps)(Team);
+
+export default Team;

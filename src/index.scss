@@ -33,24 +33,6 @@ body {
   padding: 1rem 3rem;
 }
 
-// teams-row
-.teams-row {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-
-  &__title {
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  &__teams {
-    display: flex;
-    justify-content: space-around;
-  }
-
-
-}
 
 .my-teams {
   flex: 0.4;

@@ -5,18 +5,23 @@ import Notification from '../notification/Notification'
 import Search from '../search/Search';
 import firebase from 'firebase'
 import './settings.scss'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { log_out, save_changes } from '../../redux/actions/auth.action'
 import { get_api_status } from '../../redux/actions/team.action'
+import Navbar from '../navbar/Navbar';
 
-const Settings = ({ log_out, my_team_id, get_api_status, api_calls, save_changes }) => {
+const Settings = () => {
+    const { apiCalls, myTeam } = useSelector(state => state.apiData)
+    const dispatch = useDispatch()
 
     const [email, setEmail] = useState(null);
 
+    // get api
     useEffect(() => {
-        get_api_status()
-    }, [get_api_status])
+        dispatch(get_api_status())
+    }, [dispatch])
 
+    // get the email
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
@@ -26,10 +31,11 @@ const Settings = ({ log_out, my_team_id, get_api_status, api_calls, save_changes
     }, [])
 
     const handleLogOut = () => {
-        log_out();
+        dispatch(log_out());
     }
-    const handleSaveChanges = async () => {
-        const res = await save_changes();
+    const handleSaveChanges = () => {
+        //TODO FIX THIS :(
+        const res = save_changes();
         if (res === true) {
             toast.success(<Notification message="Changes Saved" />,
                 { position: toast.POSITION.TOP_RIGHT, autoClose: 2000 })
@@ -37,34 +43,39 @@ const Settings = ({ log_out, my_team_id, get_api_status, api_calls, save_changes
     }
 
 
+
     return (
-        <div className="settings">
-            <div className="settings__header">
-                <h4>System & Settings </h4>
-                <p className="account">
-                    {email}
-                </p>
-            </div>
-            <img src={`https://media.api-sports.io/football/teams/${my_team_id}.png`} alt="" />
-            <div className="settings__body">
-                <Search title="Change Team" />
-                <div className="settings__body-option">
-                    API Requests <span>{api_calls ? api_calls : 'Loading'}</span>
+        <>
+            <div className="d-flex flex-column my-0 mx-auto p-2 settings ">
+                <div className="d-flex align-items-center justify-content-around settings__header">
+                    <h4>System & Settings </h4>
+                    <p className="account">
+                        {email}
+                    </p>
                 </div>
-                <div className="settings__body-buttons">
+                <img src={myTeam.logo} alt={myTeam.name} className="d-block align-self-center" />
+                <div className="d-flex flex-column justify-content-around font-weight-bold settings__body ">
+                    <Search title="Change Team" />
 
-                    <button onClick={handleSaveChanges}>Save Changes</button>
-                    <button onClick={handleLogOut} className="logout">Log Out</button>
+                    <span>API Requests {apiCalls ? apiCalls : 'Loading...'}</span>
+
+                    <div className="settings__body-buttons">
+
+                        <button onClick={handleSaveChanges}>Save Changes</button>
+                        <button onClick={handleLogOut} className="logout">Log Out</button>
+                    </div>
+
                 </div>
 
+
             </div>
-
-
-        </div>
+            <Navbar />
+        </>
     );
 };
-const mapStateToProps = state => ({
-    my_team_id: state.team.my_team_id,
-    api_calls: state.team.api_calls
-})
-export default connect(mapStateToProps, { log_out, get_api_status, save_changes })(Settings);
+// const mapStateToProps = state => ({
+//     myTeamId: state.team.myTeamId,
+//     apiCalls: state.team.apiCalls
+// })
+// export default connect(mapStateToProps, { log_out, get_api_status, save_changes })(Settings);
+export default Settings;
