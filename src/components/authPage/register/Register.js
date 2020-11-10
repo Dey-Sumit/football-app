@@ -8,25 +8,27 @@ import { Spinner } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 
 const Register = () => {
+
     const history = useHistory();
     const dispatch = useDispatch()
-    const { userId, loading } = useSelector(state => state.auth)
+
+    const userId = useSelector(state => state.auth.userId)
+    const loading = useSelector(state => state.auth.loading)
 
     const { register, errors, handleSubmit } = useForm();
 
     // Redirect if valid credentials
     useEffect(() => {
-        if (userId) {
-            history.push('/choose_teams')
+        if (!loading && userId) {
+            history.push('/chooseTeam')
         }
-    }, [userId, history])
+    }, [userId, history, loading])
 
 
     const handleClick = (data) => {
-        console.log("clicked");
-
         dispatch(register_user(data))
     }
+
     const handleOAuth = () => {
         dispatch(sign_in_with_google())
     }
@@ -58,10 +60,5 @@ const Register = () => {
         </>
     );
 };
-// const mapStateToProps = state => ({
-//     userId: state.auth.userId,
-//     loading: state.auth.loading,
-// })
 
-// export default connect(mapStateToProps, { register_user, sign_in_with_google })(Register);
 export default Register;

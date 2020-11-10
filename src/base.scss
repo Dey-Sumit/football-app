@@ -23,21 +23,32 @@ $linear_gray:linear-gradient(135deg, #607D8B, #6b6868);
 
 
 /* Using SCSS variables to store breakpoints */
-$breakpoint-tablet: 767px;
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 460px;
 
 // for all buttons ; neumorphic look :)
-button,
-input {
+button {
     border: none;
     outline: none;
     background: $background;
     box-shadow: $shadow;
     border-radius: 2px;
-    color: var(--green);
     padding: 0.5rem 1rem;
     margin: 0.5rem 1rem;
     font-size: 1.5rem;
+    color: $green;
     cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+input {
+    border: none;
+    outline: none;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 1rem;
 
     &:focus {
         outline: none;

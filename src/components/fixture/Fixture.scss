@@ -8,8 +8,11 @@
     margin: 0.7rem 0;
     border-radius: 10px;
     color: $white;
-    // background-image: linear-gradient(135deg, #00F260, #0575E6);
-    background-image: $linear_blue;
+    background-image: linear-gradient(135deg, #00F260, #0575E6);
+    // border: 3px solid transparent;
+    // border-image: linear-gradient(135deg, #00F260, #0575E6);
+    // border-image-slice: 1;
+    // background-image: $linear_blue;
 
     //later :)
     transition: all 0.1s linear;
@@ -22,6 +25,10 @@
     &-last {
         //! FIX excessive gradient colors
         background-image: linear-gradient(135deg, #ec008c, #fc6767);
+        // border: 3px solid transparent;
+        // border-image: linear-gradient(135deg, #ec008c, #fc6767);
+        // border-image-slice: 1;
+
     }
 
     &__teams {

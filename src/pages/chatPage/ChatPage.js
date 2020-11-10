@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forwardRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import firebase from 'firebase'
 import ScrollToBottom from 'react-scroll-to-bottom'

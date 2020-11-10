@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { get_head_to_head } from '../../redux/actions/team.action'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import './headToHead.scss'
 import SkeletonCard from '../skeletons/SkeletonCard';
@@ -28,12 +28,16 @@ const H2HMatch = ({ match: { event_date, homeTeam, awayTeam, league, score } }) 
     )
 }
 
-const HeadToHead = ({ homeTeamId, awayTeamId, get_head_to_head, headToHead }) => {
+const HeadToHead = ({ homeTeamId, awayTeamId }) => {
 
+
+    const headToHead = useSelector(state => state.apiData.headToHead)
+    const dispatch = useDispatch()
     //TODO this component is rendering two times
     useEffect(() => {
-        get_head_to_head(homeTeamId, awayTeamId)
-    }, [homeTeamId, awayTeamId, get_head_to_head])
+
+        dispatch(get_head_to_head(homeTeamId, awayTeamId))
+    }, [homeTeamId, awayTeamId, dispatch])
 
     return (
         headToHead ?
@@ -56,7 +60,8 @@ const HeadToHead = ({ homeTeamId, awayTeamId, get_head_to_head, headToHead }) =>
 
     );
 };
-const mapStateToProps = state => ({
-    headToHead: state.team.headToHead
-})
-export default connect(mapStateToProps, { get_head_to_head })(HeadToHead);
+// const mapStateToProps = state => ({
+//     headToHead: state.team.headToHead
+// })
+// export default connect(mapStateToProps, { get_head_to_head })(HeadToHead);
+export default HeadToHead;

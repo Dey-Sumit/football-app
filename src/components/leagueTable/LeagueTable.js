@@ -1,14 +1,22 @@
 import React, { useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import './leagueTable.scss'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { get_domestic_league_table } from '../../redux/actions/team.action'
 import SkeletonCard from '../skeletons/SkeletonCard';
-const LeagueTable = ({ league_id, get_domestic_league_table, domesticLeagueTable }) => {
+
+
+const LeagueTable = () => {
+
+    const domesticLeagueTable = useSelector(state => state.apiData.domesticLeagueTable)
+    const leagueId = useSelector(state => state.apiData.leagueId)
+
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        if (league_id)
-            get_domestic_league_table(league_id)
-    }, [league_id, get_domestic_league_table])
+        if (leagueId)
+            dispatch(get_domestic_league_table(leagueId))
+    }, [leagueId, dispatch])
 
 
 
@@ -44,12 +52,9 @@ const LeagueTable = ({ league_id, get_domestic_league_table, domesticLeagueTable
 
                     </tbody>
                 </Table>
-                : <SkeletonCard width='100%' height={30} count={18} />
+                : <SkeletonCard width='100%' height={30} count={20} />
             }
         </div>
     );
 };
-const mapStateToProps = state => ({
-    domesticLeagueTable: state.team.domesticLeagueTable
-})
-export default connect(mapStateToProps, { get_domestic_league_table })(LeagueTable);
+export default LeagueTable;

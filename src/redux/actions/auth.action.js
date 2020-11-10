@@ -1,13 +1,13 @@
 import { types } from '../types'
-import store from '../store';
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+
+import { db, auth } from '../../firebase/firebase';
 // REGISTER USER
 
-const { auth, db } = require("../../firebase/firebase");
 
 
 
-export const create_profile = (userId, email, name) => async (dispatch, getState) => {
+export const create_profile = (userId, email, name) => async (dispatch) => {
     console.log("create profile");
     try {
         await db
@@ -34,12 +34,9 @@ export const create_profile = (userId, email, name) => async (dispatch, getState
     }
 }
 
-
-
 export const update_profile = () => async (dispatch, getState) => {
     const userId = getState().auth.userId
     const team = getState().apiData.myTeam
-    console.log(userId);
     try {
         await db
             .collection('profiles')
@@ -51,7 +48,6 @@ export const update_profile = () => async (dispatch, getState) => {
 
             )
         const doc = await db.collection('profiles').doc(userId).get()
-        console.log(doc.data());
         dispatch({
             type: types.SET_PROFILE,
             payload: doc.data()
@@ -87,7 +83,6 @@ export const register_user = (data) => async (dispatch) => {
 }
 
 export const login = (email, password) => async dispatch => {
-    console.log("login creator");
     // set loading true
     dispatch({ type: types.FETCH_INFO_USER })
     auth
@@ -253,20 +248,20 @@ export const sign_in_with_google = () => async dispatch => {
     // });
 }
 
-export const save_changes = () => async (dispatch, getState) => {
-    const { userId } = getState().auth
-    const { my_team } = getState().team
-    try {
-        await db
-            .collection('teams')
-            .doc(userId)
-            .set(
-                my_team
-            )
-        return true
+// export const save_changes = () => async (dispatch, getState) => {
+//     const { userId } = getState().auth
+//     const { myTeam } = getState().apiData.myTeam
+//     try {
+//         await db
+//             .collection('teams')
+//             .doc(userId)
+//             .set(
+//                 my_team
+//             )
+//         return true
 
-    } catch (error) {
-        console.error(error)
-    }
+//     } catch (error) {
+//         console.error(error)
+//     }
 
-}
+//}

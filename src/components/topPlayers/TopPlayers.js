@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { get_top_players } from '../../redux/actions/team.action'
 import PlayerCard from '../playerCard/PlayerCard'
 import SkeletonCard from '../skeletons/SkeletonCard'
 import './topPlayers.scss'
-const TopPlayers = ({ league_id, get_top_players, topPlayers }) => {
-    league_id = 2790
+const TopPlayers = () => {
+
+    const leagueId = useSelector(state => state.apiData.leagueId)
+    const topPlayers = useSelector(state => state.apiData.topPlayers)
+    const dispatch = useDispatch()
+
+    // league_id = 2790
     useEffect(() => {
-        if (league_id)
-            get_top_players(league_id);
-    }, [league_id, get_top_players])
+        if (leagueId)
+            dispatch(get_top_players(leagueId));
+    }, [leagueId, dispatch])
 
     return (
         <div className="topPlayers">
@@ -19,20 +24,15 @@ const TopPlayers = ({ league_id, get_top_players, topPlayers }) => {
                     topPlayers ?
                         topPlayers.map(player =>
                             <PlayerCard player={player} key={player.player_id} />)
-                        : <SkeletonCard count={9} width={160} height={200} />
+                        : <SkeletonCard count={9} width={160} height={200} style={{ 'margin': '0.3rem' }} />
                 }
             </div>
         </div>
     )
 }
 
-const mapStateToProps = (state) => ({
-    topPlayers: state.team.topPlayers
-
-})
-
 // const mapDispatchToProps = {
 //     get_top_players
 // }
 
-export default connect(mapStateToProps, { get_top_players })(TopPlayers)
+export default TopPlayers

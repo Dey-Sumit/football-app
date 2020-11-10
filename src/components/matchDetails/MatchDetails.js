@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Stats from '../stats/Stats';
 import { get_fixture_details } from '../../redux/actions/team.action'

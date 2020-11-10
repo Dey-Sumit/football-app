@@ -5,7 +5,6 @@
     width: 100%;
     position: fixed;
     display: flex;
-    justify-content: space-around;
     align-items: center;
     height: 80px;
     z-index: 10;
@@ -13,6 +12,19 @@
     left: 0;
     background-image: $linear_background;
     box-shadow: $shadow;
+
+    &__main {
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    &__settings {
+        flex: 0.1;
+        display: flex;
+        justify-content: center;
+    }
 
     &__image {
         width: 50px;

@@ -3,7 +3,7 @@ import { types } from "../types";
 const APP = "FOOTBALL_APP"
 
 const initialState = {
-    userId: localStorage.getItem(`${APP}-USER-ID`),
+    userId: localStorage.getItem(`${APP}-USER-ID`), // can be null
     loading: false,
     // set in localStorage
     profile: null,
@@ -39,8 +39,7 @@ export default function (state = initialState, action) {
         case types.LOGIN_FAIL:
         case types.LOGOUT:
             localStorage.removeItem(`${APP}-USER-ID`)
-            localStorage.removeItem(`${APP}-USER-CRED`)
-            localStorage.removeItem(`${APP}-MYTEAM-ID`)
+            localStorage.removeItem(`${APP}-MYTEAM`)
             return {
                 ...state,
                 userId: null,

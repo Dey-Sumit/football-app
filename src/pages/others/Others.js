@@ -3,18 +3,27 @@ import './others.scss'
 import { useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import LeagueTable from '../../components/leagueTable/LeagueTable'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { get_domestic_league_id } from '../../redux/actions/team.action'
 import TopPlayers from '../../components/topPlayers/TopPlayers';
+import Navbar from '../../components/navbar/Navbar';
 
 // champions league
 
 
-const Others = ({ get_domestic_league_id, domesticLeagueId, teamId }) => {
+const Others = () => {
+
+
+    const teamId = useSelector(state => state.apiData.teamId)
+    const domesticLeagueId = useSelector(state => state.apiData.domesticLeagueId)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        get_domestic_league_id(teamId)
-    }, [teamId, get_domestic_league_id])
+        dispatch(get_domestic_league_id(teamId))
+    }, [teamId, dispatch])
+
+
+
     // const [topPlayers, setTopPlayers] = useState([])
     // useEffect(() => {
     //     const callback = (data) => {
@@ -30,22 +39,22 @@ const Others = ({ get_domestic_league_id, domesticLeagueId, teamId }) => {
         //        )
         //     }
         // </div>
-        <Container >
-            <Row>
-                <Col md={6} lg={5}>
-                    <LeagueTable league_id={domesticLeagueId} />
-                </Col>
-                <Col md={6} lg={7}>
-                    <TopPlayers league_id={domesticLeagueId} />
-                </Col>
-            </Row>
+        <>
+            <Container >
+                <Row>
+                    <Col md={6} lg={5}>
+                        <LeagueTable league_id={domesticLeagueId} />
+                    </Col>
+                    <Col md={6} lg={7}>
+                        <TopPlayers league_id={domesticLeagueId} />
+                    </Col>
+                </Row>
 
-        </Container>
+            </Container>
+            <Navbar />
+        </>
 
     );
 };
-const mapStateToProps = state => ({
-    domesticLeagueId: state.team.domesticLeagueId,
-    teamId: state.team.my_teamId
-})
-export default connect(mapStateToProps, { get_domestic_league_id })(Others);
+
+export default Others;

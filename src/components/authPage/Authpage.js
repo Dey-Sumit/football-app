@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux'
 
 import './authPage.scss'
+
 import Login from './login/Login';
 import Register from './register/Register';
 import soccer from '../../assets/soccer.svg'
+import { Col, Container, Row } from 'react-bootstrap';
 
 function AuthPage() {
     const [isLogin, setIsLogin] = useState(true)
 
-    const { userId, messages } = useSelector(state => state.auth)
+    const { messages } = useSelector(state => state.auth)
 
     return (
-        <div className="auth">
-            <div className="auth__container row ">
-                <div className="auth__left col-md-6">
+        <Container className="auth">
+            <Row className="auth__container">
+                <Col md={6} className="auth__left">
                     <h1>Oh My Goal</h1>
                     <div>
                         {isLogin ?
@@ -24,15 +26,15 @@ function AuthPage() {
                         <img src={soccer} alt="soccer" />
                     </div>
 
-                </div>
-                <div className="auth__right col-md-6 d-flex flex-column py-0 px-3 text-center">
+                </Col>
+                <Col md={6} className="auth__right  d-flex flex-column py-0 px-3 text-center">
                     {messages &&
                         <span className="auth__message">{messages}</span>
                     }
                     {isLogin === true ? <Login /> : <Register />}
-                </div>
-            </div>
-        </div>
+                </Col>
+            </Row>
+        </Container>
 
 
     )

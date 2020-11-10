@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './prediction.scss'
 import { Radar } from 'react-chartjs-2'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { get_predictions } from '../../redux/actions/team.action'
 import SkeletonCard from '../skeletons/SkeletonCard';
 const Chart = ({ labels, home_team_data, away_team_data, home_team_name, away_team_name }) => {
@@ -52,10 +52,13 @@ const Chart = ({ labels, home_team_data, away_team_data, home_team_name, away_te
 }
 
 
-const Prediction = ({ fixture_id, get_predictions, predictions }) => {
+const Prediction = ({ fixture_id }) => {
+    const predictions = useSelector(state => state.apiData.predictions)
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        get_predictions(fixture_id)
-    }, [fixture_id, get_predictions])
+        dispatch(get_predictions(fixture_id))
+    }, [fixture_id, dispatch])
 
     var labels = [], home_team_data = [], away_team_data = [], home_team_name, away_team_name;
     if (predictions) {
@@ -83,7 +86,5 @@ const Prediction = ({ fixture_id, get_predictions, predictions }) => {
             : <SkeletonCard height={400} width={'100%'} />
     );
 };
-const mapStateToProps = state => ({
-    predictions: state.team.predictions
-})
-export default connect(mapStateToProps, { get_predictions })(Prediction);
+
+export default Prediction

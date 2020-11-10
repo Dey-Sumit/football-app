@@ -45,7 +45,7 @@ const Search = ({ title }) => {
                 <div className="search__results mt-4">
                     {
                         loading ?
-                            <SkeletonCard count={5} width={120} height={120} />
+                            <SkeletonCard count={5} width={120} height={120} style={{ 'margin': '0.3rem' }} />
                             : searchedResults?.slice(0, 5).map(team => <Team key={team.teamId} closeSearch={() => setOpenSearch(false)} team={team} small showName />)
                     }
                     {

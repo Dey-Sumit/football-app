@@ -95,7 +95,7 @@ const ChooseTeam = () => {
 
 
     return (
-        <Container className="fluid">
+        <Container fluid>
 
             <Row>
                 <Col md={7}>

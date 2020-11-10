@@ -25,9 +25,9 @@ const Home = () => {
 
     return (
         <>
-            <Container className="p-2 home mb-5">
-                <Row>
-                    <Col md={5} className="mb-5">
+            <Container className="p-2 home">
+                <Row className="mb-5">
+                    <Col md={5} className="mb-2">
                         <h5 className="text-center">Fixtures</h5>
                         <Fixtures />
                     </Col>

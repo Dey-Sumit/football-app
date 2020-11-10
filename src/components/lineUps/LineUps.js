@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
-import LineUp from '../lineup/LineUp';
-import { connect } from 'react-redux';
-import './lineUps.scss'
-import SkeletonCard from '../skeletons/SkeletonCard';
+import { useSelector } from 'react-redux';
 
-const LineUps = ({ lineups, homeTeam, awayTeam }) => {
+import LineUp from '../lineup/LineUp';
+import SkeletonCard from '../skeletons/SkeletonCard';
+import './lineUps.scss'
+
+const LineUps = () => {
 
     const [currentLineUp, setCurrentLineUp] = useState('home')
+
+    const lineups = useSelector(state => state.apiData.fixtureDetails?.lineups)
+    const homeTeam = useSelector(state => state.apiData.fixtureDetails?.homeTeam)
+    const awayTeam = useSelector(state => state.apiData.fixtureDetails?.awayTeam)
 
     // optional chaining pro :)
     const home_lineup = lineups?.[homeTeam?.team_name]
     const away_lineup = lineups?.[awayTeam?.team_name]
+
     return (
         lineups ?
             <div className="lineups">
                 <div className="lineups__navbar" >
 
                     <img
-                        src={`https://media.api-sports.io/football/teams/${homeTeam?.teamId}.png`}
+                        src={homeTeam?.logo}
                         onClick={() => setCurrentLineUp('home')}
                         alt={awayTeam?.team_name} />
                     <img
-                        src={`https://media.api-sports.io/football/teams/${awayTeam?.teamId}.png`}
+                        src={awayTeam?.logo}
                         onClick={() => setCurrentLineUp('away')}
                         alt={awayTeam?.team_name} />
                 </div>
@@ -36,10 +42,11 @@ const LineUps = ({ lineups, homeTeam, awayTeam }) => {
             : <SkeletonCard width='100%' count={11} />
     );
 };
-const mapStateToProps = state => ({
-    lineups: state.team.fixtureDetails?.lineups,
-    homeTeam: state.team.fixtureDetails?.homeTeam,
-    awayTeam: state.team.fixtureDetails?.awayTeam,
-})
+// const mapStateToProps = state => ({
+//     lineups: state.team.fixtureDetails?.lineups,
+//     homeTeam: state.team.fixtureDetails?.homeTeam,
+//     awayTeam: state.team.fixtureDetails?.awayTeam,
+// })
 
-export default connect(mapStateToProps)(LineUps);
+// export default connect(mapStateToProps)(LineUps);
+export default LineUps;
