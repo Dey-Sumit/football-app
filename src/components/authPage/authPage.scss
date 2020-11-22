@@ -15,19 +15,29 @@
 
 
     &__left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
         span {
             color: #fff;
-            cursor: pointer;
+            cursor: pointer
         }
 
         img {
+            margin-top: 1rem;
             width: 100%;
         }
 
     }
 
     &__right {
+        display: flex;
+        flex-direction: column;
+        padding: 0 3rem;
+        text-align: center;
 
+        // later :)---------
         // horizontal line
         p {
             border-bottom: 2px solid #4a534a;
@@ -61,15 +71,16 @@
             box-shadow: none;
         }
 
+        // later :)---------------
     }
 
-    //alert
-    &__message {
-        color: #fff;
-        border-radius: 5px;
-        padding: 0.2rem;
-        background: #ec0404bf;
-    }
+    // //alert
+    // &__message {
+    //     color: #fff;
+    //     border-radius: 5px;
+    //     padding: 0.2rem;
+    //     background: #ec0404bf;
+    // }
 }
 
 // @media(max-width:1096px) {
@@ -109,5 +120,9 @@
 @media(max-width:$breakpoint-mobile) {
     .auth__container {
         padding: 1rem;
+    }
+
+    .auth__right {
+        padding: 0rem;
     }
 }

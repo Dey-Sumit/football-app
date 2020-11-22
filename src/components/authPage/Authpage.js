@@ -11,8 +11,6 @@ import { Col, Container, Row } from 'react-bootstrap';
 function AuthPage() {
     const [isLogin, setIsLogin] = useState(true)
 
-    const { messages } = useSelector(state => state.auth)
-
     return (
         <Container className="auth">
             <Row className="auth__container">
@@ -20,17 +18,15 @@ function AuthPage() {
                     <h1>Oh My Goal</h1>
                     <div>
                         {isLogin ?
-                            <p className='p-1 mb-1'>If You don't have an account, you can <span onClick={() => setIsLogin(isLogin => !isLogin)}>Register</span> Here </p> :
+                            <p className='p-1 mb-1'>If You don't have an account, you can <span onClick={() => setIsLogin(isLogin => !isLogin)}>Register</span> Here </p>
+                            :
                             <p className='p-1 mb-1'>If You already have an account, you can <span onClick={() => setIsLogin(isLogin => !isLogin)}>Log in </span>Here </p>
                         }
                         <img src={soccer} alt="soccer" />
                     </div>
-
                 </Col>
-                <Col md={6} className="auth__right  d-flex flex-column py-0 px-3 text-center">
-                    {messages &&
-                        <span className="auth__message">{messages}</span>
-                    }
+
+                <Col md={6} className="auth__right ">
                     {isLogin === true ? <Login /> : <Register />}
                 </Col>
             </Row>

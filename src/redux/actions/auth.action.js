@@ -4,9 +4,6 @@ import firebase from 'firebase/app'
 import { db, auth } from '../../firebase/firebase';
 // REGISTER USER
 
-
-
-
 export const create_profile = (userId, email, name) => async (dispatch) => {
     console.log("create profile");
     try {
@@ -16,7 +13,6 @@ export const create_profile = (userId, email, name) => async (dispatch) => {
             .set(
                 {
                     email,
-
                     name,
                     team: null
                     // email:getState().user.email,
@@ -61,12 +57,10 @@ export const register_user = (data) => async (dispatch) => {
 
     const { email, password, name } = data
     // set loading true
-    console.log("reg user");
     dispatch({ type: types.FETCH_INFO_USER })
 
     try {
         const res = await auth.createUserWithEmailAndPassword(email, password)
-        console.log("reg success");
         dispatch({
             type: types.REGISTER_SUCCESS,
             payload: res.user.uid
@@ -77,7 +71,7 @@ export const register_user = (data) => async (dispatch) => {
         console.log(error.message);
         dispatch({
             type: types.REGISTER_FAIL,
-            payload: error.message
+            payload: { registerError: error.message }
         })
     }
 }
@@ -100,7 +94,7 @@ export const login = (email, password) => async dispatch => {
         .catch(error => {
             dispatch({
                 type: types.LOGIN_FAIL,
-                payload: error.message
+                payload: { loginError: error.message }
             });
 
         })

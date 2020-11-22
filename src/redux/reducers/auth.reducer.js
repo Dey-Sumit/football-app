@@ -7,7 +7,9 @@ const initialState = {
     loading: false,
     // set in localStorage
     profile: null,
-    messages: null
+    // loginError: null,
+    // registerError:null
+    error: null
 }
 
 export default function (state = initialState, action) {
@@ -33,6 +35,7 @@ export default function (state = initialState, action) {
                 ...state,
                 userId: payload,
                 loading: false,
+                error: null
             }
 
         case types.REGISTER_FAIL:
@@ -46,7 +49,7 @@ export default function (state = initialState, action) {
                 loading: false,
                 profile: null,
                 // only one msg at a time
-                messages: payload
+                error: payload
             }
 
         default:
