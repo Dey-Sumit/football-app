@@ -37,8 +37,7 @@
         padding: 0 3rem;
         text-align: center;
 
-        // later :)---------
-        // horizontal line
+
         p {
             border-bottom: 2px solid #4a534a;
             line-height: 0.1em;
@@ -58,6 +57,10 @@
                 font-weight: 700;
                 letter-spacing: 1px;
             }
+
+            span {
+                color: rgb(255, 64, 64);
+            }
         }
 
         input,
@@ -71,28 +74,9 @@
             box-shadow: none;
         }
 
-        // later :)---------------
     }
-
-    // //alert
-    // &__message {
-    //     color: #fff;
-    //     border-radius: 5px;
-    //     padding: 0.2rem;
-    //     background: #ec0404bf;
-    // }
 }
 
-// @media(max-width:1096px) {
-//     .auth {
-//         padding: 0 6rem;
-//     }
-
-//     &__container {
-//         padding: 5rem 0;
-//         width: 100%;
-//     }
-// }
 
 
 

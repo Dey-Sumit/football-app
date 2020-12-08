@@ -1,120 +1,104 @@
-import { types } from '../types'
-import firebase from 'firebase/app'
+import { types } from "../types"
+import firebase from "firebase/app"
 
-import { db, auth } from '../../firebase/firebase';
+import { db, auth } from "../../firebase/firebase"
 // REGISTER USER
 
-export const create_profile = (userId, email, name) => async (dispatch) => {
-    console.log("create profile");
-    try {
-        await db
-            .collection('profiles')
-            .doc(userId)
-            .set(
-                {
-                    email,
-                    name,
-                    team: null
-                    // email:getState().user.email,
-                    // name:getState().user
-                }
-            )
-        dispatch({
-            type: types.SET_PROFILE,
-            //TODO fix this
-            payload: true
-        })
-    }
-    catch (error) {
-        console.error(error)
-    }
+export const create_profile = (userId, email, name) => async dispatch => {
+   try {
+      await db.collection("profiles").doc(userId).set({
+         email,
+         name,
+         team: null,
+         // email:getState().user.email,
+         // name:getState().user
+      })
+      dispatch({
+         type: types.SET_PROFILE,
+         payload: { email, team: null, name },
+      })
+   } catch (error) {
+      console.error(error)
+   }
 }
 
 export const update_profile = () => async (dispatch, getState) => {
-    const userId = getState().auth.userId
-    const team = getState().apiData.myTeam
-    try {
-        await db
-            .collection('profiles')
-            .doc(userId)
-            .update(
-                {
-                    team: team
-                }
+   const userId = getState().auth.userId
+   const team = getState().apiData.myTeam
+   try {
+      dispatch({
+         type: types.REGISTER_REQUEST,
+      })
 
-            )
-        const doc = await db.collection('profiles').doc(userId).get()
-        dispatch({
-            type: types.SET_PROFILE,
-            payload: doc.data()
-        })
-    } catch (error) {
-        console.error(error)
-    }
+      await db.collection("profiles").doc(userId).update({
+         team: team,
+      })
+      const doc = await db.collection("profiles").doc(userId).get()
+      dispatch({
+         type: types.SET_PROFILE,
+         payload: doc.data(),
+      })
+   } catch (error) {
+      console.error(error)
+   }
 }
 
-export const register_user = (data) => async (dispatch) => {
+export const register_user = data => async dispatch => {
+   const { email, password, name } = data
+   // set loading true
+   dispatch({ type: types.REGISTER_REQUEST })
 
-    const { email, password, name } = data
-    // set loading true
-    dispatch({ type: types.FETCH_INFO_USER })
-
-    try {
-        const res = await auth.createUserWithEmailAndPassword(email, password)
-        dispatch({
-            type: types.REGISTER_SUCCESS,
-            payload: res.user.uid
-        })
-        dispatch(create_profile(res.user.uid, email, name))
-
-    } catch (error) {
-        console.log(error.message);
-        dispatch({
-            type: types.REGISTER_FAIL,
-            payload: { registerError: error.message }
-        })
-    }
+   try {
+      const res = await auth.createUserWithEmailAndPassword(email, password)
+      dispatch({
+         type: types.REGISTER_SUCCESS,
+         payload: res.user.uid,
+      })
+      dispatch(create_profile(res.user.uid, email, name))
+   } catch (error) {
+      console.log(error.message)
+      dispatch({
+         type: types.REGISTER_FAIL,
+         payload: { registerError: error.message },
+      })
+   }
 }
 
 export const login = (email, password) => async dispatch => {
-    // set loading true
-    dispatch({ type: types.FETCH_INFO_USER })
-    auth
-        .signInWithEmailAndPassword(email, password)
-        .then(auth => {
-            dispatch({
-                type: types.LOGIN_SUCCESS,
-                payload: auth.user.uid,
-            });
-            // this will also get the team details form db
+   // set loading true
+   dispatch({ type: types.LOGIN_REQUEST })
+   auth
+      .signInWithEmailAndPassword(email, password)
+      .then(auth => {
+         dispatch({
+            type: types.LOGIN_SUCCESS,
+            payload: auth.user.uid,
+         })
+         // this will also get the team details form db
 
-            dispatch(load_user())
-
-        })
-        .catch(error => {
-            dispatch({
-                type: types.LOGIN_FAIL,
-                payload: { loginError: error.message }
-            });
-
-        })
+         dispatch(load_user())
+      })
+      .catch(error => {
+         dispatch({
+            type: types.LOGIN_FAIL,
+            payload: { loginError: error.message },
+         })
+      })
 }
 
 export const log_out = () => async dispatch => {
-    try {
-        await auth.signOut();
-        dispatch({
-            type: types.RESET_TEAM_STATE
-        })
+   try {
+      await auth.signOut()
+      dispatch({
+         type: types.RESET_TEAM_STATE,
+      })
 
-        dispatch({
-            type: types.LOGOUT
-        })
-
-    } catch (error) {
-        console.log(error);
-    }
-
+      dispatch({
+         type: types.LOGOUT,
+      })
+   } catch (error) {
+      console.log(error)
+   }
 }
 
 // export const check_if_user_exist = (data) => async dispatch => {
@@ -122,7 +106,6 @@ export const log_out = () => async dispatch => {
 //     dispatch({
 //         type: types.FETCH_INFO_USER
 //     })
-
 
 //     dispatch({ type: types.FETCH_INFO_USER })
 
@@ -155,91 +138,122 @@ export const log_out = () => async dispatch => {
 //     }
 // }
 
-export const load_user = () => (dispatch) => {
-    // using local storage
-    dispatch({
-        type: types.FETCH_INFO_USER
-    })
-    console.log("load user---------");
+export const load_user = () => dispatch => {
+   // using local storage
+   dispatch({
+      type: types.LOAD_USER_REQUEST,
+   })
 
-    //using firebase
-    try {
-        auth.onAuthStateChanged(async user => {
-            if (user) {
-                const doc = await db.collection('profiles').doc(user.uid).get()
-                if (doc.exists) {
-                    dispatch({
-                        type: types.SET_MY_TEAM,
-                        payload: doc.data().team
-                    })
-                    dispatch({
-                        type: types.SET_PROFILE,
-                        payload: doc.data()
-                    })
-                }
-
-                dispatch({
-                    type: types.LOGIN_SUCCESS,
-                    payload: user.uid,
-                })
-
-            } else {
-                dispatch({
-                    type: types.LOGIN_FAIL,
-                })
-            }
-        }
-        )
-    }
-    catch (error) {
-        console.log(error.message)
-    }
-
+   //using firebase
+   try {
+      auth.onAuthStateChanged(async user => {
+         if (user) {
+            const doc = await db.collection("profiles").doc(user.uid).get()
+            dispatch({
+               type: types.SET_PROFILE,
+               payload: doc.data(),
+            })
+            dispatch({
+               type: types.SET_MY_TEAM,
+               payload: doc.data().team,
+            })
+            // if (doc.exists) {
+            //   dispatch({
+            //     type: types.SET_MY_TEAM,
+            //     payload: doc.data().team,
+            //   });
+            //   dispatch({
+            //     type: types.SET_PROFILE,
+            //     payload: doc.data(),
+            //   });
+            // }
+            dispatch({
+               type: types.LOGIN_SUCCESS,
+               payload: user.uid,
+            })
+         } else {
+            dispatch({
+               type: types.LOGIN_FAIL,
+            })
+         }
+      })
+   } catch (error) {
+      console.log(error.message)
+   }
 }
+// export const load_user = () => async (dispatch, getState) => {
+//     // using local storage
+//     dispatch({
+//         type: types.LOAD_USER_REQUEST
+//     })
+
+//     //using firebase
+//     try {
+//         const doc = await db.collection('profiles').doc(getState().auth.userId).get()
+//         if (doc.exists) {
+//             dispatch({
+//                 type: types.SET_MY_TEAM,
+//                 payload: doc.data().team
+//             })
+//             dispatch({
+//                 type: types.SET_PROFILE,
+//                 payload: doc.data()
+//             })
+//         }
+
+//         dispatch({
+//             type: types.LOGIN_SUCCESS,
+//             payload: user.uid,
+//         })
+
+//     }
+//     catch (error) {
+//         dispatch({
+//             type: types.LOGIN_FAIL,
+//         })
+//         console.log(error.message)
+//     }
+
+// }
 
 export const sign_in_with_google = () => async dispatch => {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    try {
-        const result = await firebase.auth().signInWithPopup(provider)
-        console.log(result.user);
-        var { displayName, email, uid } = result.user;
-        console.log(displayName, email, uid);
-        // dispatch(create_profile)
-        const doc = await db.collection('profiles').doc(uid).get()
-        // check if the user exists
-        if (doc.exists) {
-            dispatch({
-                type: types.SET_MY_TEAM,
-                payload: doc.data().team
-                // TODO FIX; team is not only id in <Team/> component 
-                // team might be null,in that case he would be redirected to choose team page
-            })
-            dispatch({
-                type: types.SET_PROFILE,
-                payload: doc.data()
-            })
-        }
-        else {
-            dispatch(create_profile(uid, email, displayName))
-        }
+   var provider = new firebase.auth.GoogleAuthProvider()
+   try {
+      const result = await firebase.auth().signInWithPopup(provider)
+      var { displayName, email, uid } = result.user
 
+      // dispatch(create_profile)
+      const doc = await db.collection("profiles").doc(uid).get()
+      // check if the user exists
 
-        // dispatch({
-        //     type: types.LOGIN_SUCCESS,
-        //     payload: uid,
-        // })
-        // onAuthStateChanged will automatically detects login
+      if (doc.exists) {
+         dispatch({
+            type: types.SET_MY_TEAM,
+            payload: doc.data().team,
+            // TODO FIX; team is not only id in <Team/> component
+            // team might be null,in that case he would be redirected to choose team page
+         })
+         dispatch({
+            type: types.SET_PROFILE,
+            payload: doc.data(),
+         })
+      } else {
+         dispatch(create_profile(uid, email, displayName))
+      }
 
-    } catch (error) {
+      // dispatch({
+      //     type: types.LOGIN_SUCCESS,
+      //     payload: uid,
+      // })
+      // onAuthStateChanged will automatically detects login
+   } catch (error) {}
+   // }).catch(function (error) {
 
-    }
-    // }).catch(function (error) {
+   //     var errorMessage = error.message;
 
-    //     var errorMessage = error.message;
-
-    //     console.log(errorMessage);
-    //     // ...
-    // });
+   //     console.log(errorMessage);
+   //     // ...
+   // });
 }
 
 // export const save_changes = () => async (dispatch, getState) => {
